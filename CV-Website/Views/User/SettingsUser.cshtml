@@ -1,0 +1,33 @@
+﻿@model CV_Website.Models.User
+
+<h2>Inställningar</h2>
+
+<div class="profil">
+    <div class="profile-field1">
+        <label>Namn:</label>
+        <span>@Model.Name</span> 
+       
+    </div>
+
+
+    <div class="profile-field2">
+        <label>Address:</label>
+        <span>@Model.Address</span> 
+      
+    </div>
+
+
+    <div class="profile-field3">
+        <label>Email:</label>
+        <span>@Model.Email</span> 
+      
+    </div>
+
+
+    <div class="profile-field4">
+        <label>Synlighet:</label>
+        <span>@(Model.Private ? "Din profil är privat" : "Din profil är synlig")</span> 
+        
+    </div>
+</div>
+

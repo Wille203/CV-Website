@@ -1,13 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CV_Website.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+
 
 namespace CV_Website.Controllers
 {
     public class UserController : Controller
     {
-    
-        public IActionResult Index()
+        private CVContext User;
+
+        public UserController(CVContext service)
         {
-            return View();
+            User = service;
         }
+
+        public IActionResult SettingsUser()
+        {
+          
+        }
+
     }
 }
