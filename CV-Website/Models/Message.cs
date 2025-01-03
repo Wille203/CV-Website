@@ -8,6 +8,9 @@ namespace CV_Website.Models
 
         public int SenderId { get; set; }
 
+        public string SenderName { get; set; }
+        public string MessageText { get; set; }
+
         [ForeignKey(nameof(SenderId))]
         public virtual User Sender { get; set; }
 
