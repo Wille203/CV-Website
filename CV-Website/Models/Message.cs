@@ -6,10 +6,11 @@ namespace CV_Website.Models
     {
         public int MessageId { get; set; }
 
-        public int SenderId { get; set; }
+        public int? SenderId { get; set; }
 
-        public string SenderName { get; set; }
+        public string? SenderName { get; set; }
         public string MessageText { get; set; }
+        public bool Read {  get; set; }
 
         [ForeignKey(nameof(SenderId))]
         public virtual User Sender { get; set; }
