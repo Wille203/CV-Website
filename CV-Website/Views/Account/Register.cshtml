@@ -1,0 +1,65 @@
+﻿@model CV_Website.Models.RegisterViewModel
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post" class="form-horizontal">
+    @* Användarnamn *@
+    <div class="form-group">
+        <label asp-for="AnvandarNamn" class="control-label"></label>
+        <input asp-for="AnvandarNamn" class="form-control" />
+        <span asp-validation-for="AnvandarNamn" class="text-danger"></span>
+    </div>
+
+    @* Lösenord *@
+    <div class="form-group">
+        <label asp-for="Losenord" class="control-label"></label>
+        <input asp-for="Losenord" type="password" class="form-control" />
+        <span asp-validation-for="Losenord" class="text-danger"></span>
+    </div>
+
+    @* Bekräfta lösenord *@
+    <div class="form-group">
+        <label asp-for="BekraftaLosenord" class="control-label"></label>
+        <input asp-for="BekraftaLosenord" type="password" class="form-control" />
+        <span asp-validation-for="BekraftaLosenord" class="text-danger"></span>
+    </div>
+
+    @* Namn *@
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    @* E-postadress *@
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    @* Adress *@
+    <div class="form-group">
+        <label asp-for="Address" class="control-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+
+    @* Privat konto (checkbox) *@
+    <div class="form-group">
+        <label asp-for="Private" class="control-label"></label>
+        <input asp-for="Private" type="checkbox" />
+        <span asp-validation-for="Private" class="text-danger"></span>
+    </div>
+
+    @* Register-knapp *@
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

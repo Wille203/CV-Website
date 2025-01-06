@@ -1,4 +1,5 @@
 using CV_Website.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,11 @@ builder.Services.AddDbContext<CVContext>(options =>
     options.UseLazyLoadingProxies()
            .UseSqlServer(builder.Configuration.GetConnectionString("CVContext")));
 
+
+// Register Identity with User class
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<CVContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -26,6 +32,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

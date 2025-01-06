@@ -1,6 +1,9 @@
-﻿namespace CV_Website.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+
+namespace CV_Website.Models
 {
-    public class User
+    public class User:IdentityUser
     {
         public int UserId { get; set; }
         public string Name { get; set; }
