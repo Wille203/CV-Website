@@ -30,7 +30,8 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr onclick="document.getElementById('form-@item.MessageId').submit();">
+            
             <td>
                 @Html.DisplayFor(modelItem => item.SenderName)
             </td>
@@ -50,6 +51,12 @@
                 <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
+            </td>
+            <td>
+                <form id="form-@item.MessageId" action="@Url.Action("Conversation", "Message")" method="post" style="display:none;">
+                <input type="hidden" name="senderId" value="@item.Sender.UserId" />
+                <input type="hidden" name="reciverId" value="@item.Reciver.UserId" />
+    </form>
             </td>
         </tr>
 }

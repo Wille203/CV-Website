@@ -1,6 +1,7 @@
 ﻿using CV_Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 
 namespace CV_Website.Controllers
 {
@@ -29,6 +30,19 @@ namespace CV_Website.Controllers
             return View(messages);
         }
 
+        [HttpPost]
+        public IActionResult Conversation(int senderId, int reciverId)
+        {
+            var conversation = _context.Messages
+                .Where(m => (m.SenderId == senderId && m.ReciverId == reciverId) || (m.SenderId == reciverId && m.ReciverId == senderId))
+                .OrderBy(m => m.MessageId)
+                .ToList();
 
+            var sender = _context.Users.Find(senderId);
+            var reciver = _context.Users.Find(reciverId);
+            ViewBag.SenderName = sender.Name; 
+            ViewBag.ReceiverName = reciver.Name;
+            return View(conversation);
+        }
     }
 }
