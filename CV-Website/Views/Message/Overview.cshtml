@@ -11,19 +11,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SenderName)
+                Sender Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MessageText)
+                Message Text
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Read)
+                Read
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sender)
+                Sender
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reciver)
+                Reciver
             </th>
             <th></th>
         </tr>
@@ -32,21 +32,21 @@
 @foreach (var item in Model) {
             <tr onclick="document.getElementById('form-@item.MessageId').submit();">
             
-            <td>
-                @Html.DisplayFor(modelItem => item.SenderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MessageText)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Read)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sender.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reciver.UserId)
-            </td>
+                <td>
+                    @item.SenderName
+                </td>
+                <td>
+                    @item.MessageText
+                </td>
+                <td>
+                    @item.Read
+                </td>
+                <td>
+                    @item.Sender.UserId
+                </td>
+                <td>
+                    @item.Reciver.UserId
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |

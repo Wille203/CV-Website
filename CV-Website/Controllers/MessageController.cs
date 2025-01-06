@@ -1,6 +1,7 @@
 ﻿using CV_Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 using NuGet.Protocol.Plugins;
 
 namespace CV_Website.Controllers
@@ -40,9 +41,26 @@ namespace CV_Website.Controllers
 
             var sender = _context.Users.Find(senderId);
             var reciver = _context.Users.Find(reciverId);
-            ViewBag.SenderName = sender.Name; 
+            ViewBag.SenderName = sender.Name;
             ViewBag.ReceiverName = reciver.Name;
             return View(conversation);
+        }
+
+        [HttpPost]
+        public IActionResult SendMessage(Models.Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Messages.Add(message);
+                _context.SaveChanges();
+                return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReciverId });
+
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "The message could not be sent!";
+                return View(message);
+            }
         }
     }
 }
