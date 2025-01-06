@@ -7,7 +7,7 @@
 namespace CV_Website.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class updatepro : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,7 +44,9 @@ namespace CV_Website.Migrations
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Information = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,12 +249,12 @@ namespace CV_Website.Migrations
 
             migrationBuilder.InsertData(
                 table: "Project",
-                columns: new[] { "ProjectId", "Description", "Title" },
+                columns: new[] { "ProjectId", "CreatorId", "Description", "Information", "Title" },
                 values: new object[,]
                 {
-                    { 1, "A portfolio website to showcase my projects.", "Personal Portfolio" },
-                    { 2, "A web application to manage tasks efficiently.", "Task Manager App" },
-                    { 3, "An online platform for buying and selling products.", "E-Commerce Platform" }
+                    { 1, 0, "A portfolio website to showcase my projects.", null, "Personal Portfolio" },
+                    { 2, 0, "A web application to manage tasks efficiently.", null, "Task Manager App" },
+                    { 3, 0, "An online platform for buying and selling products.", null, "E-Commerce Platform" }
                 });
 
             migrationBuilder.InsertData(

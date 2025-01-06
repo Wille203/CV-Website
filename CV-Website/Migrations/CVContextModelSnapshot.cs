@@ -266,8 +266,14 @@ namespace CV_Website.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
 
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Information")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -282,18 +288,21 @@ namespace CV_Website.Migrations
                         new
                         {
                             ProjectId = 1,
+                            CreatorId = 0,
                             Description = "A portfolio website to showcase my projects.",
                             Title = "Personal Portfolio"
                         },
                         new
                         {
                             ProjectId = 2,
+                            CreatorId = 0,
                             Description = "A web application to manage tasks efficiently.",
                             Title = "Task Manager App"
                         },
                         new
                         {
                             ProjectId = 3,
+                            CreatorId = 0,
                             Description = "An online platform for buying and selling products.",
                             Title = "E-Commerce Platform"
                         });
