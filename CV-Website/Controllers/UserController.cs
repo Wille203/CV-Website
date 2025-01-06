@@ -16,7 +16,7 @@ namespace CV_Website.Controllers
 
         public IActionResult SettingsUser()
         {
-          
+            return View();
         }
 
     }

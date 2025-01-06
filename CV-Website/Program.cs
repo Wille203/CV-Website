@@ -8,7 +8,9 @@ builder.Services.AddControllersWithViews();
 
 // Register the DbContext with the connection string from appsettings.json
 builder.Services.AddDbContext<CVContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CVContext")));
+    options.UseLazyLoadingProxies()
+           .UseSqlServer(builder.Configuration.GetConnectionString("CVContext")));
+
 
 var app = builder.Build();
 
