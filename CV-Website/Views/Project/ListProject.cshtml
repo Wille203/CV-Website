@@ -1,8 +1,10 @@
-﻿<table class="table">
-    <thead>
-    <td>Title</td>
-    <td>Description</td>
-   
+﻿<table class="table table-striped table-bordered table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Mer Info</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var project in Model)
@@ -10,7 +12,9 @@
             <tr>
                 <td>@project.Title</td>
                 <td>@project.Description</td>
-                <td><a asp-controller="Project" asp-action="ProjectPage" asp-route-id="@project.ProjectId">Mer Info</a></td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-controller="Project" asp-action="ProjectPage" asp-route-id="@project.ProjectId">Mer Info</a>
+                </td>
             </tr>
         }
     </tbody>

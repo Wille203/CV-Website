@@ -40,6 +40,10 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult CreateProject(Project project)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(project);
+            }
             // ej testad kod
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int loggedInUserId = int.Parse(userId);
@@ -82,6 +86,10 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult EditProject(int projectId, Project updatedProject)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(updatedProject);
+            }
             if (projectId != updatedProject.ProjectId)
             {
                 return BadRequest();
