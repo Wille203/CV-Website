@@ -12,30 +12,33 @@
     }
     else
     {
-        <ul>
+
+        <ul id="Cvlink">
             @foreach (var cv in Model)
             {
-                <a id="Cvlink" href="https://www.bing.com/search?pglt=2337&q=div+link+html&cvid=50de4dfb804d4ad09735cc9e7de4d860&gs_lcrp=EgRlZGdlKgYIAhAAGEAyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg3NDk2ajBqMagCALACAA&FORM=ANNTA1&PC=U531">
-                    <div id="Cvpreview">
-                        <p> Namn: @cv.User.Name</p>
-                        <p> Epost: @cv.User.Email</p>
-                        <p>Erfarenheter:</p>
-                        @if (cv.Experience != null && cv.Experience.Any())
-                        {
-                            @foreach (var erfarenhet in cv.Experience)
+                <li>
+                    <a id="CvlinkItem" href="https://www.bing.com/search?pglt=2337&q=div+link+html&cvid=50de4dfb804d4ad09735cc9e7de4d860&gs_lcrp=EgRlZGdlKgYIAhAAGEAyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg3NDk2ajBqMagCALACAA&FORM=ANNTA1&PC=U531">
+                        <div id="Cvpreview">
+                            <p>Namn: @cv.User.Name</p>
+                            <p>Epost: @cv.User.Email</p>
+                            <p>Erfarenheter:</p>
+                            @if (cv.Experience != null && cv.Experience.Any())
                             {
-                                <p>@erfarenhet.Name</p>
+                                @foreach (var erfarenhet in cv.Experience)
+                                {
+                                    <p>@erfarenhet.Name</p>
+                                }
                             }
-                        }
-                        else
-                        {
-                            <p>Inga erfarenheter</p>
-                        }
-                    </div>
-                </a>
-                
-                
+                            else
+                            {
+                                <p>Inga erfarenheter</p>
+                            }
+                        </div>
+                    </a>
+                </li>
             }
         </ul>
+            
+        
     }
 </div>
