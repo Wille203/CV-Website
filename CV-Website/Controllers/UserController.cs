@@ -19,9 +19,9 @@ namespace CV_Website.Controllers
             users = service;
             _context = context;
         }
-        
 
 
+        [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId); 
