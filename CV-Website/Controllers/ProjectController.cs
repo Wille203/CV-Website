@@ -58,11 +58,10 @@ namespace CV_Website.Controllers
         //auth kolla användare som skapat är den inloggade???
         [HttpGet]
         [Authorize]
-        [Route("Project/EditProject/{projectId}")]
-        public IActionResult EditProject(int projectId)
+        public IActionResult EditProject(int Id)
         {
             
-            var project = _context.Project.FirstOrDefault(u => u.ProjectId == projectId);
+            var project = _context.Project.FirstOrDefault(u => u.ProjectId == Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int loggedInUserId = int.Parse(userId);
             if (project == null)
