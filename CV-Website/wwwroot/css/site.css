@@ -22,16 +22,35 @@ body {
 }
 
 #Cvpreview {
+    max-width: 100%;
+}
+
+#Cvlink {
     display: grid;
-    /*Border*/
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    list-style-type: none;
+    padding: 0;
+    
+}
+
+#Cvlink a {
     border: 2px solid #000;
     border-radius: 15px;
     margin-bottom: 20px;
     padding: 10px;
-    max-width: 90%;
-}
-#Cvlink {
-    /*Remove link effects*/
-    text-decoration: none !important;
+    
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
+
+    transition: transform 0.3s ease;
+
+    text-decoration: none;
     color: black;
+    display: block;
+    height: 100%;
+    /*background-color: red;*/
 }
+    #Cvlink a:hover {
+        transform: scale(1.05); 
+    }
