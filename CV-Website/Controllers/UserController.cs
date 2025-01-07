@@ -36,12 +36,6 @@ namespace CV_Website.Controllers
             return View("Userpage", user); 
         }
 
-        // Action for the Userpage view
-        public IActionResult Userpage(User user)
-        {
-            return View(user); 
-        }
-
 
         //[Authorize] /*Fungerar denna?*/
         [HttpGet]
@@ -77,10 +71,5 @@ namespace CV_Website.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult UserPage()
-        {
-            return View();
-        }
     }
 }
