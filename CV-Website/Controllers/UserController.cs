@@ -41,7 +41,14 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult SettingsUser(int userID)
         {
-            return View();
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userID);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
 
 
