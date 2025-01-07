@@ -3,6 +3,7 @@ using CV_Website.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
@@ -60,8 +61,9 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult EditProject(int Id)
         {
+
             
-            var project = _context.Project.FirstOrDefault(u => u.ProjectId == Id);
+            var project = _context.Project.Find(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int loggedInUserId = int.Parse(userId);
             if (project == null)
@@ -70,7 +72,7 @@ namespace CV_Website.Controllers
             }
             if (project.CreatorId != loggedInUserId)
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             return View("EditProject", project); 
