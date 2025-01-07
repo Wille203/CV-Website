@@ -3,6 +3,7 @@
 <h2>Edit Project</h2>
 
 <form asp-action="EditProject" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
 
     <div class="form-group">
