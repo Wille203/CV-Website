@@ -1,0 +1,17 @@
+﻿<table class="table">
+    <thead>
+    <td>Title</td>
+    <td>Description</td>
+   
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Title</td>
+                <td>@project.Description</td>
+                <td><a asp-controller="Project" asp-action="ProjectPage" asp-route-id="@project.ProjectId">Mer Info</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

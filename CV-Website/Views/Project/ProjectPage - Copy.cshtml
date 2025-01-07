@@ -1,0 +1,17 @@
+﻿@model CV_Website.Models.Project
+
+
+
+<h2>@Model.Title</h2>
+<p>@Model.Description</p>
+    
+<p>@Model.Information</p>
+<p><strong>Creator: </strong>@Model.Creator.Name</p>
+
+<h3>Users Associated with this Project:</h3>
+<ul>
+@foreach (var user in Model.Users)
+{
+    <li>@user.Name</li>
+}
+</ul>

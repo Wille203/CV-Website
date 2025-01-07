@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model CV_Website.Models.Project
+
+<h2>Edit Project</h2>
+
+<form asp-action="EditProject" method="post">
+    <input type="hidden" name="ProjectId" value="@Model.ProjectId" />
+
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" class="form-control" id="Title" name="Title" value="@Model.Title" />
+    </div>
+
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea class="form-control" id="Description" name="Description">@Model.Description</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="Information">Information</label>
+        <textarea class="form-control" id="Information" name="Information">@Model.Information</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
