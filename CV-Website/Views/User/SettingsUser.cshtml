@@ -1,33 +1,44 @@
 ﻿@model CV_Website.Models.User
 
-<h2>Inställningar</h2>
 
-<div class="profil">
+<form asp-action="Update" method="post">
+<div id="VU" class="profil">
+        <h2>Inställningar</h2>
+
     <div class="profile-field1">
         <label>Namn:</label>
-        <span>@Model.Name</span> 
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
        
     </div>
 
+        <br />
 
     <div class="profile-field2">
         <label>Address:</label>
-        <span>@Model.Address</span> 
-      
+        <input asp-for="Address" />
+        <span asp-validation-for="Address"></span>
     </div>
 
+        <br />
 
     <div class="profile-field3">
         <label>Email:</label>
-        <span>@Model.Email</span> 
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
       
     </div>
 
+        <br />
 
     <div class="profile-field4">
-        <label>Synlighet:</label>
-        <span>@(Model.Private ? "Din profil är privat" : "Din profil är synlig")</span> 
+        <label>Privat:</label>
+        <input asp-for="Private" type="checkbox"/>
         
     </div>
+
+        <br />
 </div>
+    <button type="submit">Spara</button>
+</form>
 
