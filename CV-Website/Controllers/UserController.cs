@@ -1,6 +1,7 @@
 ﻿using CV_Website.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Signing;
 using System.Linq;
 
@@ -9,11 +10,36 @@ namespace CV_Website.Controllers
 {
     public class UserController : Controller
     {
+        private CVContext _context;
         private CVContext users;
+        public User CurrentUser;
 
-        public UserController(CVContext service)
+        public UserController(CVContext service, CVContext context)
         {
             users = service;
+            _context = context;
+        }
+        
+
+
+        public IActionResult GoToUserPage(int userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId); 
+            if (user == null)
+            {
+                return NotFound(); 
+            }
+
+            
+            ViewData["CurrentUser"] = user;
+
+            return View("Userpage", user); 
+        }
+
+        // Action for the Userpage view
+        public IActionResult Userpage(User user)
+        {
+            return View(user); 
         }
 
 
