@@ -16,12 +16,23 @@ namespace CV_Website.Controllers
             users = service;
         }
 
+
+        [Authorize] /*Fungerar denna?*/
         public IActionResult SettingsUser()
         {
             return View();
         }
 
+
+        //Hämtar formuläret/vyn för användaren
         [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+
+        //Läggar till ny användare i databasen, skapa en vy som heter Add
+        [HttpPost]
         public IActionResult Add(User user)
         {
             if (ModelState.IsValid)
