@@ -28,6 +28,8 @@ namespace CV_Website.Controllers
             {
                 users.Add(user);
                 users.SaveChanges();
+
+                //Eventuellt?
                 return View(/*userConfirmation*/);
             }
             else
