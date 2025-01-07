@@ -6,6 +6,7 @@
 	<img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
 	<h3>@Model.Name</h3>
 	<h3>@Model.Email</h3>
+    <h3>@Model.PhoneNumber</h3>
 	</div>
 
 	<div id="UP" class="p-f2">
@@ -28,8 +29,18 @@
         {
             <p>Här var det tomt :(</p>
         }
+
 	</div>
 
+   @*  Denna kommer bara fungera om vi har identity. Name är den aktuella användarens identifierare, utgår från att vi avänder e-post *@
+    @if (User.Identity.Name != null && User.Identity.Name == Model.Email)
+    {
+        <div class="settings-link">
+            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.UserId })">
+                <button>Redigera profil</button>
+            </a>
+        </div>
+    }
 
 
 </div>
