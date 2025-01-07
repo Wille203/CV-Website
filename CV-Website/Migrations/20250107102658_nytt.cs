@@ -7,7 +7,7 @@
 namespace CV_Website.Migrations
 {
     /// <inheritdoc />
-    public partial class ny : Migration
+    public partial class nytt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,7 +58,7 @@ namespace CV_Website.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Private = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -92,18 +92,18 @@ namespace CV_Website.Migrations
                 {
                     MessageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SenderId = table.Column<int>(type: "int", nullable: true),
                     SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Read = table.Column<bool>(type: "bit", nullable: false),
-                    ReciverId = table.Column<int>(type: "int", nullable: false)
+                    SenderId = table.Column<int>(type: "int", nullable: true),
+                    ReceiverId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.MessageId);
                     table.ForeignKey(
-                        name: "FK_Messages_Users_ReciverId",
-                        column: x => x.ReciverId,
+                        name: "FK_Messages_Users_ReceiverId",
+                        column: x => x.ReceiverId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
@@ -286,7 +286,7 @@ namespace CV_Website.Migrations
 
             migrationBuilder.InsertData(
                 table: "Messages",
-                columns: new[] { "MessageId", "MessageText", "Read", "ReciverId", "SenderId", "SenderName" },
+                columns: new[] { "MessageId", "MessageText", "Read", "ReceiverId", "SenderId", "SenderName" },
                 values: new object[,]
                 {
                     { 1, "Hello Bob, how are you?", false, 2, 1, "Alice" },
@@ -328,9 +328,9 @@ namespace CV_Website.Migrations
                 column: "SkillsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_ReciverId",
+                name: "IX_Messages_ReceiverId",
                 table: "Messages",
-                column: "ReciverId");
+                column: "ReceiverId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_SenderId",

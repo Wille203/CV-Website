@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CV_Website.Models.Message>
+
+@{
+    ViewData["Title"] = "Conversation";
+}
+
+<h1>Conversation between @ViewBag.SenderName and @ViewBag.ReceiverName</h1>
+
+<table class="messages">
+	<tbody>
+		@foreach (var item in Model) {
+			<tr>
+				<td>
+					@item.SenderName
+				</td>
+			</tr>
+			<tr>
+				<td>
+					@item.MessageText
+				</td>
+			</tr>
+			<tr>
+				<td >&nbsp;</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+<form asp-action="SendMessage" method="post">
+	<input type="hidden" name="SenderId" value="@ViewBag.SenderId" />
+	<input type="hidden" name="ReceiverId" value="@ViewBag.ReceiverId" />
+	<textarea name="MessageText" rows="2" cols="50"></textarea>
+	<input type="submit" value="Send" />
+</form>
+
+
+

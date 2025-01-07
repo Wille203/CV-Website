@@ -20,3 +20,18 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#Cvpreview {
+    display: grid;
+    /*Border*/
+    border: 2px solid #000;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    max-width: 90%;
+}
+#Cvlink {
+    /*Remove link effects*/
+    text-decoration: none !important;
+    color: black;
+}

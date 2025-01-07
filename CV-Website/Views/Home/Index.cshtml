@@ -1,8 +1,41 @@
-﻿@{
+﻿@model IEnumerable<CV>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    
+    @if (!Model.Any())
+    {
+        <p>Finns inge CVn</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var cv in Model)
+            {
+                <a id="Cvlink" href="https://www.bing.com/search?pglt=2337&q=div+link+html&cvid=50de4dfb804d4ad09735cc9e7de4d860&gs_lcrp=EgRlZGdlKgYIAhAAGEAyBggAEEUYOTIGCAEQABhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAAGEAyBggGEAAYQDIGCAcQABhAMgYICBAAGEDSAQg3NDk2ajBqMagCALACAA&FORM=ANNTA1&PC=U531">
+                    <div id="Cvpreview">
+                        <p> Namn: @cv.User.Name</p>
+                        <p> Epost: @cv.User.Email</p>
+                        <p>Erfarenheter:</p>
+                        @if (cv.Experience != null && cv.Experience.Any())
+                        {
+                            @foreach (var erfarenhet in cv.Experience)
+                            {
+                                <p>@erfarenhet.Name</p>
+                            }
+                        }
+                        else
+                        {
+                            <p>Inga erfarenheter</p>
+                        }
+                    </div>
+                </a>
+                
+                
+            }
+        </ul>
+    }
 </div>

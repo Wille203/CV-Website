@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CV_Website.Migrations
 {
     [DbContext(typeof(CVContext))]
-    [Migration("20250106171316_ny")]
-    partial class ny
+    [Migration("20250107102658_nytt")]
+    partial class nytt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -187,7 +187,7 @@ namespace CV_Website.Migrations
                     b.Property<bool>("Read")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ReciverId")
+                    b.Property<int>("ReceiverId")
                         .HasColumnType("int");
 
                     b.Property<int?>("SenderId")
@@ -198,7 +198,7 @@ namespace CV_Website.Migrations
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("ReciverId");
+                    b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
 
@@ -210,7 +210,7 @@ namespace CV_Website.Migrations
                             MessageId = 1,
                             MessageText = "Hello Bob, how are you?",
                             Read = false,
-                            ReciverId = 2,
+                            ReceiverId = 2,
                             SenderId = 1,
                             SenderName = "Alice"
                         },
@@ -219,7 +219,7 @@ namespace CV_Website.Migrations
                             MessageId = 2,
                             MessageText = "Hi Alice! I'm good, thank you!",
                             Read = true,
-                            ReciverId = 1,
+                            ReceiverId = 1,
                             SenderId = 2,
                             SenderName = "Bob"
                         },
@@ -228,7 +228,7 @@ namespace CV_Website.Migrations
                             MessageId = 3,
                             MessageText = "Hello Charlie, nice to meet you!",
                             Read = false,
-                            ReciverId = 3,
+                            ReceiverId = 3,
                             SenderId = 1,
                             SenderName = "Alice"
                         },
@@ -237,7 +237,7 @@ namespace CV_Website.Migrations
                             MessageId = 4,
                             MessageText = "Hi Alice, great to connect!",
                             Read = false,
-                            ReciverId = 1,
+                            ReceiverId = 1,
                             SenderId = 3,
                             SenderName = "Charlie"
                         },
@@ -246,7 +246,7 @@ namespace CV_Website.Migrations
                             MessageId = 5,
                             MessageText = "Hey Charlie, are you available for a call?",
                             Read = true,
-                            ReciverId = 3,
+                            ReceiverId = 3,
                             SenderId = 2,
                             SenderName = "Bob"
                         },
@@ -255,7 +255,7 @@ namespace CV_Website.Migrations
                             MessageId = 6,
                             MessageText = "Hi Bob, yes I am available. Let's talk!",
                             Read = false,
-                            ReciverId = 2,
+                            ReceiverId = 2,
                             SenderId = 3,
                             SenderName = "Charlie"
                         });
@@ -365,7 +365,8 @@ namespace CV_Website.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -489,9 +490,9 @@ namespace CV_Website.Migrations
 
             modelBuilder.Entity("CV_Website.Models.Message", b =>
                 {
-                    b.HasOne("CV_Website.Models.User", "Reciver")
+                    b.HasOne("CV_Website.Models.User", "Receiver")
                         .WithMany("ReceivedMessages")
-                        .HasForeignKey("ReciverId")
+                        .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -500,7 +501,7 @@ namespace CV_Website.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Reciver");
+                    b.Navigation("Receiver");
 
                     b.Navigation("Sender");
                 });
