@@ -28,13 +28,13 @@ namespace CV_Website.Controllers
             {
                 users.Add(user);
                 users.SaveChanges();
-                return View(/*confirmation*/);
+                return View(/*userConfirmation*/);
             }
             else
             {
                 return View(user);
-            }
 
+            }
         }
     }
 }
