@@ -21,17 +21,24 @@
                         <div id="Cvpreview">
                             <p>Namn: @cv.User.Name</p>
                             <p>Epost: @cv.User.Email</p>
-                            <p>Erfarenheter:</p>
+                            
                             @if (cv.Experience != null && cv.Experience.Any())
                             {
+                                <hr />
+                                <p>Erfarenheter:</p>
                                 @foreach (var erfarenhet in cv.Experience)
                                 {
                                     <p>@erfarenhet.Name</p>
                                 }
                             }
-                            else
+                            @if (cv.Skills != null && cv.Skills.Any())
                             {
-                                <p>Inga erfarenheter</p>
+                                <hr />
+                                <p>Färdigheter:</p>
+                                @foreach (var fardigheter in cv.Skills)
+                                {
+                                    <p>@fardigheter.Name</p>
+                                }
                             }
                         </div>
                     </a>
