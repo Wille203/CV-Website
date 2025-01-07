@@ -62,6 +62,7 @@ namespace CV_Website.Models
                 new Skills { SkillsId = 3, Name = "JavaScript" },
                 new Skills { SkillsId = 4, Name = "SQL" }
             );
+            
 
             modelBuilder.Entity<Education>().HasData(
                 new Education { EducationId = 1, Name = "Bachelor in Computer Science" },

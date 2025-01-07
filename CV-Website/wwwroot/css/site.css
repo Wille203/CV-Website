@@ -23,6 +23,7 @@ body {
 
 #Cvpreview {
     max-width: 100%;
+    font-size: 12px;
 }
 
 #Cvlink {
@@ -55,11 +56,11 @@ body {
         transform: scale(1.05); 
     }
 
-hr {
+cvlink hr {
     display: block;
-    height: 1px;
+    height: 2px;
     border: 0;
-    border-top: 1px solid #ccc;
+    border-top: 2px solid #ccc;
     margin: 1em 0;
     padding: 0;
 }
