@@ -26,6 +26,9 @@ namespace CV_Website.Models
         [Required(ErrorMessage = "Du måste ange en e-postadress")]
         public string Email { get; set; }
 
+        [RegularExpression(@"^\+?[0-9]{7,15}$", ErrorMessage = "Ange ett giltigt telefonnummer (7–15 siffror, valfritt + i början).")]
+        [StringLength(15, ErrorMessage = "Telefonnumret får inte vara längre än 15 tecken.")]
+        public string PhoneNumber { get; set; }
 
         public Boolean Private { get; set; }
 

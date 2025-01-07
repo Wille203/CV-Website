@@ -92,7 +92,6 @@ namespace CV_Website.Controllers
                 else
                 {
                     TempData["ErrorMessage"] = "Sender or Receiver ID is missing.";
-                    return RedirectToAction("Overview");
                 }
             }
 

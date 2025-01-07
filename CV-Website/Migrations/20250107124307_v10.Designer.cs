@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CV_Website.Migrations
 {
     [DbContext(typeof(CVContext))]
-    [Migration("20250107102658_nytt")]
-    partial class nytt
+    [Migration("20250107124307_v10")]
+    partial class v10
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,38 @@ namespace CV_Website.Migrations
                     b.HasIndex("EducationId");
 
                     b.ToTable("CVEducation");
+
+                    b.HasData(
+                        new
+                        {
+                            CVId = 1,
+                            EducationId = 1
+                        },
+                        new
+                        {
+                            CVId = 2,
+                            EducationId = 2
+                        },
+                        new
+                        {
+                            CVId = 3,
+                            EducationId = 3
+                        },
+                        new
+                        {
+                            CVId = 4,
+                            EducationId = 4
+                        },
+                        new
+                        {
+                            CVId = 5,
+                            EducationId = 5
+                        },
+                        new
+                        {
+                            CVId = 6,
+                            EducationId = 6
+                        });
                 });
 
             modelBuilder.Entity("CVExperience", b =>
@@ -47,14 +79,46 @@ namespace CV_Website.Migrations
                     b.Property<int>("CVId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ExperienceId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ExperienceId")
+                        .HasColumnType("int");
 
                     b.HasKey("CVId", "ExperienceId");
 
                     b.HasIndex("ExperienceId");
 
                     b.ToTable("CVExperience");
+
+                    b.HasData(
+                        new
+                        {
+                            CVId = 1,
+                            ExperienceId = 1
+                        },
+                        new
+                        {
+                            CVId = 2,
+                            ExperienceId = 2
+                        },
+                        new
+                        {
+                            CVId = 3,
+                            ExperienceId = 3
+                        },
+                        new
+                        {
+                            CVId = 4,
+                            ExperienceId = 4
+                        },
+                        new
+                        {
+                            CVId = 5,
+                            ExperienceId = 5
+                        },
+                        new
+                        {
+                            CVId = 6,
+                            ExperienceId = 6
+                        });
                 });
 
             modelBuilder.Entity("CVSkills", b =>
@@ -70,6 +134,43 @@ namespace CV_Website.Migrations
                     b.HasIndex("SkillsId");
 
                     b.ToTable("CVSkills");
+
+                    b.HasData(
+                        new
+                        {
+                            CVId = 1,
+                            SkillsId = 1
+                        },
+                        new
+                        {
+                            CVId = 1,
+                            SkillsId = 2
+                        },
+                        new
+                        {
+                            CVId = 2,
+                            SkillsId = 3
+                        },
+                        new
+                        {
+                            CVId = 3,
+                            SkillsId = 4
+                        },
+                        new
+                        {
+                            CVId = 4,
+                            SkillsId = 5
+                        },
+                        new
+                        {
+                            CVId = 5,
+                            SkillsId = 6
+                        },
+                        new
+                        {
+                            CVId = 6,
+                            SkillsId = 7
+                        });
                 });
 
             modelBuilder.Entity("CV_Website.Models.CV", b =>
@@ -104,6 +205,21 @@ namespace CV_Website.Migrations
                         {
                             CVId = 3,
                             UserId = 3
+                        },
+                        new
+                        {
+                            CVId = 4,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            CVId = 5,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            CVId = 6,
+                            UserId = 6
                         });
                 });
 
@@ -138,13 +254,31 @@ namespace CV_Website.Migrations
                         {
                             EducationId = 3,
                             Name = "Diploma in Web Development"
+                        },
+                        new
+                        {
+                            EducationId = 4,
+                            Name = "PhD in Artificial Intelligence"
+                        },
+                        new
+                        {
+                            EducationId = 5,
+                            Name = "Bachelor in Data Science"
+                        },
+                        new
+                        {
+                            EducationId = 6,
+                            Name = "Master in Machine Learning"
                         });
                 });
 
             modelBuilder.Entity("CV_Website.Models.Experience", b =>
                 {
-                    b.Property<string>("ExperienceId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ExperienceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExperienceId"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -157,18 +291,33 @@ namespace CV_Website.Migrations
                     b.HasData(
                         new
                         {
-                            ExperienceId = "1",
+                            ExperienceId = 1,
                             Name = "Software Developer at XYZ Corp"
                         },
                         new
                         {
-                            ExperienceId = "2",
+                            ExperienceId = 2,
                             Name = "Full Stack Developer at ABC Inc"
                         },
                         new
                         {
-                            ExperienceId = "3",
+                            ExperienceId = 3,
                             Name = "Data Analyst at DataWorks"
+                        },
+                        new
+                        {
+                            ExperienceId = 4,
+                            Name = "DevOps Engineer at Cloudify"
+                        },
+                        new
+                        {
+                            ExperienceId = 5,
+                            Name = "Backend Developer at SecureSoft"
+                        },
+                        new
+                        {
+                            ExperienceId = 6,
+                            Name = "Frontend Developer at BrightIdeas"
                         });
                 });
 
@@ -258,6 +407,60 @@ namespace CV_Website.Migrations
                             ReceiverId = 2,
                             SenderId = 3,
                             SenderName = "Charlie"
+                        },
+                        new
+                        {
+                            MessageId = 7,
+                            MessageText = "Eve, I need your help with the project.",
+                            Read = false,
+                            ReceiverId = 5,
+                            SenderId = 4,
+                            SenderName = "Dave"
+                        },
+                        new
+                        {
+                            MessageId = 8,
+                            MessageText = "Sure Dave, let me know the details.",
+                            Read = true,
+                            ReceiverId = 4,
+                            SenderId = 5,
+                            SenderName = "Eve"
+                        },
+                        new
+                        {
+                            MessageId = 9,
+                            MessageText = "Alice, your portfolio is impressive!",
+                            Read = false,
+                            ReceiverId = 1,
+                            SenderId = 6,
+                            SenderName = "Frank"
+                        },
+                        new
+                        {
+                            MessageId = 10,
+                            MessageText = "Dave, what do you think about the design?",
+                            Read = true,
+                            ReceiverId = 4,
+                            SenderId = 1,
+                            SenderName = "Alice"
+                        },
+                        new
+                        {
+                            MessageId = 11,
+                            MessageText = "Alice, I love it! Great job.",
+                            Read = false,
+                            ReceiverId = 1,
+                            SenderId = 4,
+                            SenderName = "Dave"
+                        },
+                        new
+                        {
+                            MessageId = 12,
+                            MessageText = "Eve, can you send me the updated files?",
+                            Read = false,
+                            ReceiverId = 5,
+                            SenderId = 3,
+                            SenderName = "Charlie"
                         });
                 });
 
@@ -295,15 +498,15 @@ namespace CV_Website.Migrations
                             ProjectId = 1,
                             CreatorId = 1,
                             Description = "A portfolio website to showcase my projects.",
-                            Information = "This is my personal portfolio created to demonstrate my skills and previous works.",
+                            Information = "Demonstrates my skills and previous works.",
                             Title = "Personal Portfolio"
                         },
                         new
                         {
                             ProjectId = 2,
                             CreatorId = 2,
-                            Description = "A web application to manage tasks efficiently.",
-                            Information = "This app helps users track and manage their daily tasks effectively.",
+                            Description = "A web application to manage tasks.",
+                            Information = "Tracks and manages daily tasks effectively.",
                             Title = "Task Manager App"
                         },
                         new
@@ -311,8 +514,32 @@ namespace CV_Website.Migrations
                             ProjectId = 3,
                             CreatorId = 3,
                             Description = "An online platform for buying and selling products.",
-                            Information = "This platform enables users to buy and sell products online with secure payment methods.",
+                            Information = "Enables secure online transactions.",
                             Title = "E-Commerce Platform"
+                        },
+                        new
+                        {
+                            ProjectId = 4,
+                            CreatorId = 4,
+                            Description = "A chatbot powered by AI.",
+                            Information = "Provides personalized assistance to users.",
+                            Title = "AI Assistant"
+                        },
+                        new
+                        {
+                            ProjectId = 5,
+                            CreatorId = 5,
+                            Description = "An app to monitor fitness activities.",
+                            Information = "Helps users track their workouts and progress.",
+                            Title = "Fitness Tracker"
+                        },
+                        new
+                        {
+                            ProjectId = 6,
+                            CreatorId = 6,
+                            Description = "A platform for online courses.",
+                            Information = "Offers a variety of courses across domains.",
+                            Title = "Online Learning Platform"
                         });
                 });
 
@@ -352,6 +579,36 @@ namespace CV_Website.Migrations
                         {
                             SkillsId = 4,
                             Name = "SQL"
+                        },
+                        new
+                        {
+                            SkillsId = 5,
+                            Name = "Python"
+                        },
+                        new
+                        {
+                            SkillsId = 6,
+                            Name = "React"
+                        },
+                        new
+                        {
+                            SkillsId = 7,
+                            Name = "Docker"
+                        },
+                        new
+                        {
+                            SkillsId = 8,
+                            Name = "Kubernetes"
+                        },
+                        new
+                        {
+                            SkillsId = 9,
+                            Name = "AWS"
+                        },
+                        new
+                        {
+                            SkillsId = 10,
+                            Name = "Machine Learning"
                         });
                 });
 
@@ -380,6 +637,11 @@ namespace CV_Website.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
                     b.Property<bool>("Private")
                         .HasColumnType("bit");
 
@@ -391,28 +653,61 @@ namespace CV_Website.Migrations
                         new
                         {
                             UserId = 1,
-                            Address = "123 Wonderland St",
+                            Address = "Drottninggatan 10",
                             Email = "alice@example.com",
                             Name = "Alice",
                             Password = "password123",
+                            PhoneNumber = "+46701234567",
                             Private = false
                         },
                         new
                         {
                             UserId = 2,
-                            Address = "456 Nowhere Ave",
+                            Address = "Storgatan 5",
                             Email = "bob@example.com",
                             Name = "Bob",
                             Password = "securepassword",
+                            PhoneNumber = "0701234567",
                             Private = true
                         },
                         new
                         {
                             UserId = 3,
-                            Address = "789 Cloud Ln",
+                            Address = "Kungsgatan 18",
                             Email = "charlie@example.com",
                             Name = "Charlie",
                             Password = "charlie123",
+                            PhoneNumber = "+46761234567",
+                            Private = false
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            Address = "Östra Långgatan 22",
+                            Email = "dave@example.com",
+                            Name = "Dave",
+                            Password = "dave456",
+                            PhoneNumber = "0761234567",
+                            Private = false
+                        },
+                        new
+                        {
+                            UserId = 5,
+                            Address = "Västra Vallgatan 4",
+                            Email = "eve@example.com",
+                            Name = "Eve",
+                            Password = "eve789",
+                            PhoneNumber = "+46731234567",
+                            Private = true
+                        },
+                        new
+                        {
+                            UserId = 6,
+                            Address = "Kyrkogatan 8",
+                            Email = "frank@example.com",
+                            Name = "Frank",
+                            Password = "frank101",
+                            PhoneNumber = "0731234567",
                             Private = false
                         });
                 });
@@ -430,6 +725,38 @@ namespace CV_Website.Migrations
                     b.HasIndex("UsersUserId");
 
                     b.ToTable("ProjectUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectId = 1,
+                            UsersUserId = 1
+                        },
+                        new
+                        {
+                            ProjectId = 1,
+                            UsersUserId = 2
+                        },
+                        new
+                        {
+                            ProjectId = 2,
+                            UsersUserId = 3
+                        },
+                        new
+                        {
+                            ProjectId = 3,
+                            UsersUserId = 4
+                        },
+                        new
+                        {
+                            ProjectId = 4,
+                            UsersUserId = 5
+                        },
+                        new
+                        {
+                            ProjectId = 5,
+                            UsersUserId = 6
+                        });
                 });
 
             modelBuilder.Entity("CVEducation", b =>
