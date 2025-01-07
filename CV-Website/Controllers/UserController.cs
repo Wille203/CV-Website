@@ -18,7 +18,8 @@ namespace CV_Website.Controllers
 
 
         //[Authorize] /*Fungerar denna?*/
-        public IActionResult SettingsUser()
+        [HttpGet]
+        public IActionResult SettingsUser(int userID)
         {
             return View();
         }
