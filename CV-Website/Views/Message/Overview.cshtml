@@ -23,7 +23,7 @@
                 Sender
             </th>
             <th>
-                Reciver
+                Receiver
             </th>
             <th></th>
         </tr>
@@ -45,7 +45,7 @@
                     @item.Sender.UserId
                 </td>
                 <td>
-                    @item.Reciver.UserId
+                    @item.Receiver.UserId
                 </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
@@ -53,9 +53,9 @@
                 <a asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
             </td>
             <td>
-                <form id="form-@item.MessageId" action="@Url.Action("Conversation", "Message")" method="post" style="display:none;">
+                <form id="form-@item.MessageId" action="@Url.Action("Conversation", "Message")" method="get" style="display:none;">
                 <input type="hidden" name="senderId" value="@item.Sender.UserId" />
-                <input type="hidden" name="reciverId" value="@item.Reciver.UserId" />
+                <input type="hidden" name="receiverId" value="@item.Receiver.UserId" />
     </form>
             </td>
         </tr>

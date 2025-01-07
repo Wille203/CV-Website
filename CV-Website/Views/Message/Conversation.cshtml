@@ -28,10 +28,11 @@
 
 
 <form asp-action="SendMessage" method="post">
-	<input type="hidden" name="senderId" value="@ViewBag.SenderId" />
-	<input type="hidden" name="receiverId" value="@ViewBag.ReceiverId" />
-	<textarea name="UserText" rows="2" cols="50"></textarea>
+	<input type="hidden" name="SenderId" value="@ViewBag.SenderId" />
+	<input type="hidden" name="ReceiverId" value="@ViewBag.ReceiverId" />
+	<textarea name="MessageText" rows="2" cols="50"></textarea>
 	<input type="submit" value="Send" />
 </form>
+
 
 

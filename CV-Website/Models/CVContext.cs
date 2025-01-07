@@ -24,9 +24,9 @@ namespace CV_Website.Models
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Message>()
-                .HasOne(m => m.Reciver)
+                .HasOne(m => m.Receiver)
                 .WithMany(u => u.ReceivedMessages)
-                .HasForeignKey(m => m.ReciverId)
+                .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>().HasData(
@@ -61,12 +61,12 @@ namespace CV_Website.Models
             );
 
             modelBuilder.Entity<Message>().HasData(
-                new Message { MessageId = 1, SenderId = 1, SenderName = "Alice", ReciverId = 2, MessageText = "Hello Bob, how are you?", Read = false },
-                new Message { MessageId = 2, SenderId = 2, SenderName = "Bob", ReciverId = 1, MessageText = "Hi Alice! I'm good, thank you!", Read = true },
-                new Message { MessageId = 3, SenderId = 1, SenderName = "Alice", ReciverId = 3, MessageText = "Hello Charlie, nice to meet you!", Read = false },
-                new Message { MessageId = 4, SenderId = 3, SenderName = "Charlie", ReciverId = 1, MessageText = "Hi Alice, great to connect!", Read = false },
-                new Message { MessageId = 5, SenderId = 2, SenderName = "Bob", ReciverId = 3, MessageText = "Hey Charlie, are you available for a call?", Read = true },
-                new Message { MessageId = 6, SenderId = 3, SenderName = "Charlie", ReciverId = 2, MessageText = "Hi Bob, yes I am available. Let's talk!", Read = false }
+                new Message { MessageId = 1, SenderId = 1, SenderName = "Alice", ReceiverId = 2, MessageText = "Hello Bob, how are you?", Read = false },
+                new Message { MessageId = 2, SenderId = 2, SenderName = "Bob", ReceiverId = 1, MessageText = "Hi Alice! I'm good, thank you!", Read = true },
+                new Message { MessageId = 3, SenderId = 1, SenderName = "Alice", ReceiverId = 3, MessageText = "Hello Charlie, nice to meet you!", Read = false },
+                new Message { MessageId = 4, SenderId = 3, SenderName = "Charlie", ReceiverId = 1, MessageText = "Hi Alice, great to connect!", Read = false },
+                new Message { MessageId = 5, SenderId = 2, SenderName = "Bob", ReceiverId = 3, MessageText = "Hey Charlie, are you available for a call?", Read = true },
+                new Message { MessageId = 6, SenderId = 3, SenderName = "Charlie", ReceiverId = 2, MessageText = "Hi Bob, yes I am available. Let's talk!", Read = false }
             );
 
             modelBuilder.Entity<Project>().HasData(
