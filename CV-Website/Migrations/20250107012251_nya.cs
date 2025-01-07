@@ -7,7 +7,11 @@
 namespace CV_Website.Migrations
 {
     /// <inheritdoc />
+<<<<<<<< HEAD:CV-Website/Migrations/20250107012251_nya.cs
     public partial class nya : Migration
+========
+    public partial class ny : Migration
+>>>>>>>> main:CV-Website/Migrations/20250106171316_ny.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,20 +39,6 @@ namespace CV_Website.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Experience", x => x.ExperienceId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Project",
-                columns: table => new
-                {
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Project", x => x.ProjectId);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,27 +120,25 @@ namespace CV_Website.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProjectUser",
+                name: "Project",
                 columns: table => new
                 {
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Information = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectUser", x => new { x.ProjectId, x.UserId });
+                    table.PrimaryKey("PK_Project", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_ProjectUser_Project_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Project",
-                        principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProjectUser_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Project_Users_CreatorId",
+                        column: x => x.CreatorId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,6 +213,30 @@ namespace CV_Website.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProjectUsers",
+                columns: table => new
+                {
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    UsersUserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectUsers", x => new { x.ProjectId, x.UsersUserId });
+                    table.ForeignKey(
+                        name: "FK_ProjectUsers_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectUsers_Users_UsersUserId",
+                        column: x => x.UsersUserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Education",
                 columns: new[] { "EducationId", "Name" },
@@ -243,16 +255,6 @@ namespace CV_Website.Migrations
                     { "1", "Software Developer at XYZ Corp" },
                     { "2", "Full Stack Developer at ABC Inc" },
                     { "3", "Data Analyst at DataWorks" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Project",
-                columns: new[] { "ProjectId", "Description", "Title" },
-                values: new object[,]
-                {
-                    { 1, "A portfolio website to showcase my projects.", "Personal Portfolio" },
-                    { 2, "A web application to manage tasks efficiently.", "Task Manager App" },
-                    { 3, "An online platform for buying and selling products.", "E-Commerce Platform" }
                 });
 
             migrationBuilder.InsertData(
@@ -299,6 +301,16 @@ namespace CV_Website.Migrations
                     { 6, "Hi Bob, yes I am available. Let's talk!", false, 2, 3, "Charlie" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Project",
+                columns: new[] { "ProjectId", "CreatorId", "Description", "Information", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, "A portfolio website to showcase my projects.", "This is my personal portfolio created to demonstrate my skills and previous works.", "Personal Portfolio" },
+                    { 2, 2, "A web application to manage tasks efficiently.", "This app helps users track and manage their daily tasks effectively.", "Task Manager App" },
+                    { 3, 3, "An online platform for buying and selling products.", "This platform enables users to buy and sell products online with secure payment methods.", "E-Commerce Platform" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CVEducation_EducationId",
                 table: "CVEducation",
@@ -330,9 +342,14 @@ namespace CV_Website.Migrations
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectUser_UserId",
-                table: "ProjectUser",
-                column: "UserId");
+                name: "IX_Project_CreatorId",
+                table: "Project",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectUsers_UsersUserId",
+                table: "ProjectUsers",
+                column: "UsersUserId");
         }
 
         /// <inheritdoc />
@@ -351,7 +368,7 @@ namespace CV_Website.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "ProjectUser");
+                name: "ProjectUsers");
 
             migrationBuilder.DropTable(
                 name: "Education");

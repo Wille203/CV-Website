@@ -15,6 +15,8 @@ namespace CV_Website.Models
         public DbSet<Experience> Experience { get; set; }
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Project> Project { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>()
@@ -28,6 +30,19 @@ namespace CV_Website.Models
                 .WithMany(u => u.ReceivedMessages)
                 .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Project>()
+            .HasOne(p => p.Creator)
+            .WithMany()
+            .HasForeignKey(p => p.CreatorId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+
+            modelBuilder.Entity<Project>()
+                .HasMany(p => p.Users) 
+                .WithMany(u => u.Project)  
+                .UsingEntity(j => j.ToTable("ProjectUsers"));
 
             modelBuilder.Entity<User>().HasData(
                 new User { UserId = 1, Name = "Alice", Password = "password123", Address = "123 Wonderland St", Email = "alice@example.com", Private = false },
@@ -70,10 +85,11 @@ namespace CV_Website.Models
             );
 
             modelBuilder.Entity<Project>().HasData(
-                new Project { ProjectId = 1, Title = "Personal Portfolio", Description = "A portfolio website to showcase my projects." },
-                new Project { ProjectId = 2, Title = "Task Manager App", Description = "A web application to manage tasks efficiently." },
-                new Project { ProjectId = 3, Title = "E-Commerce Platform", Description = "An online platform for buying and selling products." }
-            );
+    new Project { ProjectId = 1, Title = "Personal Portfolio", Description = "A portfolio website to showcase my projects.", Information = "This is my personal portfolio created to demonstrate my skills and previous works.", CreatorId = 1 },
+    new Project { ProjectId = 2, Title = "Task Manager App", Description = "A web application to manage tasks efficiently.", Information = "This app helps users track and manage their daily tasks effectively.", CreatorId = 2 },
+    new Project { ProjectId = 3, Title = "E-Commerce Platform", Description = "An online platform for buying and selling products.", Information = "This platform enables users to buy and sell products online with secure payment methods.", CreatorId = 3 }
+);
+
         }
     }
 }

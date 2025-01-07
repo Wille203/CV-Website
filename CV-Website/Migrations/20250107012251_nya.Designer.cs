@@ -11,8 +11,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CV_Website.Migrations
 {
     [DbContext(typeof(CVContext))]
+<<<<<<<< HEAD:CV-Website/Migrations/20250107012251_nya.Designer.cs
     [Migration("20250107012251_nya")]
     partial class nya
+========
+    [Migration("20250106171316_ny")]
+    partial class ny
+>>>>>>>> main:CV-Website/Migrations/20250106171316_ny.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -269,8 +274,14 @@ namespace CV_Website.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
 
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Information")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -279,25 +290,33 @@ namespace CV_Website.Migrations
 
                     b.HasKey("ProjectId");
 
+                    b.HasIndex("CreatorId");
+
                     b.ToTable("Project");
 
                     b.HasData(
                         new
                         {
                             ProjectId = 1,
+                            CreatorId = 1,
                             Description = "A portfolio website to showcase my projects.",
+                            Information = "This is my personal portfolio created to demonstrate my skills and previous works.",
                             Title = "Personal Portfolio"
                         },
                         new
                         {
                             ProjectId = 2,
+                            CreatorId = 2,
                             Description = "A web application to manage tasks efficiently.",
+                            Information = "This app helps users track and manage their daily tasks effectively.",
                             Title = "Task Manager App"
                         },
                         new
                         {
                             ProjectId = 3,
+                            CreatorId = 3,
                             Description = "An online platform for buying and selling products.",
+                            Information = "This platform enables users to buy and sell products online with secure payment methods.",
                             Title = "E-Commerce Platform"
                         });
                 });
@@ -407,14 +426,14 @@ namespace CV_Website.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UsersUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProjectId", "UserId");
+                    b.HasKey("ProjectId", "UsersUserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersUserId");
 
-                    b.ToTable("ProjectUser");
+                    b.ToTable("ProjectUsers", (string)null);
                 });
 
             modelBuilder.Entity("CVEducation", b =>
@@ -491,6 +510,17 @@ namespace CV_Website.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("CV_Website.Models.Project", b =>
+                {
+                    b.HasOne("CV_Website.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.HasOne("CV_Website.Models.Project", null)
@@ -501,7 +531,7 @@ namespace CV_Website.Migrations
 
                     b.HasOne("CV_Website.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UsersUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
