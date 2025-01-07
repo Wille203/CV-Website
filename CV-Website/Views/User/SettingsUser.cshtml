@@ -1,16 +1,17 @@
 ﻿@model CV_Website.Models.User
 
-<h2>Inställningar</h2>
-
 
 <form asp-action="Update" method="post">
-<div class="profil">
+<div id="VU" class="profil">
+        <h2>Inställningar</h2>
+
     <div class="profile-field1">
         <label>Namn:</label>
         <input asp-for="Name" />
        
     </div>
 
+        <br />
 
     <div class="profile-field2">
         <label>Address:</label>
@@ -18,6 +19,7 @@
       
     </div>
 
+        <br />
 
     <div class="profile-field3">
         <label>Email:</label>
@@ -25,12 +27,15 @@
       
     </div>
 
+        <br />
 
     <div class="profile-field4">
         <label>Privat:</label>
-        <input asp-for="Private" />
+        <input asp-for="Private" type="checkbox"/>
         
     </div>
+
+        <br />
 </div>
     <button type="submit">Spara</button>
 </form>

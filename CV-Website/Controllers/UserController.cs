@@ -17,7 +17,7 @@ namespace CV_Website.Controllers
         }
 
 
-        [Authorize] /*Fungerar denna?*/
+        //[Authorize] /*Fungerar denna?*/
         public IActionResult SettingsUser()
         {
             return View();
