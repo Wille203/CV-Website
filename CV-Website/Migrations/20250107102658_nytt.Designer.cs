@@ -11,13 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CV_Website.Migrations
 {
     [DbContext(typeof(CVContext))]
-<<<<<<<< HEAD:CV-Website/Migrations/20250107012251_nya.Designer.cs
-    [Migration("20250107012251_nya")]
-    partial class nya
-========
-    [Migration("20250106171316_ny")]
-    partial class ny
->>>>>>>> main:CV-Website/Migrations/20250106171316_ny.Designer.cs
+    [Migration("20250107102658_nytt")]
+    partial class nytt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -370,7 +365,8 @@ namespace CV_Website.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Email")
                         .IsRequired()

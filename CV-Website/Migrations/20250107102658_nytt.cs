@@ -7,11 +7,7 @@
 namespace CV_Website.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:CV-Website/Migrations/20250107012251_nya.cs
-    public partial class nya : Migration
-========
-    public partial class ny : Migration
->>>>>>>> main:CV-Website/Migrations/20250106171316_ny.cs
+    public partial class nytt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -62,7 +58,7 @@ namespace CV_Website.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Private = table.Column<bool>(type: "bit", nullable: false)
                 },
