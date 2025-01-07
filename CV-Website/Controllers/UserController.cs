@@ -75,5 +75,11 @@ namespace CV_Website.Controllers
 
             }
         }
+
+        [HttpGet]
+        public IActionResult UserPage()
+        {
+            return View();
+        }
     }
 }

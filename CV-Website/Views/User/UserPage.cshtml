@@ -1,7 +1,35 @@
 ﻿@model CV_Website.Models.User
 
 <div id="UID" class="PersonalPage">
-	<div id="Info" class="p-f1"
+
+	<div id="Info" class="p-f1">
 	<img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
+	<h3>@Model.Name</h3>
+	<h3>@Model.Email</h3>
+	</div>
+
+	<div id="UP" class="p-f2">
+        <h3>Projekt:</h3>
+        @if (Model.Project != null && Model.Project.Any())
+        {
+            <ul>
+                @foreach (var project in Model.Project)
+                {
+                    <li>
+                        <h4>@project.Title</h4>
+                        <br />
+                        <p>@project.Description</p>
+                        <br />
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Här var det tomt :(</p>
+        }
+	</div>
+
+
 
 </div>
