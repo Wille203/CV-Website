@@ -6,48 +6,48 @@
 
 <h1>Conversation between @ViewBag.SenderName and @ViewBag.ReceiverName</h1>
 
-<table class="messages">
-	<tbody>
-		@foreach (var item in Model) {
-			<tr>
-				<td>
-					@item.SenderName
-				</td>
-			</tr>
-			<tr>
-				<td>
-					@item.MessageText
-				</td>
-				<td>
-					@if (item.Read == false && item.SenderId.HasValue && item.SenderId.Value != ViewBag.CurrentUserId)
-					{
-						<form asp-action="MarkAsRead" method="post">
-							<input type="hidden" name="MessageId" value="@item.MessageId" />
-							<input type="submit" value="Markera Läst" />
-						</form>
-					}
-				</td>
-				<td>
-					@if (item.SenderId.HasValue && item.SenderId.Value == ViewBag.CurrentUserId)
-					{
-						<a href="@Url.Action("DeleteMessage", "Message", new { messageId = item.MessageId })" style="text-decoration: none;">&#128465;</a>
-					}
-				</td>
-			</tr>
-			<tr>
-				<td >&nbsp;</td>
-			</tr>
-		}
-	</tbody>
-</table>
+<div class="conversation">
+    <table class="messages">
+        <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @item.SenderName
+                    </td>
+                </tr>
+                <tr>
+                    <td class="message-container @(item.SenderId == ViewBag.CurrentUserId ? "sender" : "receiver")">
+                        <span class="messagetextbox">
+                            @item.MessageText
+                        </span>
 
+                        @if (item.Read == false && item.SenderId.HasValue && item.SenderId.Value != ViewBag.CurrentUserId)
+                        {
+                            <form asp-action="MarkAsRead" method="post" class="MarkRead">
+                                <input type="hidden" name="MessageId" value="@item.MessageId" />
+                                <input type="submit" value="Markera Läst" />
+                            </form>
+                        }
 
-<form asp-action="SendMessage" method="post">
-	<input type="hidden" name="SenderId" value="@ViewBag.SenderId" />
-	<input type="hidden" name="ReceiverId" value="@ViewBag.ReceiverId" />
-	<textarea name="MessageText" rows="2" cols="50"></textarea>
-	<input type="submit" value="Send" />
-</form>
+                        @if (item.SenderId.HasValue && item.SenderId.Value == ViewBag.CurrentUserId)
+                        {
+                            <a href="@Url.Action("DeleteMessage", "Message", new { messageId = item.MessageId })" class="delete-button">&#128465;</a>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
+    <form asp-action="SendMessage" method="post" class="message-form">
+        <input type="hidden" name="SenderId" value="@ViewBag.SenderId" />
+        <input type="hidden" name="ReceiverId" value="@ViewBag.ReceiverId" />
+        <textarea name="MessageText" rows="2" class="message-textarea" placeholder="Skriv ditt meddelande..."></textarea>
+        <button type="submit" class="btn btn-primary">Skicka</button>
+    </form>
+</div>
 
 

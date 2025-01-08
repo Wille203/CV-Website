@@ -16,16 +16,22 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var conversation in Model)
+        @foreach (var item in Model)
         {
-            <tr onclick="document.getElementById('form-@conversation.LatestMessage.MessageId').submit();">
-                <td>@conversation.LatestMessage.SenderName</td>
-                <td>@conversation.LatestMessage.MessageText</td>
-                <td>@conversation.UnreadMessages</td>
+            <tr class="clickForConversation" onclick="document.getElementById('form-@item.LatestMessage.MessageId').submit();">
+                <td>@item.LatestMessage.SenderName</td>
+                <td>@item.LatestMessage.MessageText</td>
                 <td>
-                    <form id="form-@conversation.LatestMessage.MessageId" action="@Url.Action("Conversation", "Message")" method="get" style="display:none;">
-                        <input type="hidden" name="senderId" value="@conversation.LatestMessage.SenderId" />
-                        <input type="hidden" name="receiverId" value="@conversation.LatestMessage.ReceiverId" />
+                    @if (item.UnreadMessages > 0){
+                        <div class="circleRead">
+                            @item.UnreadMessages
+					    </div>
+                        }
+                </td>
+                <td>
+                    <form id="form-@item.LatestMessage.MessageId" action="@Url.Action("Conversation", "Message")" method="get" style="display:none;">
+                        <input type="hidden" name="senderId" value="@item.LatestMessage.SenderId" />
+                        <input type="hidden" name="receiverId" value="@item.LatestMessage.ReceiverId" />
                     </form>
                 </td>
             </tr>
