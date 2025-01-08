@@ -64,3 +64,14 @@ cvlink hr {
     margin: 1em 0;
     padding: 0;
 }
+
+.p-f1 img {
+    width: 150px;
+    height: auto; 
+}
+
+.p-f1 {
+    
+    border-radius: 2px;
+    max-width: 90%;
+}
