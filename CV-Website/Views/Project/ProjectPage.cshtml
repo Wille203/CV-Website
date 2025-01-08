@@ -8,7 +8,7 @@
            
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Description</h5>
+                    <h5 class="card-title">Beskrivning</h5>
                     <p class="card-text">@Model.Description</p>
                 </div>
             </div>
@@ -24,7 +24,7 @@
            
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Creator</h5>
+                    <h5 class="card-title">Skapare</h5>
                     <a href="@Url.Action("GoToUserPage", "User", new { userId = Model.Creator.UserId })">
                         <strong>@Model.Creator.Name</strong>
                     </a>
@@ -35,7 +35,7 @@
          
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title">Users Associated with this Project</h5>
+                    <h5 class="card-title">Personer i projektet</h5>
                     @if (Model.Users != null && Model.Users.Any())
                     {
                         <ul class="list-group">
@@ -50,8 +50,26 @@
                     }
                     else
                     {
-                        <p class="text-muted">No users associated with this project.</p>
+                        <p class="text-muted">Finns inga personer i detta projekt.</p>
                     }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        string loggedInUserId = ViewData["LoggedInUserId"]?.ToString();
+                        bool isUserInProject = Model.Users.Any(u => u.UserId.ToString() == loggedInUserId);
+
+                            @if (isUserInProject)
+                            {
+                                <td><a asp-controller="Project" asp-action="JoinProject" asp-route-id="@Model.ProjectId">Gå med</a></td>
+                            }
+
+                            else
+                            {
+                                <td><a asp-controller="Project" asp-action="LeaveProject" asp-route-id="@Model.ProjectId">Lämna</a></td>
+                            }
+                    }
+
+                 
                 </div>
             </div>
         </div>
