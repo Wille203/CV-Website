@@ -39,9 +39,17 @@ namespace CV_Website.Controllers
 
         //[Authorize] /*Fungerar denna?*/
         [HttpGet]
-        public IActionResult SettingsUser(int userID)
+        public IActionResult SettingsUser(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userID);
+            // Sparar ID i den nuvarande sessionen
+            var loggedInUserId = HttpContext.Session.GetString("UserId");
+
+            if (loggedInUserId == null || loggedInUserId != userId.ToString())
+            {
+                return Unauthorized();
+            }
+
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
             {
