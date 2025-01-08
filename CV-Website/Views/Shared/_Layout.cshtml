@@ -29,6 +29,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <div class="d-flex">
+                        @if (Context.Session.GetString("UserId") != null)
+                        {
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="navbar-text mx-2">Du är inloggad som: @Context.Session.GetString("UserName")</span>
+                                <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-danger">Logga ut</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Logga in och Registrera knappar -->
+                            <a href="@Url.Action("Login", "Account")" class="btn btn-outline-primary me-2">Logga in</a>
+                            <a href="@Url.Action("Register", "Account")" class="btn btn-outline-secondary">Registrera</a>
+                        }
+
+                    </div>
                 </div>
             </div>
         </nav>

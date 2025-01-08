@@ -3,18 +3,26 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Lägg till tjänster till containern.
 builder.Services.AddControllersWithViews();
 
-// Register the DbContext with the connection string from appsettings.json
+// Lägg till sessionshantering
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Timeout inställning för sessionen
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+// Registrera DbContext med anslutningssträngen från appsettings.json
 builder.Services.AddDbContext<CVContext>(options =>
     options.UseLazyLoadingProxies()
-           .UseSqlServer(builder.Configuration.GetConnectionString("CVContext")));
-
+           .UseSqlServer(builder.Configuration.GetConnectionString("CVContext"))
+);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Konfigurera HTTP-request-pipelinen.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -23,6 +31,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Aktivera sessionshantering
+app.UseSession();
 
 app.UseRouting();
 
