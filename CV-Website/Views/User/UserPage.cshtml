@@ -36,8 +36,8 @@
     @if (User.Identity.Name != null && User.Identity.Name == Model.Email)
     {
         <div class="settings-link">
+            <button>Redigera profil</button>
             <a href="@Url.Action("SettingsUser", "User", new { userId = Model.UserId })">
-                <button>Redigera profil</button>
             </a>
         </div>
     }
