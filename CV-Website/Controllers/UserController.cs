@@ -76,32 +76,5 @@ namespace CV_Website.Controllers
             return View(user);
         }
 
-
-        //Hämtar formuläret/vyn för användaren
-        [HttpGet]
-        public IActionResult Add()
-        {
-            return View();
-        }
-
-        //Läggar till ny användare i databasen, skapa en vy som heter Add
-        [HttpPost]
-        public IActionResult Add(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                users.Add(user);
-                users.SaveChanges();
-
-                //Eventuellt?
-                return View(/*userConfirmation*/);
-            }
-            else
-            {
-                return View(user);
-
-            }
-        }
-
     }
 }
