@@ -106,7 +106,8 @@ cvlink hr {
     width: 100%;
     max-width: 90%; 
     margin-top: 20px;
-    grid-row: 3;
+    grid-row: 1;
+    grid-column: 2;
 }
 
 .p-f3 {
