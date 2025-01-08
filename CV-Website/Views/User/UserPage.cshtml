@@ -32,12 +32,12 @@
 
 	</div>
 
-   @*  Denna kommer bara fungera om vi har identity. Name är den aktuella användarens identifierare, utgår från att vi avänder e-post *@
-    @if (User.Identity.Name != null && User.Identity.Name == Model.Email)
+        @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
+    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.UserId.ToString())
     {
-        <div class="settings-link">
-            <button>Redigera profil</button>
+        <div id="Settings" class="p-f3">
             <a href="@Url.Action("SettingsUser", "User", new { userId = Model.UserId })">
+                <button>Redigera profil</button>
             </a>
         </div>
     }

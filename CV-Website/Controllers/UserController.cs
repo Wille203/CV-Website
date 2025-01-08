@@ -53,11 +53,20 @@ namespace CV_Website.Controllers
         }
 
 
-        //[Authorize] /*Fungerar denna?*/
+        //[Authorize] denna fungerar inte atm, kör på session tills vidare
         [HttpGet]
-        public IActionResult SettingsUser(int userID)
+        public IActionResult SettingsUser(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userID);
+            // Sparar ID i den nuvarande sessionen
+            var loggedInUserId = HttpContext.Session.GetString("UserId");
+
+            if (loggedInUserId == null || loggedInUserId != userId.ToString())
+            {
+                return Unauthorized();
+            }
+
+            //Primärt för NullReferenceException, vi behöver nog inte denna. 
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
             {
