@@ -80,6 +80,7 @@ namespace CV_Website.Controllers
             {
                 return View(updatedUser); 
             }
+
             var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
             if (user != null)
             {
@@ -87,6 +88,8 @@ namespace CV_Website.Controllers
                 user.Email = updatedUser.Email;
                 user.Address = updatedUser.Address;
                 user.Private = updatedUser.Private;
+                user.PhoneNumber = updatedUser.PhoneNumber;
+                user.Password = updatedUser.Password;
                 _context.Users.Update(user);
                 _context.SaveChanges();
             }

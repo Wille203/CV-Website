@@ -18,7 +18,7 @@ namespace CV_Website.Models
 
 
         [StringLength(50, ErrorMessage = "Ange en giltig adress")]
-        [RegularExpression("^[A-Za-z0-9]+$", ErrorMessage = "Bokstäver och siffror är tillåtet, inget annat")]
+        [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "Bokstäver och siffror är tillåtet, inget annat")]
         public string Address { get; set; }
 
         //@ gör det mer lättläst exempelvis behövs inte \\, E-post måste innehålle @, punkt, samt en TDL

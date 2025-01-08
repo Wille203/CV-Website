@@ -8,13 +8,12 @@
 
         <input type="hidden" asp-for="UserId" />
         <input type="hidden" asp-for="Password" />
-        <input type="hidden" asp-for="PhoneNumber" />
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="profile-field6">
+          <div class="form-group col-md-6">
              <input asp-for="Name" class="form-control" id="inputName4" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+          </div>
         </div>
 
         <br />
@@ -29,6 +28,14 @@
         </div>
         <br />
 
+        <div class="profile-field5">
+            <div class="form-group col-md-6">
+                <input asp-for="PhoneNumber" class="form-control" id="inputPhone" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
     <div class="profile-field2">
             <div class="form-group col-md-6">
                 <input asp-for="Address" class="form-control" id="inputAddress" />
@@ -37,7 +44,19 @@
     </div>
 
         <br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Password">Lösenord</label>
+                <input type="password" id="Password" name="Password" class="form-control" />
+            </div>
 
+            <div class="form-group col-md-6">
+                <label for="ConfirmPassword">Bekräfta Lösenord</label>
+                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" />
+            </div>
+        </div>
+
+        <br />
 
     <div class="profile-field4">
         <label>Sätt din profil till privat</label>
