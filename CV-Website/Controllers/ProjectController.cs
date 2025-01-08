@@ -126,6 +126,8 @@ namespace CV_Website.Controllers
         .Include(p => p.Creator) 
         .FirstOrDefault(u => u.ProjectId == Id);
 
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["LoggedInUserId"] = loggedInUserId;
 
             if (!User.Identity.IsAuthenticated)// ej testad
             {
@@ -140,7 +142,39 @@ namespace CV_Website.Controllers
 
             return View(project);
         }
+        public IActionResult LeaveProject(int id)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int userId = int.Parse(loggedInUserId);
+            var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
-        
+            if (user != null && project.Users.Contains(user))
+            {
+                
+                project.Users.Remove(user);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ProjectPage", new { id = id });
+        }
+        public IActionResult JoinProject(int id)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int userId = int.Parse(loggedInUserId);
+            var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
+            
+            if (!project.Users.Any(u => u.UserId == userId))
+            {
+                
+                var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+                if (user != null)
+                {
+                    project.Users.Add(user);
+                    _context.SaveChanges(); 
+                }
+            }
+            return RedirectToAction("ProjectPage", new { id = id });
+        }
+
     }
 }
