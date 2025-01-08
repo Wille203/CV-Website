@@ -1,9 +1,14 @@
 ﻿@model CV_Website.Models.User
 
 
-<form asp-action="Update" method="post">
+<form asp-action="SettingsUser" method="post">
+    
 <div id="VU" class="profil">
         <h2>Inställningar</h2>
+
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="Password" />
+        <input type="hidden" asp-for="PhoneNumber" />
 
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -44,4 +49,3 @@
 </div>
     <button type="submit">Spara</button>
 </form>
-
