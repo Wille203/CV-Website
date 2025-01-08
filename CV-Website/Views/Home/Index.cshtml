@@ -6,6 +6,11 @@
 }
 
 <div class="text-center">
+
+    <form asp-action="Search" method="get">
+        <input id="q" name="q" value="" style="width:275px;" />
+        <input id="submit" name="submit" type="submit" style="font-weight:bold;" value="Search" />
+    </form>
     
     @if (!Model.Any())
     {

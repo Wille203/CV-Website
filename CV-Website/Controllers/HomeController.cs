@@ -27,6 +27,8 @@ namespace CV_Website.Controllers
             return View(CVList); 
         }
 
+        
+
         public IActionResult Privacy()
         {
             return View();

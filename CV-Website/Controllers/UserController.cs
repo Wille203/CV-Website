@@ -6,6 +6,7 @@ using NuGet.Packaging.Signing;
 using System.Linq;
 
 
+
 namespace CV_Website.Controllers
 {
     public class UserController : Controller
@@ -19,6 +20,8 @@ namespace CV_Website.Controllers
             users = service;
             _context = context;
         }
+
+       
 
 
         [HttpGet]
@@ -34,6 +37,19 @@ namespace CV_Website.Controllers
             ViewData["CurrentUser"] = user;
 
             return View("Userpage", user); 
+        }
+
+        public async Task<IActionResult> Search(string inputstring)
+        {
+            if (inputstring == null) return View(new List<User>());
+            
+            var users = await _context.Users
+                .Where(user => user.Name.ToUpper().Contains(inputstring.ToUpper()))
+                  .ToListAsync();
+
+
+            
+            return View(users);
         }
 
 
