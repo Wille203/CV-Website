@@ -1,64 +1,35 @@
-﻿@model IEnumerable<CV_Website.Models.Message>
+﻿@model IEnumerable<dynamic>
 
 @{
     ViewData["Title"] = "Overview";
 }
 
-<h1>Messages</h1>
+<h1>Meddelanden</h1>
 
 
 <table class="table">
     <thead>
         <tr>
-            <th>
-                Sender Name
-            </th>
-            <th>
-                Message Text
-            </th>
-            <th>
-                Read
-            </th>
-            <th>
-                Sender
-            </th>
-            <th>
-                Receiver
-            </th>
-            <th></th>
+            <th>Användare</th>
+            <th>Meddelande</th>
+            <th>Olästa meddelanden</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-            <tr onclick="document.getElementById('form-@item.MessageId').submit();">
-            
+        @foreach (var conversation in Model)
+        {
+            <tr onclick="document.getElementById('form-@conversation.LatestMessage.MessageId').submit();">
+                <td>@conversation.LatestMessage.SenderName</td>
+                <td>@conversation.LatestMessage.MessageText</td>
+                <td>@conversation.UnreadMessages</td>
                 <td>
-                    @item.SenderName
+                    <form id="form-@conversation.LatestMessage.MessageId" action="@Url.Action("Conversation", "Message")" method="get" style="display:none;">
+                        <input type="hidden" name="senderId" value="@conversation.LatestMessage.SenderId" />
+                        <input type="hidden" name="receiverId" value="@conversation.LatestMessage.ReceiverId" />
+                    </form>
                 </td>
-                <td>
-                    @item.MessageText
-                </td>
-                <td>
-                    @item.Read
-                </td>
-                <td>
-                    @item.Sender.UserId
-                </td>
-                <td>
-                    @item.Receiver.UserId
-                </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
-            </td>
-            <td>
-                <form id="form-@item.MessageId" action="@Url.Action("Conversation", "Message")" method="get" style="display:none;">
-                <input type="hidden" name="senderId" value="@item.Sender.UserId" />
-                <input type="hidden" name="receiverId" value="@item.Receiver.UserId" />
-    </form>
-            </td>
-        </tr>
-}
+            </tr>
+
+        }
     </tbody>
 </table>

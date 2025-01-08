@@ -18,6 +18,21 @@
 				<td>
 					@item.MessageText
 				</td>
+				<td>
+					@if (item.Read == false && item.SenderId.HasValue && item.SenderId.Value != ViewBag.CurrentUserId)
+					{
+						<form asp-action="MarkAsRead" method="post">
+							<input type="hidden" name="MessageId" value="@item.MessageId" />
+							<input type="submit" value="Markera Läst" />
+						</form>
+					}
+				</td>
+				<td>
+					@if (item.SenderId.HasValue && item.SenderId.Value == ViewBag.CurrentUserId)
+					{
+						<a href="@Url.Action("DeleteMessage", "Message", new { messageId = item.MessageId })" style="text-decoration: none;">&#128465;</a>
+					}
+				</td>
 			</tr>
 			<tr>
 				<td >&nbsp;</td>

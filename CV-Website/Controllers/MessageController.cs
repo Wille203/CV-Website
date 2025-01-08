@@ -19,45 +19,39 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult Overview()
         {
+            int currentUserId = 1;
+
             var messages = _context.Messages
+                .Where(m => m.SenderId == currentUserId || m.ReceiverId == currentUserId)
                 .GroupBy(m => new
                 {
                     SenderId = m.SenderId < m.ReceiverId ? m.SenderId : m.ReceiverId,
                     ReceiverId = m.SenderId < m.ReceiverId ? m.ReceiverId : m.SenderId
                 })
-                .Select(g => g.OrderByDescending(m => m.MessageId).FirstOrDefault())
+                .Select(g => new
+                {
+                    LatestMessage = g.OrderByDescending(m => m.MessageId).FirstOrDefault(),
+                    UnreadMessages = g.Count(m => !m.Read && m.ReceiverId == currentUserId)
+                })
                 .ToList();
 
             return View(messages);
         }
 
-        //[HttpPost]
-        //public IActionResult Conversation(int senderId, int receiverId)
-        //{
-        //    var conversation = _context.Messages
-        //        .Where(m => (m.SenderId == senderId && m.ReceiverId == receiverId) || (m.SenderId == receiverId && m.ReceiverId == senderId))
-        //        .OrderBy(m => m.MessageId)
-        //        .ToList();
-
-        //    var sender = _context.Users.Find(senderId);
-        //    var receiver = _context.Users.Find(receiverId);
-        //    ViewBag.SenderName = sender.Name;
-        //    ViewBag.ReceiverName = receiver.Name;
-        //    ViewBag.ReceiverId = receiverId;
-        //    ViewBag.SenderId = senderId;
-        //    return View(conversation);
-        //}
+        
 
 
         [HttpGet]
         public IActionResult Conversation(int senderId, int receiverId)
         {
             //var currentUserId = CurrentUserId();
+            int currentUserId = 1;
+            ViewBag.CurrentUserId = currentUserId;
 
-            //if (currentUserId != senderId && currentUserId != receiverId)
-            //{
-            //    return Unauthorized();
-            //}
+            if (currentUserId != senderId && currentUserId != receiverId)
+            {
+                return Unauthorized();
+            }
 
             var conversation = _context.Messages
                 .Where(m => (m.SenderId == senderId && m.ReceiverId == receiverId) || (m.SenderId == receiverId && m.ReceiverId == senderId))
@@ -97,6 +91,28 @@ namespace CV_Website.Controllers
 
             TempData["ErrorMessage"] = "The message could not be sent!";
             return RedirectToAction("Overview");
+        }
+
+        public IActionResult MarkAsRead(int messageId)
+        {
+            var message = _context.Messages.Find(messageId);
+            if (message != null)
+            {
+                message.Read = true;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
+        }
+
+        public IActionResult DeleteMessage(int messageId)
+        {
+            var message = _context.Messages.Find(messageId);
+            if (message != null)
+            {
+                _context.Messages.Remove(message);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
         }
     }
 }
