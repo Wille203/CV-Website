@@ -37,7 +37,7 @@ namespace CV_Website.Controllers
         }
 
 
-        //[Authorize] /*Fungerar denna?*/
+        //[Authorize] denna fungerar inte atm, kör på session tills vidare
         [HttpGet]
         public IActionResult SettingsUser(int userId)
         {
@@ -49,6 +49,7 @@ namespace CV_Website.Controllers
                 return Unauthorized();
             }
 
+            //Primärt för NullReferenceException, vi behöver nog inte denna. 
             var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)

@@ -32,10 +32,10 @@
 
 	</div>
 
-        @* Ändrat denna från identity till session *@
+        @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
     @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.UserId.ToString())
     {
-        <div class="settings-link">
+        <div id="Settings" class="p-f3">
             <a href="@Url.Action("SettingsUser", "User", new { userId = Model.UserId })">
                 <button>Redigera profil</button>
             </a>
