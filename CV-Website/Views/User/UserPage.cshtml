@@ -10,6 +10,7 @@
     <p>@Model.PhoneNumber</p>
 	</div>
 
+
 	<div id="UP" class="p-f2">
         <h4>Projekt:</h4>
         @if (Model.Project != null && Model.Project.Any())
@@ -17,8 +18,8 @@
             <ul>
                 @foreach (var project in Model.Project)
                 {
-                    <li>
-                        <p>@project.Title</p>
+                    <li class="pb">
+                        <p id="T">@project.Title</p>
                         <p>@project.Description</p>
                     </li>
                 }
@@ -40,6 +41,5 @@
             </a>
         </div>
     }
-
 
 </div>
