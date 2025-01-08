@@ -12,7 +12,7 @@ namespace CV_Website.Models
         [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Hörru, ditt namn består av bokstäver inget annat")]
         public string Name { get; set; }
 
-
+        [StringLength(25, ErrorMessage = "Ditt lösenord får inte vara längre än 25 tecken")]
         [Required(ErrorMessage = "Du kan inte logga in utan ett lösenord")]
         public string Password { get; set; }
 
