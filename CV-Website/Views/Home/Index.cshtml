@@ -1,16 +1,18 @@
 ﻿
 @model IEnumerable<CV>
 
+
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
 
-    <form asp-action="Search" method="get">
-        <input id="q" name="q" value="" style="width:275px;" />
-        <input id="submit" name="submit" type="submit" style="font-weight:bold;" value="Search" />
-    </form>
+    <input id="q" asp-controller="User" asp-action="Search" method="get" autocomplete="off" name="inputstring" placeholder="Användar namn" style="width:275px;" oninput="search(this.value)" />
+        
+    <div id="userlist">
+       
+    </div>
     
     @if (!Model.Any())
     {
@@ -55,3 +57,20 @@
         
     }
 </div>
+
+<script>
+
+    async function search(sinput) {
+        if (sinput.length < 1) {
+            document.getElementById("userlist").innerHTML = "";
+            return;
+        }
+
+        const url = `/User/Search?inputstring=${encodeURIComponent(sinput)}`;
+        const resp = await fetch(url);
+        const result = await resp.text();
+
+        document.getElementById("userlist").innerHTML = result;
+    }
+
+</script>

@@ -39,17 +39,18 @@ namespace CV_Website.Controllers
             return View("Userpage", user); 
         }
 
-        public async Task<IActionResult> Search(string inputstring)
+        public IActionResult Search(string inputstring)
         {
-            if (inputstring == null) return View(new List<User>());
-            
-            var users = await _context.Users
-                .Where(user => user.Name.ToUpper().Contains(inputstring.ToUpper()))
-                  .ToListAsync();
+            if (string.IsNullOrWhiteSpace(inputstring))
+            {
+                return PartialView("_Partialview", new List<User>());
+            }
 
+            var users = _context.Users
+                .Where(user => user.Name.Contains(inputstring))
+                .ToList();
 
-            
-            return View(users);
+            return PartialView("_Partialview", users);
         }
 
 
