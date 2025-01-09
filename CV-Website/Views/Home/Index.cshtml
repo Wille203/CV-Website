@@ -29,7 +29,7 @@
                 if (Context.Session.GetString("UserId") != null)
                 {
                     <li>
-                        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })">
+                        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.Usernumber })">
                             <div id="Cvpreview">
                                 <p>Namn: @cv.User.Name</p>
                                 <p>Epost: @cv.User.Email</p>
@@ -58,7 +58,7 @@
                 } else if (cv.User.Private == false)
                 {
                     <li>
-                        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })">
+                        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.Usernumber })">
                             <div id="Cvpreview">
                                 <p>Namn: @cv.User.Name</p>
                                 <p>Epost: @cv.User.Email</p>

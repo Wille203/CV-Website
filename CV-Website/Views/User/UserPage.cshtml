@@ -21,7 +21,7 @@
 
 	<div id="UP" class="p-f2">
         <h4>Projekt</h4>
-        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Usernumber.ToString())
         {
             <div id="PSettings" class="p-settings">
                 <a href="@Url.Action("ListProject", "Project")">
@@ -55,7 +55,7 @@
         {
             <div class="p-f5">
             <h4>Färdigheter</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Usernumber.ToString())
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -73,7 +73,7 @@
 
             <div class="p-f6">
             <h4>Erfarenhet</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Usernumber.ToString())
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -91,7 +91,7 @@
 
             <div class="p-f7">
             <h4>Utbildning</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Usernumber.ToString())
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -116,10 +116,10 @@
 
 
         @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
-    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Usernumber.ToString())
     {
         <div id="Settings" class="p-f3">
-            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.UserId })">
+            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.Usernumber })">
                 <button>Redigera profil</button>
             </a>
         </div>
@@ -131,7 +131,7 @@
     <h1>@ViewData["Title"]</h1>
 
     <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
-        <input name="Id" type="hidden" value=@Model.User.UserId>
+        <input name="Id" type="hidden" value=@Model.User.Usernumber>
         <div class="form-group">
             <label for="profileImage">Choose Image</label>
             <input type="file" name="profileImage" id="profileImage" class="form-control" accept="image/*" required />

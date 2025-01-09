@@ -148,7 +148,7 @@ namespace CV_Website.Controllers
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int userId = int.Parse(loggedInUserId);
             var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _context.Users.FirstOrDefault(u => u.Usernumber == userId);
 
             if (user != null && project.Users.Contains(user))
             {
@@ -165,10 +165,10 @@ namespace CV_Website.Controllers
             int userId = int.Parse(loggedInUserId);
             var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
             
-            if (!project.Users.Any(u => u.UserId == userId))
+            if (!project.Users.Any(u => u.Usernumber == userId))
             {
                 
-                var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+                var user = _context.Users.FirstOrDefault(u => u.Usernumber == userId);
                 if (user != null)
                 {
                     project.Users.Add(user);
