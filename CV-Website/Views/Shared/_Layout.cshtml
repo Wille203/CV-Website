@@ -48,7 +48,7 @@
                         </li> *@
                     </ul>
                     <div class="d-flex">
-                        @if (Context.Session.GetString("UserId") != null)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <div class="d-flex justify-content-center align-items-center">
                                 <a href="@Url.Action("GoToUserPage", "User", new { userId = Context.Session.GetString("UserId") })" class="user-link">
