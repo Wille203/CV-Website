@@ -22,7 +22,7 @@
                 <i class="fas fa-pencil-alt" title="Redigera projekt"></i>
 
             </a>
-        </div>}
+            </div>}
         @if (Model.Projects != null && Model.Projects.Any())
         {
             <ul>
@@ -48,6 +48,16 @@
         {
             <div class="p-f5">
             <h4>Färdigheter</h4>
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                {
+                    <div id="PSettings" class="p-settings">
+                        <a href="@Url.Action("ListProject", "Project")">
+
+                            <i class="fas fa-pencil-alt" title="Redigera projekt"></i>
+
+                        </a>
+                    </div>
+                }
             @foreach (var skill in Model.Skills)
             {
                 <p>@skill.Name</p>
@@ -56,6 +66,16 @@
 
             <div class="p-f6">
             <h4>Erfarenhet</h4>
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                {
+                    <div id="PSettings" class="p-settings">
+                        <a href="@Url.Action("ListProject", "Project")">
+
+                            <i class="fas fa-pencil-alt" title="Redigera projekt"></i>
+
+                        </a>
+                    </div>
+                }
             @foreach (var experience in Model.Experiences)
             {
                 <p>@experience.Name</p>
@@ -64,6 +84,16 @@
 
             <div class="p-f7">
             <h4>Utbildning</h4>
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                {
+                    <div id="PSettings" class="p-settings">
+                        <a href="@Url.Action("ListProject", "Project")">
+
+                            <i class="fas fa-pencil-alt" title="Redigera projekt"></i>
+
+                        </a>
+                    </div>
+                }
             @foreach (var education in Model.Educations)
             {
                 <p>@education.Name</p>
