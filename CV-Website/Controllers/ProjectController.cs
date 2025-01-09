@@ -45,24 +45,10 @@ namespace CV_Website.Controllers
         public IActionResult CreateProject(Project project)
         {
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int loggedInUserId = int.Parse(userId);
-           // project.Creator = await _userManager.GetUserAsync(loggedInUserId);
-            if (!ModelState.IsValid)
-            {
-                return View(project);
-            }
-            // ej testad kod
-            
-            //project.CreatorId = 2;
-
-            project.CreatorId = loggedInUserId; // denna rad 
-           
             _context.Add(project);
             _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
-            
-            
+             
 
         }
 
