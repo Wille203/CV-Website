@@ -22,18 +22,17 @@ namespace CV_Website.Controllers
 
 
         [HttpGet]
-        public IActionResult GoToUserPage(int userId)
+        public IActionResult GoToUserPage(string userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId); 
+            var user = _context.Users.FirstOrDefault(u => u.Id.ToString() == userId);
             if (user == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
-            
             ViewData["CurrentUser"] = user;
 
-            return View("Userpage", user); 
+            return View("Userpage", user);
         }
 
         public IActionResult Search(string inputstring)
@@ -62,8 +61,7 @@ namespace CV_Website.Controllers
                 return Unauthorized();
             }
 
-            //Primärt för NullReferenceException, vi behöver nog inte denna. 
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId.ToString());
 
             if (user == null)
             {
@@ -81,7 +79,7 @@ namespace CV_Website.Controllers
                 return View(updatedUser); 
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
             if (user != null)
             {
                 user.Name = updatedUser.Name;
@@ -94,7 +92,7 @@ namespace CV_Website.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("GoToUserPage", new { userId = updatedUser.UserId });
+            return RedirectToAction("GoToUserPage", new { userId = updatedUser.Id });
         }
     }
 }

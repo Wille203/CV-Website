@@ -33,10 +33,10 @@
 	</div>
 
         @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
-    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.UserId.ToString())
+    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.Id.ToString())
     {
         <div id="Settings" class="p-f3">
-            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.UserId })">
+            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.Id })">
                 <button>Redigera profil</button>
             </a>
         </div>

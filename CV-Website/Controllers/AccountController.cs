@@ -91,7 +91,7 @@ namespace CV_Website.Controllers
                 }
 
                 // Logga in användaren (här kan du använda session, cookie eller annan metod för autentisering)
-                HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                HttpContext.Session.SetString("UserId", user.Id);
                 HttpContext.Session.SetString("UserName", user.Name);
 
                 return RedirectToAction("Index", "Home");

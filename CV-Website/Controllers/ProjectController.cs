@@ -30,12 +30,10 @@ namespace CV_Website.Controllers
         public IActionResult CreateProject()
         {
             Project project = new Project();
-            
-            return View(project);
 
-          
+            return View(project);
         }
-        //lägg till inlogad användare istllet för hårdkodningen
+
         [HttpPost]
         [Authorize]
         public IActionResult CreateProject(Project project)
@@ -44,42 +42,41 @@ namespace CV_Website.Controllers
             {
                 return View(project);
             }
-            // ej testad kod
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int loggedInUserId = int.Parse(userId);
-            //project.CreatorId = 2;
 
-            project.CreatorId = loggedInUserId; // denna rad 
-           
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            project.CreatorId = userId;
+
             _context.Add(project);
             _context.SaveChanges();
-                return RedirectToAction("Index", "Home");
-            
-            
-
+            return RedirectToAction("Index", "Home");
         }
 
-
-        //auth kolla användare som skapat är den inloggade???
         [HttpGet]
         [Authorize]
         public IActionResult EditProject(int Id)
         {
-
-            
             var project = _context.Project.Find(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int loggedInUserId = int.Parse(userId);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
             if (project == null)
             {
                 return NotFound();
             }
-            if (project.CreatorId != loggedInUserId)
+            if (project.CreatorId != userId)
             {
                 return Forbid();
             }
 
-            return View("EditProject", project); 
+            return View("EditProject", project);
         }
 
         [HttpPost]
@@ -104,77 +101,87 @@ namespace CV_Website.Controllers
             project.Title = updatedProject.Title;
             project.Description = updatedProject.Description;
             project.Information = updatedProject.Information;
-            
 
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
 
-
         public IActionResult ListProject()
         {
             IQueryable<Project> ProjectList = from project in _context.Project select project;
-            
+
             return View(ProjectList.ToList());
         }
+
         // om personen inte är inloggad ska privata profiler tas bort!!
         public IActionResult ProjectPage(int Id)
         {
             var project = _context.Project
-        .Include(p => p.Users) 
-        .Include(p => p.Creator) 
-        .FirstOrDefault(u => u.ProjectId == Id);
-
-            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewData["LoggedInUserId"] = loggedInUserId;
-
-            if (!User.Identity.IsAuthenticated)// ej testad
-            {
-                project.Users = project.Users.Where(u => !u.Private).ToList();
-            }
+                .Include(p => p.Users)
+                .Include(p => p.Creator)
+                .FirstOrDefault(u => u.ProjectId == Id);
 
             if (project == null)
             {
                 return NotFound();
             }
 
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["LoggedInUserId"] = loggedInUserId;
+
+            // om personen inte är inloggad ska privata profiler tas bort!!
+            if (!User.Identity?.IsAuthenticated ?? false)
+            {
+                project.Users = project.Users.Where(u => !u.Private).ToList();
+            }
 
             return View(project);
         }
+
         public IActionResult LeaveProject(int id)
         {
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int userId = int.Parse(loggedInUserId);
-            var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
-
-            if (user != null && project.Users.Contains(user))
+            if (loggedInUserId == null)
             {
-                
+                return Unauthorized();
+            }
+
+            var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
+            var user = _context.Users.FirstOrDefault(u => u.Id == loggedInUserId);
+
+            if (user != null && project?.Users.Contains(user) == true)
+            {
                 project.Users.Remove(user);
                 _context.SaveChanges();
             }
             return RedirectToAction("ProjectPage", new { id = id });
         }
+
         public IActionResult JoinProject(int id)
         {
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int userId = int.Parse(loggedInUserId);
-            var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
-            
-            if (!project.Users.Any(u => u.UserId == userId))
+            if (loggedInUserId == null)
             {
-                
-                var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+                return Unauthorized();
+            }
+
+            var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            if (!project.Users.Any(u => u.Id == loggedInUserId))
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == loggedInUserId);
                 if (user != null)
                 {
                     project.Users.Add(user);
-                    _context.SaveChanges(); 
+                    _context.SaveChanges();
                 }
             }
             return RedirectToAction("ProjectPage", new { id = id });
         }
-
     }
 }

@@ -25,7 +25,7 @@
             @foreach (var cv in Model)
             {
                 <li>
-                    <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })">
+                    <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.Id })">
                         <div id="Cvpreview">
                             <p>Namn: @cv.User.Name</p>
                             <p>Epost: @cv.User.Email</p>

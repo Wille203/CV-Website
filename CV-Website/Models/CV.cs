@@ -6,7 +6,7 @@ namespace CV_Website.Models
     public class CV
     {
         public int CVId { get; set; }
-        public int UserId{ get; set; }
+        public string UserId{ get; set; }
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }

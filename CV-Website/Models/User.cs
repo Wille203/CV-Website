@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CV_Website.Models
 {
-    public class User:IdentityUser
+    public class User : IdentityUser
     {
-        public int UserId { get; set; }
-
         [Required(ErrorMessage = "Ange ditt förnamn")]
         [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Hörru, ditt namn består av bokstäver inget annat")]
         public string Name { get; set; }
@@ -16,7 +14,6 @@ namespace CV_Website.Models
         [StringLength(25, ErrorMessage = "Ditt lösenord får inte vara längre än 25 tecken")]
         [Required(ErrorMessage = "Du kan inte logga in utan ett lösenord")]
         public string Password { get; set; }
-
 
         [StringLength(50, ErrorMessage = "Ange en giltig adress")]
         [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "Bokstäver och siffror är tillåtet, inget annat")]
@@ -31,7 +28,7 @@ namespace CV_Website.Models
         [StringLength(15, ErrorMessage = "Telefonnumret får inte vara längre än 15 tecken.")]
         public string PhoneNumber { get; set; }
 
-        public Boolean Private { get; set; }
+        public bool Private { get; set; }
 
         public virtual ICollection<Project> Project { get; set; } = new List<Project>();
         public virtual ICollection<Message> SentMessages { get; set; } = new List<Message>();

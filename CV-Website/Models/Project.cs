@@ -14,13 +14,14 @@ namespace CV_Website.Models
         [Required(ErrorMessage = "Description is required")]
         [StringLength(500, ErrorMessage = "Description cannot be longer than 500 characters")]
         public string Description { get; set; }
+
         [StringLength(1000, ErrorMessage = "Information cannot be longer than 1000 characters")]
         public string? Information { get; set; }
-        public int CreatorId { get; set; }
+        public string CreatorId { get; set; }
+
         [ForeignKey(nameof(CreatorId))]
         public virtual User Creator { get; set; }
 
         public virtual ICollection<User> Users { get; set; } = new List<User>();
-        
     }
 }

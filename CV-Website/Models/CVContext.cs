@@ -58,12 +58,12 @@ namespace CV_Website.Models
 
 
             modelBuilder.Entity<CV>().HasData(
-                new CV { CVId = 1, UserId = 1 },
-                new CV { CVId = 2, UserId = 2 },
-                new CV { CVId = 3, UserId = 3 },
-                new CV { CVId = 4, UserId = 4 },
-                new CV { CVId = 5, UserId = 5 },
-                new CV { CVId = 6, UserId = 6 }
+                new CV { CVId = 1, UserId = "1" },
+                new CV { CVId = 2, UserId = "2" },
+                new CV { CVId = 3, UserId = "3" },
+                new CV { CVId = 4, UserId = "4" },
+                new CV { CVId = 5, UserId = "5" },
+                new CV { CVId = 6, UserId = "6" }
             );
 
             modelBuilder.Entity<Skills>().HasData(
@@ -114,12 +114,12 @@ namespace CV_Website.Models
             );
 
             modelBuilder.Entity<Project>().HasData(
-                new Project { ProjectId = 1, Title = "Personal Portfolio", Description = "A portfolio website to showcase my projects.", Information = "Demonstrates my skills and previous works.", CreatorId = 1 },
-                new Project { ProjectId = 2, Title = "Task Manager App", Description = "A web application to manage tasks.", Information = "Tracks and manages daily tasks effectively.", CreatorId = 2 },
-                new Project { ProjectId = 3, Title = "E-Commerce Platform", Description = "An online platform for buying and selling products.", Information = "Enables secure online transactions.", CreatorId = 3 },
-                new Project { ProjectId = 4, Title = "AI Assistant", Description = "A chatbot powered by AI.", Information = "Provides personalized assistance to users.", CreatorId = 4 },
-                new Project { ProjectId = 5, Title = "Fitness Tracker", Description = "An app to monitor fitness activities.", Information = "Helps users track their workouts and progress.", CreatorId = 5 },
-                new Project { ProjectId = 6, Title = "Online Learning Platform", Description = "A platform for online courses.", Information = "Offers a variety of courses across domains.", CreatorId = 6 }
+                new Project { ProjectId = 1, Title = "Personal Portfolio", Description = "A portfolio website to showcase my projects.", Information = "Demonstrates my skills and previous works.", CreatorId = "1" },
+                new Project { ProjectId = 2, Title = "Task Manager App", Description = "A web application to manage tasks.", Information = "Tracks and manages daily tasks effectively.", CreatorId = "2" },
+                new Project { ProjectId = 3, Title = "E-Commerce Platform", Description = "An online platform for buying and selling products.", Information = "Enables secure online transactions.", CreatorId = "3" },
+                new Project { ProjectId = 4, Title = "AI Assistant", Description = "A chatbot powered by AI.", Information = "Provides personalized assistance to users.", CreatorId = "4" },
+                new Project { ProjectId = 5, Title = "Fitness Tracker", Description = "An app to monitor fitness activities.", Information = "Helps users track their workouts and progress.", CreatorId = "5" },
+                new Project { ProjectId = 6, Title = "Online Learning Platform", Description = "A platform for online courses.", Information = "Offers a variety of courses across domains.", CreatorId = "6" }
             );
 
             modelBuilder.Entity<CV>()
@@ -163,12 +163,12 @@ namespace CV_Website.Models
                 .HasMany(p => p.Users)
                 .WithMany(u => u.Project)
                 .UsingEntity(j => j.HasData(
-                    new { ProjectId = 1, UsersUserId = 1 },
-                    new { ProjectId = 1, UsersUserId = 2 },
-                    new { ProjectId = 2, UsersUserId = 3 },
-                    new { ProjectId = 3, UsersUserId = 4 },
-                    new { ProjectId = 4, UsersUserId = 5 },
-                    new { ProjectId = 5, UsersUserId = 6 }
+                    new { ProjectId = 1, UsersId = "1" },
+                    new { ProjectId = 1, UsersId = "2" },
+                    new { ProjectId = 2, UsersId = "3" },
+                    new { ProjectId = 3, UsersId = "4" },
+                    new { ProjectId = 4, UsersId = "5" },
+                    new { ProjectId = 5, UsersId = "6" }
                 ));
 
 
