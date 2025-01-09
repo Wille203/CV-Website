@@ -3,7 +3,14 @@
 <div id="UID" class="PersonalPage">
 
 	<div id="Info" class="p-f1">
-	<img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
+        @if (Model.User.img != null)
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(Model.User.img)" alt="Profile Image" />
+        }
+        else
+        {
+            <img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
+        }
 	<p id="N1">@Model.User.Name</p>
     <p>@Model.User.Address</p>
     <h4>Kontaktainformation:</h4>
@@ -117,5 +124,18 @@
             </a>
         </div>
     }
+    @{
+        ViewData["Title"] = "Upload Profile Image";
+    }
 
+    <h1>@ViewData["Title"]</h1>
+
+    <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
+        <input name="Id" type="hidden" value=@Model.User.UserId>
+        <div class="form-group">
+            <label for="profileImage">Choose Image</label>
+            <input type="file" name="profileImage" id="profileImage" class="form-control" accept="image/*" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
 </div>
