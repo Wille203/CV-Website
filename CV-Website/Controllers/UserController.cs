@@ -10,11 +10,11 @@ using System.Linq;
 
 namespace CV_Website.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private CVContext _context;
 
-        public UserController( CVContext context)
+        public UserController( CVContext context) : base(context)
         {
             _context = context;
         }
