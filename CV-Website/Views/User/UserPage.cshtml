@@ -4,23 +4,23 @@
 
 	<div id="Info" class="p-f1">
 	<img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
-	<h3>@Model.Name</h3>
-	<h3>@Model.Email</h3>
-    <h3>@Model.PhoneNumber</h3>
+	<p id="N1">@Model.Name</p>
+    <h4>Kontaktainformation:</h4>
+	<p>@Model.Email</p>
+    <p>@Model.PhoneNumber</p>
 	</div>
 
+
 	<div id="UP" class="p-f2">
-        <h3>Projekt:</h3>
+        <h4>Mina projekt</h4>
         @if (Model.Project != null && Model.Project.Any())
         {
             <ul>
                 @foreach (var project in Model.Project)
                 {
-                    <li>
-                        <h4>@project.Title</h4>
-                        <br />
+                    <li class="pb">
+                        <p id="T">@project.Title</p>
                         <p>@project.Description</p>
-                        <br />
                     </li>
                 }
             </ul>
@@ -40,7 +40,7 @@
                 <button>Redigera profil</button>
             </a>
         </div>
-    }
 
+    }
 
 </div>

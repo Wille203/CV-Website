@@ -3,37 +3,52 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CV_Website</title>
+    <title>@ViewData["Title"] - CV</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CV_Website.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/message.css" asp-append-version="true" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=SUSE:wght@100..800&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CV_Website</a>
+                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CV-Sidan</a> *@
+
+                @* RÖR INTE DENNA BUTTON *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
+                @* HÄR KAN YTTERLIGARE SYMBOLER I HEADERN ATT LÄGGAS TILL *@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 ">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark me-3" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home"></i>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @* <li class="nav-item">
+                            <a class="nav-link text-dark me-3" asp-area="" asp-controller="Home" asp-action="Privacy">
+                            <i class="fas fa-user"></i>
+                            </a>
+                        </li> *@
                     </ul>
                     <div class="d-flex">
                         @if (Context.Session.GetString("UserId") != null)
                         {
                             <div class="d-flex justify-content-center align-items-center">
-                                <span class="navbar-text mx-2">Du är inloggad som: @Context.Session.GetString("UserName")</span>
+                                <a href="@Url.Action("GoToUserPage", "User", new { userId = Context.Session.GetString("UserId") })" class="user-link">
+                             
+                                <span class="navbar-text mx-2"> @Context.Session.GetString("UserName")
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                 </a>
                                 <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-danger">Logga ut</a>
                             </div>
                         }

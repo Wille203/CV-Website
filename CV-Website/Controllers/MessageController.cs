@@ -44,7 +44,7 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult Conversation(int senderId, int receiverId)
         {
-            //var currentUserId = CurrentUserId();
+
             int currentUserId = 1;
             ViewBag.CurrentUserId = currentUserId;
 
@@ -66,11 +66,6 @@ namespace CV_Website.Controllers
             ViewBag.SenderId = senderId;
             return View(conversation);
         }
-
-        //private int CurrentUserId()
-        //{
-        //    return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        //}
 
         public IActionResult SendMessage(Models.Message message)
         {

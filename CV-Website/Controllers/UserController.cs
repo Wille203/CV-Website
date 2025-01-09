@@ -12,12 +12,9 @@ namespace CV_Website.Controllers
     public class UserController : Controller
     {
         private CVContext _context;
-        private CVContext users;
-        public User CurrentUser;
 
-        public UserController(CVContext service, CVContext context)
+        public UserController( CVContext context)
         {
-            users = service;
             _context = context;
         }
 
@@ -58,7 +55,6 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult SettingsUser(int userId)
         {
-            // Sparar ID i den nuvarande sessionen
             var loggedInUserId = HttpContext.Session.GetString("UserId");
 
             if (loggedInUserId == null || loggedInUserId != userId.ToString())
@@ -77,5 +73,28 @@ namespace CV_Website.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public IActionResult SettingsUser(User updatedUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updatedUser); 
+            }
+
+            var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
+            if (user != null)
+            {
+                user.Name = updatedUser.Name;
+                user.Email = updatedUser.Email;
+                user.Address = updatedUser.Address;
+                user.Private = updatedUser.Private;
+                user.PhoneNumber = updatedUser.PhoneNumber;
+                user.Password = updatedUser.Password;
+                _context.Users.Update(user);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("GoToUserPage", new { userId = updatedUser.UserId });
+        }
     }
 }

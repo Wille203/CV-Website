@@ -1,15 +1,20 @@
 ﻿@model CV_Website.Models.User
 
 
-<form asp-action="Update" method="post">
+<form asp-action="SettingsUser" method="post">
+    
 <div id="VU" class="profil">
-        <h2>Inställningar</h2>
+        <h2>Dina uppgifter</h2>
 
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="Password" />
+
+        <div class="profile-field6">
+          <div class="form-group col-md-6">
+              <label for="Name">Namn</label>
              <input asp-for="Name" class="form-control" id="inputName4" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+          </div>
         </div>
 
         <br />
@@ -17,6 +22,7 @@
         <div class="profile-field3">
 
             <div class="form-group col-md-6">
+                <label for="Email">E-post</label>
             <input asp-for="Email" class="form-control" id="inputEmail4" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
@@ -24,15 +30,37 @@
         </div>
         <br />
 
+        <div class="profile-field5">
+            <div class="form-group col-md-6">
+                <label for="PhoneNumber">Telefonnummer</label>
+                <input asp-for="PhoneNumber" class="form-control" id="inputPhone" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
     <div class="profile-field2">
             <div class="form-group col-md-6">
+                <label for="Address">Adress</label>
                 <input asp-for="Address" class="form-control" id="inputAddress" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
     </div>
 
         <br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Password">Lösenord</label>
+                <input type="password" id="Password" name="Password" class="form-control" />
+            </div>
 
+            <div class="form-group col-md-6">
+                <label for="ConfirmPassword">Bekräfta Lösenord</label>
+                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" />
+            </div>
+        </div>
+
+        <br />
 
     <div class="profile-field4">
         <label>Sätt din profil till privat</label>
@@ -41,7 +69,7 @@
     </div>
 
         <br />
+
 </div>
     <button type="submit">Spara</button>
 </form>
-
