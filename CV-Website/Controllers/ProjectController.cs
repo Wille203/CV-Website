@@ -16,7 +16,7 @@ namespace CV_Website.Controllers
     public class ProjectController : BaseController
     {
         private CVContext _context;
-        private object _userManager;
+        private readonly UserManager<User> _userManager;
 
         public ProjectController(CVContext context, UserManager<User> userManager) : base(context)
         {
@@ -44,14 +44,16 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult CreateProject(Project project)
         {
-            
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int loggedInUserId = int.Parse(userId);
+           // project.Creator = await _userManager.GetUserAsync(loggedInUserId);
             if (!ModelState.IsValid)
             {
                 return View(project);
             }
             // ej testad kod
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int loggedInUserId = int.Parse(userId);
+            
             //project.CreatorId = 2;
 
             project.CreatorId = loggedInUserId; // denna rad 
