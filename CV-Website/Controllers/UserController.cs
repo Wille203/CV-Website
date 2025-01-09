@@ -152,5 +152,6 @@ namespace CV_Website.Controllers
 
             return RedirectToAction("GoToUserPage", new { userId = id });
         }
+
     }
 }
