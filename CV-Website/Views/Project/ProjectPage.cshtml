@@ -67,6 +67,11 @@
                             {
                                 <td><a asp-controller="Project" asp-action="LeaveProject" asp-route-id="@Model.ProjectId">Lämna</a></td>
                             }
+                        @if (Model.Creator.ToString() == loggedInUserId)
+                        {
+                            <td><a asp-controller="Project" asp-action="DeleteProject" asp-route-id="@Model.ProjectId">Radera projekt</a></td>
+                            <td><a asp-controller="Project" asp-action="EditProject" asp-route-id="@Model.ProjectId">Redigera projekt</a></td>
+                        }
                     }
 
                  
