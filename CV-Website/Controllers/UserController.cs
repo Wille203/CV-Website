@@ -1,4 +1,5 @@
 ﻿using CV_Website.Models;
+using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,10 +31,28 @@ namespace CV_Website.Controllers
                 return NotFound(); 
             }
 
-            
-            ViewData["CurrentUser"] = user;
+            var projects = _context.Project
+          .Where(p => p.Users.Any(u => u.UserId == userId))
+          .ToList();
 
-            return View("Userpage", user); 
+            //Hämtar all data samtidigt, istället för att hämta en sak åt gången
+            var userCV = _context.CVs
+                .Include(cv => cv.Skills)
+                .Include(cv => cv.Experience)
+                .Include(cv => cv.Education)
+                .FirstOrDefault(cv => cv.UserId == userId);
+
+            var viewModel = new UserPageViewModel
+            {
+                User = user,
+                Projects = projects,
+                UserCV = userCV,
+                Skills = userCV?.Skills?.ToList(),
+                Experiences = userCV?.Experience?.ToList(),
+                Educations = userCV?.Education?.ToList()
+            };
+
+            return View("UserPage", viewModel);
         }
 
         public IActionResult Search(string inputstring)

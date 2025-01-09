@@ -6,5 +6,6 @@ namespace CV_Website.ViewModels
     {
         public List<Project> Allprojects { get; set; }
         public List<CV> Allcv { get; set; }
+
     }
 }

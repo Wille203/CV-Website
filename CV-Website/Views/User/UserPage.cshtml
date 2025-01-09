@@ -1,22 +1,22 @@
-﻿@model CV_Website.Models.User
+﻿@model CV_Website.ViewModels.UserPageViewModel
 
 <div id="UID" class="PersonalPage">
 
 	<div id="Info" class="p-f1">
 	<img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
-	<p id="N1">@Model.Name</p>
+	<p id="N1">@Model.User.Name</p>
     <h4>Kontaktainformation:</h4>
-	<p>@Model.Email</p>
-    <p>@Model.PhoneNumber</p>
+	<p>@Model.User.Email</p>
+    <p>@Model.User.PhoneNumber</p>
 	</div>
 
 
 	<div id="UP" class="p-f2">
         <h4>Mina projekt</h4>
-        @if (Model.Project != null && Model.Project.Any())
+        @if (Model.Projects != null && Model.Projects.Any())
         {
             <ul>
-                @foreach (var project in Model.Project)
+                @foreach (var project in Model.Projects)
                 {
                     <li class="pb">
                         <p id="T">@project.Title</p>
@@ -32,11 +32,38 @@
 
 	</div>
 
+    <h2>CV</h2>
+    @if (Model.UserCV != null)
+    {
+        <h3>Skills</h3>
+        @foreach (var skill in Model.Skills)
+        {
+            <p>@skill.Name</p>
+        }
+
+        <h3>Experiences</h3>
+        @foreach (var experience in Model.Experiences)
+        {
+            <p>@experience.Name</p>
+        }
+
+        <h3>Educations</h3>
+        @foreach (var education in Model.Educations)
+        {
+            <p>@education.Name</p>
+        }
+    }
+    else
+    {
+        <p>No CV available.</p>
+    }
+
+
         @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
-    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.UserId.ToString())
+    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
     {
         <div id="Settings" class="p-f3">
-            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.UserId })">
+            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.UserId })">
                 <button>Redigera profil</button>
             </a>
         </div>
