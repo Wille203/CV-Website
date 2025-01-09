@@ -1,4 +1,5 @@
 ﻿using CV_Website.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Signing;
@@ -17,6 +18,7 @@ namespace CV_Website.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult Overview()
         {
             //MÅSTE BYTA UT TILL RIKTIGT ID
@@ -46,6 +48,7 @@ namespace CV_Website.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult Conversation(int senderId, int receiverId)
         {
             //MÅSTE BYTA UT TILL RIKTIGT ID
