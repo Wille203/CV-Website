@@ -72,13 +72,21 @@
     transition: background-color 0.3s;
 }
 
-.circleRead {
+.circleRead, .unreadCounter {
     background-color: #1f80e0;
     color: white;
     border-radius: 50%;
-    width: 24px;
-    height: 24px;
     text-align: center;
 }
 
+.circleRead {
+    width: 24px;
+    height: 24px;
+}
+
+.unreadCounter {
+    width: 16px;
+    height: 16px;
+    font-size: 11px;
+}
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Conversation";
 }
 
-<h1>Conversation between @ViewBag.SenderName and @ViewBag.ReceiverName</h1>
+<h1>Meddelande med @ViewBag.OtherUserName</h1>
 
 <div class="conversation">
     <table class="messages">
@@ -35,19 +35,17 @@
                         }
                     </td>
                 </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
             }
         </tbody>
     </table>
 
     <form asp-action="SendMessage" method="post" class="message-form">
-        <input type="hidden" name="SenderId" value="@ViewBag.SenderId" />
-        <input type="hidden" name="ReceiverId" value="@ViewBag.ReceiverId" />
+        <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
+        <input type="hidden" name="ReceiverId" value="@ViewBag.OtherUserId" />
+        @if (ViewBag.LatestMessageSenderId != ViewBag.CurrentUserId){
+            <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
+        }
         <textarea name="MessageText" rows="2" class="message-textarea" placeholder="Skriv ditt meddelande..."></textarea>
         <button type="submit" class="btn btn-primary">Skicka</button>
     </form>
 </div>
-
-

@@ -6,11 +6,11 @@ using NuGet.Protocol.Plugins;
 
 namespace CV_Website.Controllers
 {
-    public class MessageController : Controller
+    public class MessageController : BaseController
     {
         private CVContext _context;
 
-        public MessageController(CVContext context)
+        public MessageController(CVContext context) : base(context)
         {
             _context = context;
         }
@@ -19,9 +19,13 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult Overview()
         {
+            //MÅSTE BYTA UT TILL RIKTIGT ID
             int currentUserId = 1;
+            ViewBag.CurrentUserId = currentUserId;
 
             var messages = _context.Messages
+                .Include(m => m.Sender)
+                .Include(m => m.Receiver)
                 .Where(m => m.SenderId == currentUserId || m.ReceiverId == currentUserId)
                 .GroupBy(m => new
                 {
@@ -44,8 +48,8 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult Conversation(int senderId, int receiverId)
         {
-
-            int currentUserId = 1;
+            //MÅSTE BYTA UT TILL RIKTIGT ID
+            int currentUserId = 1; 
             ViewBag.CurrentUserId = currentUserId;
 
             if (currentUserId != senderId && currentUserId != receiverId)
@@ -58,12 +62,17 @@ namespace CV_Website.Controllers
                 .OrderBy(m => m.MessageId)
                 .ToList();
 
-            var sender = _context.Users.Find(senderId);
-            var receiver = _context.Users.Find(receiverId);
-            ViewBag.SenderName = sender.Name;
-            ViewBag.ReceiverName = receiver.Name;
-            ViewBag.ReceiverId = receiverId;
-            ViewBag.SenderId = senderId;
+            var latestMessage = conversation.LastOrDefault();
+            int? latestMessageSenderId = latestMessage?.SenderId;
+
+            var otherUserId = currentUserId == senderId ? receiverId : senderId;
+            var otherUser = _context.Users.Find(otherUserId);
+            var currentUser = _context.Users.Find(currentUserId);
+            ViewBag.OtherUserName = otherUser.Name;
+            ViewBag.OtherUserId = otherUserId;
+            ViewBag.CurrentUserName = currentUser.Name;
+            ViewBag.LatestMessageSenderId = latestMessageSenderId;
+
             return View(conversation);
         }
 
