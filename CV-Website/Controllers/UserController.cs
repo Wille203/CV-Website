@@ -129,7 +129,7 @@ namespace CV_Website.Controllers
 
             return RedirectToAction("GoToUserPage", new { userId = updatedUser.Id });
         }
-       */
+       */ //Bort kommenterad för användningen av .password måste ändras till nya Passwordhash och hur den nu funkar
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)
