@@ -26,33 +26,66 @@
         <ul id="Cvlink" style="overflow-y:scroll; overflow-x:hidden; height:400px;">
             @foreach (var cv in Model.Allcv)
             {
-                <li>
-                    <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })" >
-                        <div id="Cvpreview">
-                            <p>Namn: @cv.User.Name</p>
-                            <p>Epost: @cv.User.Email</p>
-                            
-                            @if (cv.Experience != null && cv.Experience.Any())
-                            {
-                                <hr />
-                                <p>Erfarenheter:</p>
-                                @foreach (var erfarenhet in cv.Experience)
+                if (Context.Session.GetString("UserId") != null)
+                {
+                    <li>
+                        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })">
+                            <div id="Cvpreview">
+                                <p>Namn: @cv.User.Name</p>
+                                <p>Epost: @cv.User.Email</p>
+
+                                @if (cv.Experience != null && cv.Experience.Any())
                                 {
-                                    <p>@erfarenhet.Name</p>
+                                    <hr />
+                                    <p>Erfarenheter:</p>
+                                    @foreach (var erfarenhet in cv.Experience)
+                                    {
+                                        <p>@erfarenhet.Name</p>
+                                    }
                                 }
-                            }
-                            @if (cv.Skills != null && cv.Skills.Any())
-                            {
-                                <hr />
-                                <p>Färdigheter:</p>
-                                @foreach (var fardigheter in cv.Skills)
+                                @if (cv.Skills != null && cv.Skills.Any())
                                 {
-                                    <p>@fardigheter.Name</p>
+                                    <hr />
+                                    <p>Färdigheter:</p>
+                                    @foreach (var fardigheter in cv.Skills)
+                                    {
+                                        <p>@fardigheter.Name</p>
+                                    }
                                 }
-                            }
-                        </div>
-                    </a>
-                </li>
+                            </div>
+                        </a>
+                    </li>
+                } else if (cv.User.Private == false)
+                {
+                    <li>
+                        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })">
+                            <div id="Cvpreview">
+                                <p>Namn: @cv.User.Name</p>
+                                <p>Epost: @cv.User.Email</p>
+
+                                @if (cv.Experience != null && cv.Experience.Any())
+                                {
+                                    <hr />
+                                    <p>Erfarenheter:</p>
+                                    @foreach (var erfarenhet in cv.Experience)
+                                    {
+                                        <p>@erfarenhet.Name</p>
+                                    }
+                                }
+                                @if (cv.Skills != null && cv.Skills.Any())
+                                {
+                                    <hr />
+                                    <p>Färdigheter:</p>
+                                    @foreach (var fardigheter in cv.Skills)
+                                    {
+                                        <p>@fardigheter.Name</p>
+                                    }
+                                }
+                            </div>
+                        </a>
+                    </li>
+                }
+
             }
         </ul>
             
