@@ -12,7 +12,7 @@
 
 
 	<div id="UP" class="p-f2">
-        <h4>Mina projekt</h4>
+        <h4>Projekt</h4>
         @if (Model.Projects != null && Model.Projects.Any())
         {
             <ul>
@@ -32,31 +32,39 @@
 
 	</div>
 
-    <h2>CV</h2>
-    @if (Model.UserCV != null)
-    {
-        <h3>Skills</h3>
-        @foreach (var skill in Model.Skills)
+       <div id="UCV" class="p-f4">
+        @if (Model.UserCV != null)
         {
-            <p>@skill.Name</p>
-        }
+            <div class="p-f5">
+            <h4>Färdigheter</h4>
+            @foreach (var skill in Model.Skills)
+            {
+                <p>@skill.Name</p>
+            }
+            </div>
 
-        <h3>Experiences</h3>
-        @foreach (var experience in Model.Experiences)
-        {
-            <p>@experience.Name</p>
-        }
+            <div class="p-f6">
+            <h4>Erfarenhet</h4>
+            @foreach (var experience in Model.Experiences)
+            {
+                <p>@experience.Name</p>
+            }
+            </div>
 
-        <h3>Educations</h3>
-        @foreach (var education in Model.Educations)
-        {
-            <p>@education.Name</p>
+            <div class="p-f7">
+            <h4>Utbildning</h4>
+            @foreach (var education in Model.Educations)
+            {
+                <p>@education.Name</p>
+            }
+            </div>
+        
         }
-    }
-    else
-    {
-        <p>No CV available.</p>
-    }
+        else
+        {
+            <h4>Skapa ditt CV nu!</h4>
+        }
+        </div>
 
 
         @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
