@@ -25,14 +25,14 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Usernumber == userId); 
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId); 
             if (user == null)
             {
                 return NotFound(); 
             }
 
             var projects = _context.Project
-          .Where(p => p.Users.Any(u => u.Usernumber == userId))
+          .Where(p => p.Users.Any(u => u.Id == userId))
           .ToList();
 
             //Hämtar all data samtidigt, istället för att hämta en sak åt gången
@@ -82,7 +82,7 @@ namespace CV_Website.Controllers
             }
 
             //Primärt för NullReferenceException, vi behöver nog inte denna. 
-            var user = _context.Users.FirstOrDefault(u => u.Usernumber == userId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
 
             if (user == null)
             {
@@ -92,7 +92,7 @@ namespace CV_Website.Controllers
             return View(user);
         }
 
-        [HttpPost]
+       /* [HttpPost]
         public IActionResult SettingsUser(User updatedUser)
         {
             if (!ModelState.IsValid)
@@ -108,12 +108,12 @@ namespace CV_Website.Controllers
                 return View(updatedUser); 
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Usernumber == updatedUser.Usernumber);
+            var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
             if (user != null)
     
             {
                 user.Name = updatedUser.Name;
-                user.Email = updatedUser.Email;
+                user.UserName = updatedUser.UserName;
                 user.Address = updatedUser.Address;
                 user.Private = updatedUser.Private;
                 user.PhoneNumber = updatedUser.PhoneNumber;
@@ -127,9 +127,9 @@ namespace CV_Website.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("GoToUserPage", new { userId = updatedUser.Usernumber });
+            return RedirectToAction("GoToUserPage", new { userId = updatedUser.Id });
         }
-
+       */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)

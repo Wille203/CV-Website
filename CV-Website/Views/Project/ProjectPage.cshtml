@@ -25,7 +25,7 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Skapare</h5>
-                    <a href="@Url.Action("GoToUserPage", "User", new { userId = Model.Creator.Usernumber })">
+                    <a href="@Url.Action("GoToUserPage", "User", new { userId = Model.Creator.Id })">
                         <strong>@Model.Creator.Name</strong>
                     </a>
 
@@ -42,7 +42,7 @@
                             @foreach (var user in Model.Users)
                             {
                                 
-                                <a href="@Url.Action("GoToUserPage", "User", new { userId = user.Usernumber })">
+                                <a href="@Url.Action("GoToUserPage", "User", new { userId = user.Id })">
                                     @user.Name
                                 </a>
                             }
@@ -56,7 +56,7 @@
                     {
 
                         string loggedInUserId = ViewData["LoggedInUserId"]?.ToString();
-                        bool isUserInProject = Model.Users.Any(u => u.Usernumber.ToString() == loggedInUserId);
+                        bool isUserInProject = Model.Users.Any(u => u.Id.ToString() == loggedInUserId);
 
                             @if (isUserInProject)
                             {
