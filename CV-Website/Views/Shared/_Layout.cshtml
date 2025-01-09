@@ -30,7 +30,15 @@
                     <ul class="navbar-nav flex-grow-1 ">
                         <li class="nav-item">
                             <a class="nav-link text-dark me-3" asp-area="" asp-controller="Home" asp-action="Index">
-                            <i class="fas fa-home"></i>
+                                <i class="fas fa-home"></i>
+                            </a>
+						</li>
+                        <li class="nav-item ms-auto" id="messageButton">
+                            <a class="nav-link text-dark me-3" asp-area="" asp-controller="Message" asp-action="Overview">
+
+                                    <i class="fa-solid fa-envelope"></i>
+                                <div class="unreadCounter">@ViewData["TotalUnreadMessages"]</div>
+
                             </a>
                         </li>
                         @* <li class="nav-item">

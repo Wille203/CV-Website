@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "Overview";
+    int currentUserId = ViewBag.CurrentUserId;
 }
 
 <h1>Meddelanden</h1>
-
 
 <table class="table">
     <thead>
@@ -19,14 +19,24 @@
         @foreach (var item in Model)
         {
             <tr class="clickForConversation" onclick="document.getElementById('form-@item.LatestMessage.MessageId').submit();">
-                <td>@item.LatestMessage.SenderName</td>
+                <td>
+                    @if (item.LatestMessage.SenderId == currentUserId)
+                    {
+                        @item.LatestMessage.Receiver.Name
+                    }
+                    else
+                    {
+                        @item.LatestMessage.Sender.Name
+                    }
+                </td>
                 <td>@item.LatestMessage.MessageText</td>
                 <td>
-                    @if (item.UnreadMessages > 0){
+                    @if (item.UnreadMessages > 0)
+                    {
                         <div class="circleRead">
                             @item.UnreadMessages
-					    </div>
-                        }
+                        </div>
+                    }
                 </td>
                 <td>
                     <form id="form-@item.LatestMessage.MessageId" action="@Url.Action("Conversation", "Message")" method="get" style="display:none;">
@@ -35,7 +45,6 @@
                     </form>
                 </td>
             </tr>
-
         }
     </tbody>
 </table>

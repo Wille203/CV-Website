@@ -12,11 +12,11 @@ using Project = CV_Website.Models.Project;
 
 namespace CV_Website.Controllers
 {
-    public class ProjectController : Controller
+    public class ProjectController : BaseController
     {
         private CVContext _context;
 
-        public ProjectController(CVContext context)
+        public ProjectController(CVContext context) : base(context)
         {
             _context = context;
         }

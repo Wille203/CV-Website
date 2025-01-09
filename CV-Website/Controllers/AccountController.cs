@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CV_Website.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly CVContext _context;
 
-        public AccountController(CVContext context)
+        public AccountController(CVContext context) : base(context)
         {
             _context = context;
         }

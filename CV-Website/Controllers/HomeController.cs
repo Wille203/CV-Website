@@ -6,12 +6,12 @@ using System.Diagnostics;
 
 namespace CV_Website.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CVContext _context;
 
-        public HomeController(ILogger<HomeController> logger, CVContext context)
+        public HomeController(ILogger<HomeController> logger, CVContext context) : base(context)
         {
             _logger = logger;
             _context = context;
