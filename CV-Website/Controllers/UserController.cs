@@ -115,5 +115,30 @@ namespace CV_Website.Controllers
 
             return RedirectToAction("GoToUserPage", new { userId = updatedUser.UserId });
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)
+        {
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (profileImage != null && profileImage.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await profileImage.CopyToAsync(memoryStream);
+                    user.img = memoryStream.ToArray(); 
+                }
+
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("GoToUserPage", new { userId = id });
+        }
     }
 }

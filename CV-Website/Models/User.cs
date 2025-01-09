@@ -29,7 +29,7 @@ namespace CV_Website.Models
         [RegularExpression(@"^\+?[0-9]{7,15}$", ErrorMessage = "Ange ett giltigt telefonnummer (7–15 siffror, valfritt + i början).")]
         [StringLength(15, ErrorMessage = "Telefonnumret får inte vara längre än 15 tecken.")]
         public string PhoneNumber { get; set; }
-
+        public byte[]? img { get; set; }
         public Boolean Private { get; set; }
 
         public virtual ICollection<Project> Project { get; set; } = new List<Project>();
