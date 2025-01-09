@@ -175,6 +175,20 @@ namespace CV_Website.Controllers
             }
             return RedirectToAction("ProjectPage", new { id = id });
         }
+        
+        public IActionResult DeleteProject(int id)
+        {
+            var project = _context.Project
+            .Include(p => p.Users)
+            .FirstOrDefault(p => p.ProjectId == id);
 
+            if (project != null)
+            {
+                _context.Project.Remove(project);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Project", "ListProject");
+        }
     }
 }
