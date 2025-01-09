@@ -16,8 +16,11 @@ namespace CV_Website.Models
         [Required(ErrorMessage = "Du kan inte logga in utan ett lösenord")]
         public string Password { get; set; }
 
+        [NotMapped]
+        public string ConfirmPassword { get; set; }
+    
 
-        [StringLength(50, ErrorMessage = "Ange en giltig adress")]
+    [StringLength(50, ErrorMessage = "Ange en giltig adress")]
         [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "Bokstäver och siffror är tillåtet, inget annat")]
         public string Address { get; set; }
 

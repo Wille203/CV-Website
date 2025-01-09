@@ -100,21 +100,36 @@ namespace CV_Website.Controllers
                 return View(updatedUser); 
             }
 
+            //Kontrollerar att användaren har fyllt i lösenordsfältet
+            if (!string.IsNullOrEmpty(updatedUser.Password) && updatedUser.Password != updatedUser.ConfirmPassword)
+            {
+                //Egen validering med felmedellande
+                ModelState.AddModelError("ConfirmPassword", "Lösenorden matchar inte.");
+                return View(updatedUser); 
+            }
+
             var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
             if (user != null)
+    
             {
                 user.Name = updatedUser.Name;
                 user.Email = updatedUser.Email;
                 user.Address = updatedUser.Address;
                 user.Private = updatedUser.Private;
                 user.PhoneNumber = updatedUser.PhoneNumber;
-                user.Password = updatedUser.Password;
+
+                if (!string.IsNullOrEmpty(updatedUser.Password))
+                {
+                    user.Password = updatedUser.Password;
+                }
+
                 _context.Users.Update(user);
                 _context.SaveChanges();
             }
 
             return RedirectToAction("GoToUserPage", new { userId = updatedUser.UserId });
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)
