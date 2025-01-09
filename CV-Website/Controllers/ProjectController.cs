@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using CV_Website.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Evaluation;
@@ -15,10 +16,12 @@ namespace CV_Website.Controllers
     public class ProjectController : BaseController
     {
         private CVContext _context;
+        private object _userManager;
 
-        public ProjectController(CVContext context) : base(context)
+        public ProjectController(CVContext context, UserManager<User> userManager) : base(context)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -30,7 +33,8 @@ namespace CV_Website.Controllers
         public IActionResult CreateProject()
         {
             Project project = new Project();
-            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["CreatorId"] = userId;
             return View(project);
 
           
@@ -40,6 +44,7 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult CreateProject(Project project)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View(project);
