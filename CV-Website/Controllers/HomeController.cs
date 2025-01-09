@@ -1,5 +1,7 @@
 using CV_Website.Models;
+using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace CV_Website.Controllers
@@ -17,14 +19,24 @@ namespace CV_Website.Controllers
 
         public IActionResult Index()
         {
+
             var CVList = _context.CVs.ToList();
+            var ProjList = _context.Project.ToList();
+
+            ProjecthomeViewModel ProjecthomeViewModel = new ProjecthomeViewModel()
+            {
+                Allprojects = ProjList,
+                Allcv = CVList
+            };
+
+           
 
             if (CVList == null || !CVList.Any())
             {
                 ViewBag.Message = "No CVs found.";
             }
 
-            return View(CVList); 
+            return View(ProjecthomeViewModel); 
         }
 
         

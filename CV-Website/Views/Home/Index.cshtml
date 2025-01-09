@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<CV>
+@model CV_Website.ViewModels.ProjecthomeViewModel
 
 
 @{
@@ -8,24 +8,26 @@
 
 <div class="text-center">
 
-    <input id="q" asp-controller="User" asp-action="Search" method="get" autocomplete="off" name="inputstring" placeholder="Användar namn" style="width:275px;" oninput="search(this.value)" />
+    <input id="q" asp-controller="User" asp-action="Search" method="get" autocomplete="off" name="inputstring" placeholder="Användarnamn" style="width:275px;" oninput="search(this.value)" />
         
     <div id="userlist">
        
     </div>
     
-    @if (!Model.Any())
+    @if (!Model.Allcv.Any())
     {
         <p>Finns inge CVn</p>
     }
     else
     {
-
-        <ul id="Cvlink">
-            @foreach (var cv in Model)
+        <label>
+            CV
+        </label>
+        <ul id="Cvlink" style="overflow-y:scroll; overflow-x:hidden; height:400px;">
+            @foreach (var cv in Model.Allcv)
             {
                 <li>
-                    <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })">
+                    <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.UserId })" >
                         <div id="Cvpreview">
                             <p>Namn: @cv.User.Name</p>
                             <p>Epost: @cv.User.Email</p>
@@ -56,7 +58,39 @@
             
         
     }
+    
 </div>
+
+<hr />
+
+<table class="table table-striped table-bordered table-hover" >
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Mer Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            List<Project> addedproj = new List<Project>();
+            var projsorted = Model.Allprojects.OrderByDescending(s => s.ProjectId);
+                                
+        }
+
+        
+        @foreach (var proj in projsorted)
+        {
+            <tr>
+                <td>@proj.Title</td>
+                <td>@proj.Description</td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-controller="Project" asp-action="ProjectPage" asp-route-id="@proj.ProjectId">More Info</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <script>
 
