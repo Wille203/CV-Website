@@ -17,7 +17,7 @@ namespace CV_Website.Models
         [ValidateNever]
         public virtual User Sender { get; set; }
 
-        public int ReceiverId { get; set; }
+        public string ReceiverId { get; set; }
 
         [ForeignKey(nameof(ReceiverId))]
         [ValidateNever]

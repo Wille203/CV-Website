@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.SqlServer.Server;
+using Microsoft.AspNetCore.Identity;
 
 namespace CV_Website.Models
 {
-    public class User
+    public class User:IdentityUser
     {
         public int UserId { get; set; }
 
