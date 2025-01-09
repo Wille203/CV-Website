@@ -142,6 +142,7 @@ namespace CV_Website.Controllers
 
             return View(project);
         }
+        [Authorize]
         public IActionResult LeaveProject(int id)
         {
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -157,6 +158,7 @@ namespace CV_Website.Controllers
             }
             return RedirectToAction("ProjectPage", new { id = id });
         }
+        [Authorize]
         public IActionResult JoinProject(int id)
         {
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -175,7 +177,7 @@ namespace CV_Website.Controllers
             }
             return RedirectToAction("ProjectPage", new { id = id });
         }
-        
+        [Authorize]
         public IActionResult DeleteProject(int id)
         {
             var project = _context.Project
