@@ -1,9 +1,10 @@
 ﻿using CV_Website.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CV_Website.Models
 {
-    public class CVContext : DbContext
+    public class CVContext : IdentityDbContext<User>
     {
         public CVContext(DbContextOptions<CVContext> options) : base(options)
         {
@@ -47,12 +48,12 @@ namespace CV_Website.Models
 
 
             modelBuilder.Entity<User>().HasData(
-                new User { UserId = 1, Name = "Alice", Password = "password123", Address = "Drottninggatan 10", Email = "alice@example.com", Private = false, PhoneNumber = "+46701234567" },
-                new User { UserId = 2, Name = "Bob", Password = "securepassword", Address = "Storgatan 5", Email = "bob@example.com", Private = true, PhoneNumber = "0701234567" },
-                new User { UserId = 3, Name = "Charlie", Password = "charlie123", Address = "Kungsgatan 18", Email = "charlie@example.com", Private = false, PhoneNumber = "+46761234567" },
-                new User { UserId = 4, Name = "Dave", Password = "dave456", Address = "Östra Långgatan 22", Email = "dave@example.com", Private = false, PhoneNumber = "0761234567" },
-                new User { UserId = 5, Name = "Eve", Password = "eve789", Address = "Västra Vallgatan 4", Email = "eve@example.com", Private = true, PhoneNumber = "+46731234567" },
-                new User { UserId = 6, Name = "Frank", Password = "frank101", Address = "Kyrkogatan 8", Email = "frank@example.com", Private = false, PhoneNumber = "0731234567" }
+                new User { Id = "1", Name = "Alice", Password = "password123", Address = "Drottninggatan 10", Email = "alice@example.com", Private = false, PhoneNumber = "+46701234567" },
+                new User { Id = "2", Name = "Bob", Password = "securepassword", Address = "Storgatan 5", Email = "bob@example.com", Private = true, PhoneNumber = "0701234567" },
+                new User { Id = "3", Name = "Charlie", Password = "charlie123", Address = "Kungsgatan 18", Email = "charlie@example.com", Private = false, PhoneNumber = "+46761234567" },
+                new User { Id = "4", Name = "Dave", Password = "dave456", Address = "Östra Långgatan 22", Email = "dave@example.com", Private = false, PhoneNumber = "0761234567" },
+                new User { Id = "5", Name = "Eve", Password = "eve789", Address = "Västra Vallgatan 4", Email = "eve@example.com", Private = true, PhoneNumber = "+46731234567" },
+                new User { Id = "6", Name = "Frank", Password = "frank101", Address = "Kyrkogatan 8", Email = "frank@example.com", Private = false, PhoneNumber = "0731234567" }
             );
 
 
@@ -98,18 +99,18 @@ namespace CV_Website.Models
             );
 
             modelBuilder.Entity<Message>().HasData(
-                new Message { MessageId = 1, SenderId = 1, SenderName = "Alice", ReceiverId = 2, MessageText = "Hello Bob, how are you?", Read = false },
-                new Message { MessageId = 2, SenderId = 2, SenderName = "Bob", ReceiverId = 1, MessageText = "Hi Alice! I'm good, thank you!", Read = true },
-                new Message { MessageId = 3, SenderId = 1, SenderName = "Alice", ReceiverId = 3, MessageText = "Hello Charlie, nice to meet you!", Read = false },
-                new Message { MessageId = 4, SenderId = 3, SenderName = "Charlie", ReceiverId = 1, MessageText = "Hi Alice, great to connect!", Read = false },
-                new Message { MessageId = 5, SenderId = 2, SenderName = "Bob", ReceiverId = 3, MessageText = "Hey Charlie, are you available for a call?", Read = true },
-                new Message { MessageId = 6, SenderId = 3, SenderName = "Charlie", ReceiverId = 2, MessageText = "Hi Bob, yes I am available. Let's talk!", Read = false },
-                new Message { MessageId = 7, SenderId = 4, SenderName = "Dave", ReceiverId = 5, MessageText = "Eve, I need your help with the project.", Read = false },
-                new Message { MessageId = 8, SenderId = 5, SenderName = "Eve", ReceiverId = 4, MessageText = "Sure Dave, let me know the details.", Read = true },
-                new Message { MessageId = 9, SenderId = 6, SenderName = "Frank", ReceiverId = 1, MessageText = "Alice, your portfolio is impressive!", Read = false },
-                new Message { MessageId = 10, SenderId = 1, SenderName = "Alice", ReceiverId = 4, MessageText = "Dave, what do you think about the design?", Read = true },
-                new Message { MessageId = 11, SenderId = 4, SenderName = "Dave", ReceiverId = 1, MessageText = "Alice, I love it! Great job.", Read = false },
-                new Message { MessageId = 12, SenderId = 3, SenderName = "Charlie", ReceiverId = 5, MessageText = "Eve, can you send me the updated files?", Read = false }
+                new Message { MessageId = 1, SenderId = "1", SenderName = "Alice", ReceiverId = "2", MessageText = "Hello Bob, how are you?", Read = false },
+                new Message { MessageId = 2, SenderId = "2", SenderName = "Bob", ReceiverId = "1", MessageText = "Hi Alice! I'm good, thank you!", Read = true },
+                new Message { MessageId = 3, SenderId = "1", SenderName = "Alice", ReceiverId = "3", MessageText = "Hello Charlie, nice to meet you!", Read = false },
+                new Message { MessageId = 4, SenderId = "3", SenderName = "Charlie", ReceiverId = "1", MessageText = "Hi Alice, great to connect!", Read = false },
+                new Message { MessageId = 5, SenderId = "2", SenderName = "Bob", ReceiverId = "3", MessageText = "Hey Charlie, are you available for a call?", Read = true },
+                new Message { MessageId = 6, SenderId = "3", SenderName = "Charlie", ReceiverId = "2", MessageText = "Hi Bob, yes I am available. Let's talk!", Read = false },
+                new Message { MessageId = 7, SenderId = "4", SenderName = "Dave", ReceiverId = "5", MessageText = "Eve, I need your help with the project.", Read = false },
+                new Message { MessageId = 8, SenderId = "5", SenderName = "Eve", ReceiverId = "4", MessageText = "Sure Dave, let me know the details.", Read = true },
+                new Message { MessageId = 9, SenderId = "6", SenderName = "Frank", ReceiverId = "1", MessageText = "Alice, your portfolio is impressive!", Read = false },
+                new Message { MessageId = 10, SenderId = "1", SenderName = "Alice", ReceiverId = "4", MessageText = "Dave, what do you think about the design?", Read = true },
+                new Message { MessageId = 11, SenderId = "4", SenderName = "Dave", ReceiverId = "1", MessageText = "Alice, I love it! Great job.", Read = false },
+                new Message { MessageId = 12, SenderId = "3", SenderName = "Charlie", ReceiverId = "5", MessageText = "Eve, can you send me the updated files?", Read = false }
             );
 
             modelBuilder.Entity<Project>().HasData(

@@ -11,7 +11,7 @@ namespace CV_Website.Models
         public string MessageText { get; set; }
         public bool Read {  get; set; }
 
-        public int? SenderId { get; set; }
+        public string? SenderId { get; set; }
 
         [ForeignKey(nameof(SenderId))]
         [ValidateNever]

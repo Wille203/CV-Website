@@ -1,8 +1,6 @@
 ﻿using CV_Website.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Signing;
-using NuGet.Protocol.Plugins;
 
 namespace CV_Website.Controllers
 {
@@ -15,18 +13,17 @@ namespace CV_Website.Controllers
             _context = context;
         }
 
-
         [HttpGet]
         public IActionResult Overview()
         {
-            int currentUserId = 1;
+            string currentUserId = "1"; // Treat currentUserId as a string
 
             var messages = _context.Messages
                 .Where(m => m.SenderId == currentUserId || m.ReceiverId == currentUserId)
                 .GroupBy(m => new
                 {
-                    SenderId = m.SenderId < m.ReceiverId ? m.SenderId : m.ReceiverId,
-                    ReceiverId = m.SenderId < m.ReceiverId ? m.ReceiverId : m.SenderId
+                    SenderId = string.Compare(m.SenderId, m.ReceiverId) < 0 ? m.SenderId : m.ReceiverId,
+                    ReceiverId = string.Compare(m.SenderId, m.ReceiverId) < 0 ? m.ReceiverId : m.SenderId
                 })
                 .Select(g => new
                 {
@@ -38,14 +35,10 @@ namespace CV_Website.Controllers
             return View(messages);
         }
 
-        
-
-
         [HttpGet]
-        public IActionResult Conversation(int senderId, int receiverId)
+        public IActionResult Conversation(string senderId, string receiverId)
         {
-            //var currentUserId = CurrentUserId();
-            int currentUserId = 1;
+            string currentUserId = "1"; // Treat currentUserId as a string
             ViewBag.CurrentUserId = currentUserId;
 
             if (currentUserId != senderId && currentUserId != receiverId)
@@ -58,19 +51,14 @@ namespace CV_Website.Controllers
                 .OrderBy(m => m.MessageId)
                 .ToList();
 
-            var sender = _context.Users.Find(senderId);
-            var receiver = _context.Users.Find(receiverId);
-            ViewBag.SenderName = sender.Name;
-            ViewBag.ReceiverName = receiver.Name;
+            var sender = _context.Users.FirstOrDefault(u => u.Id == senderId);
+            var receiver = _context.Users.FirstOrDefault(u => u.Id == receiverId);
+            ViewBag.SenderName = sender?.Name;
+            ViewBag.ReceiverName = receiver?.Name;
             ViewBag.ReceiverId = receiverId;
             ViewBag.SenderId = senderId;
             return View(conversation);
         }
-
-        //private int CurrentUserId()
-        //{
-        //    return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-        //}
 
         public IActionResult SendMessage(Models.Message message)
         {
@@ -79,9 +67,9 @@ namespace CV_Website.Controllers
                 _context.Messages.Add(message);
                 _context.SaveChanges();
 
-                if (message.SenderId.HasValue)
+                if (message.SenderId != null && message.ReceiverId != null)
                 {
-                    return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
+                    return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
                 }
                 else
                 {
