@@ -111,7 +111,7 @@ cvlink hr {
     width: 100%;
     max-width: 90%;
     margin-top: 20px;
-    grid-row: 1 / 4;
+    grid-row: 1;
     grid-column: 2 / 3;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -134,6 +134,7 @@ cvlink hr {
 .p-f7 {
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
 }
 
 .p-f5 p,
@@ -192,6 +193,17 @@ margin: 5px 0;
 
 #T {
     font-weight: bold;
+}
+
+#UP {
+    position: relative; 
+}
+
+.p-settings {
+    position: absolute;
+    top: 0; 
+    right: 0; 
+    padding: 10px; 
 }
 
 .user-link {

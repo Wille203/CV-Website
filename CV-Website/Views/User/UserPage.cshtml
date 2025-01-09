@@ -5,6 +5,7 @@
 	<div id="Info" class="p-f1">
 	<img src="https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg" alt="Test" />
 	<p id="N1">@Model.User.Name</p>
+    <p>@Model.User.Address</p>
     <h4>Kontaktainformation:</h4>
 	<p>@Model.User.Email</p>
     <p>@Model.User.PhoneNumber</p>
@@ -13,6 +14,15 @@
 
 	<div id="UP" class="p-f2">
         <h4>Projekt</h4>
+        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+        {
+            <div id="PSettings" class="p-settings">
+                <a href="@Url.Action("ListProject", "Project")">
+
+                <i class="fas fa-pencil-alt" title="Redigera projekt"></i>
+
+            </a>
+        </div>}
         @if (Model.Projects != null && Model.Projects.Any())
         {
             <ul>
@@ -29,6 +39,7 @@
         {
             <p>Här var det tomt :(</p>
         }
+
 
 	</div>
 
@@ -75,7 +86,6 @@
                 <button>Redigera profil</button>
             </a>
         </div>
-
     }
 
 </div>
