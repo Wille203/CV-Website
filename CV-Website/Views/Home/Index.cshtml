@@ -26,7 +26,7 @@
         <ul id="Cvlink" style="overflow-y:scroll; overflow-x:hidden; height:400px;">
             @foreach (var cv in Model.Allcv)
             {
-                if (Context.Session.GetString("UserId") != null || cv.User.Private == false)
+                if (@ViewBag.CurrentUserId != null || cv.User.Private == false)
                 {
                     <li>
                         <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.Id })">
@@ -78,7 +78,7 @@
     <tbody>
         @{
             List<Project> addedproj = new List<Project>();
-            var projsorted = Model.Allprojects.OrderByDescending(s => s.ProjectId).Take(3);
+            var projsorted = Model.Allprojects.OrderByDescending(s => s.ProjectId).Take(10);
                                 
         }
 
