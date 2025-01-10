@@ -114,9 +114,10 @@ namespace CV_Website.Controllers
                 {
                     return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
                 }
+                return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
             }
 
-            return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
+            return View(message);
         }
 
         [HttpPost]
