@@ -58,7 +58,7 @@
                 @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
                 {
                     <div id="PSettings" class="p-settings">
-                        <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.UserId })">
+                        <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.Id })">
 
                             <i class="fas fa-pencil-alt" title="Redigera färdigheter"></i>
 
