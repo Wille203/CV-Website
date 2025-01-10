@@ -144,14 +144,19 @@
         ViewData["Title"] = "Upload Profile Image";
     }
 
-    <h1>@ViewData["Title"]</h1>
+    
+    @if (ViewBag.CurrentUserId == Model.User.Id)
+    {
+        <h1>@ViewData["Title"]</h1>
 
-    <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
-        <input name="Id" type="hidden" value=@Model.User.Id>
-        <div class="form-group">
-            <label for="profileImage">Choose Image</label>
-            <input type="file" name="profileImage" id="profileImage" class="form-control" accept="image/*" required />
-        </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
+        <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
+            <input name="Id" type="hidden" value=@Model.User.Id>
+            <div class="form-group">
+                <label for="profileImage">Choose Image</label>
+                <input type="file" name="profileImage" id="profileImage" class="form-control" accept="image/*" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    }
+   
 </div>

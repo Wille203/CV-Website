@@ -5,12 +5,21 @@
 
 @model IEnumerable<CV_Website.Models.User>
 
-<ul id="userlist">
+<ul id="userlist" style="overflow-y:scroll; overflow-x:hidden; height:200px;">
+
+    @{
+        
+        var projsorted = Model.OrderByDescending(s => s.UserName).Take(10);
+    }
     @foreach (var user in Model)
     {
-        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = user.Id })">
-        <li>@user.Name</li>
-        </a>
+        if (@ViewBag.CurrentUserId != null || user.Private == false)
+        {
+            <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = user.Id })">
+            <li>@user.Name</li>
+            </a>
+        }
+       
     }
 </ul>
 
