@@ -107,7 +107,7 @@ namespace CV_Website.Controllers
                
                 _context.SaveChanges();
 
-                return RedirectToAction("GoToUserPage", new { userId = model.UserId });
+                return RedirectToAction("GoToUserPage", "User", new { userId = model.UserId });
             }
 
             
