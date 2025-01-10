@@ -3,8 +3,10 @@ using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using NuGet.Packaging.Signing;
 using System.Linq;
+using System.Net;
 
 
 
@@ -74,12 +76,6 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult SettingsUser(int userId)
         {
-            var loggedInUserId = HttpContext.Session.GetString("UserId");
-
-            if (loggedInUserId == null || loggedInUserId != userId.ToString())
-            {
-                return Unauthorized();
-            }
 
             //Primärt för NullReferenceException, vi behöver nog inte denna. 
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
@@ -95,14 +91,15 @@ namespace CV_Website.Controllers
                 UserName = user.Email,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
-                Private = user.Private
+                Private = user.Private,
+                Email = user.Email
             };
 
             return View(viewModel);
         }
 
-       /* [HttpPost]
-        public IActionResult SettingsUser(User updatedUser)
+        [HttpPost]
+        public IActionResult SettingsUser(UserSettingsViewModel updatedUser)
         {
             if (!ModelState.IsValid)
             {
@@ -110,23 +107,24 @@ namespace CV_Website.Controllers
                 return View(updatedUser);
             }
 
-
+            
             var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
             if (user != null)
             {
-                user.Name = updatedUser.Name;
                 user.UserName = updatedUser.UserName;
-                user.Address = updatedUser.Address;
-                user.Private = updatedUser.Private;
+                user.Email = updatedUser.UserName; // ta ej bort även om det ser ut som dubble lagring för då kan vi inte logga in
                 user.PhoneNumber = updatedUser.PhoneNumber;
+                user.Address = updatedUser.Address;
+                user.Name = updatedUser.Name;
+                user.Private = updatedUser.Private;
 
                 _context.Users.Update(user);
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("GoToUserPage", new { userId = updatedUser.Id });
+            return RedirectToAction("GoToUserPage", new { userId = GetCurrentUserId()});
         }
-       */ //Bort kommenterad för användningen av .password måste ändras till nya Passwordhash och hur den nu funkar
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)

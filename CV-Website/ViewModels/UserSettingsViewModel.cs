@@ -18,5 +18,7 @@ namespace CV_Website.ViewModels
 
             public string PhoneNumber { get; set; }
             public bool Private { get; set; }
+
+            public string Email { get; set; }
         }
 }
