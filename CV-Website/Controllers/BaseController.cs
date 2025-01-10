@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CV_Website.Models;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 namespace CV_Website.Controllers
 {
     public class BaseController : Controller
@@ -21,11 +22,34 @@ namespace CV_Website.Controllers
             ViewData["TotalUnreadMessages"] = unreadMessagesCount;
         }
 
+        protected int? GetCurrentUserId()
+        {
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null || string.IsNullOrEmpty(userId.Value))
+            {
+                return null;
+            }
+
+            return int.Parse(userId.Value);
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            //MÅSTE BYTA UT TILL RIKTIGT ID
-            SetUnreadMessageCount(1); 
-            base.OnActionExecuting(context);
+            if(GetCurrentUserId() != null)
+            {
+                SetUnreadMessageCount(GetCurrentUserId().Value);
+                base.OnActionExecuting(context);
+
+                ViewBag.CurrentUserName = _context.Users
+                .Where(u => u.Id == GetCurrentUserId().Value)
+                .Select(u => u.Name)
+                .FirstOrDefault();
+                
+            }
+            ViewBag.CurrentUserId = GetCurrentUserId();
+            
+            
+
         }
     }
 }

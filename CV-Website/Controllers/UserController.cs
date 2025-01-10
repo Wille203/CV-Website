@@ -25,14 +25,14 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId); 
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId); 
             if (user == null)
             {
                 return NotFound(); 
             }
 
             var projects = _context.Project
-          .Where(p => p.Users.Any(u => u.UserId == userId))
+          .Where(p => p.Users.Any(u => u.Id == userId))
           .ToList();
 
             //Hämtar all data samtidigt, istället för att hämta en sak åt gången
@@ -82,7 +82,7 @@ namespace CV_Website.Controllers
             }
 
             //Primärt för NullReferenceException, vi behöver nog inte denna. 
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
 
             if (user == null)
             {
@@ -90,9 +90,9 @@ namespace CV_Website.Controllers
             }
             var viewModel = new UserSettingsViewModel
             {
-                UserId = user.UserId,
+                Id = user.Id,
                 Name = user.Name,
-                Email = user.Email,
+                UserName = user.Email,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
                 Private = user.Private
@@ -101,8 +101,8 @@ namespace CV_Website.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        public IActionResult SettingsUser(UserSettingsViewModel updatedUser)
+       /* [HttpPost]
+        public IActionResult SettingsUser(User updatedUser)
         {
             if (!ModelState.IsValid)
             {
@@ -111,11 +111,11 @@ namespace CV_Website.Controllers
             }
 
 
-            var user = _context.Users.FirstOrDefault(u => u.UserId == updatedUser.UserId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
             if (user != null)
             {
                 user.Name = updatedUser.Name;
-                user.Email = updatedUser.Email;
+                user.UserName = updatedUser.UserName;
                 user.Address = updatedUser.Address;
                 user.Private = updatedUser.Private;
                 user.PhoneNumber = updatedUser.PhoneNumber;
@@ -124,9 +124,9 @@ namespace CV_Website.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("GoToUserPage", new { userId = updatedUser.UserId });
+            return RedirectToAction("GoToUserPage", new { userId = updatedUser.Id });
         }
-
+       */ //Bort kommenterad för användningen av .password måste ändras till nya Passwordhash och hur den nu funkar
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)

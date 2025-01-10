@@ -33,15 +33,16 @@
                                 <i class="fas fa-home"></i>
                             </a>
 						</li>
+                        @if(ViewBag.CurrentUserId != null){
+                            <li class="nav-item ms-auto" id="messageButton">
+                                <a class="nav-link text-dark me-3" asp-area="" asp-controller="Message" asp-action="Overview">
 
-                        <li class="nav-item ms-auto" id="messageButton">
-                            <a class="nav-link text-dark me-3" asp-area="" asp-controller="Message" asp-action="Overview">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    <div class="unreadCounter">@ViewData["TotalUnreadMessages"]</div>
 
-                                    <i class="fa-solid fa-envelope"></i>
-                                <div class="unreadCounter">@ViewData["TotalUnreadMessages"]</div>
-
-                            </a>
-                        </li>
+                                </a>
+                            </li>
+						}
                         @* <li class="nav-item">
                             <a class="nav-link text-dark me-3" asp-area="" asp-controller="Home" asp-action="Privacy">
                             <i class="fas fa-user"></i>
@@ -49,7 +50,7 @@
                         </li> *@
                     </ul>
                     <div class="d-flex">
-                        @if (Context.Session.GetString("UserId") != null)
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <div class="d-flex justify-content-center align-items-center">
                                 <a href="@Url.Action("GoToUserPage", "User", new { userId = Context.Session.GetString("UserId") })" class="user-link">

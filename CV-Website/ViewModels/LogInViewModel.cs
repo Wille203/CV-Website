@@ -1,13 +1,13 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace CV_Website.Models
+namespace CV_Website.ViewModels
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Vänligen skriv en Email.")]
+        [Required(ErrorMessage = "Vänligen skriv en UserName.")]
         [StringLength(255)]
-        public string Email { get; set; }
+        public string UserName { get; set; }
         [Required(ErrorMessage = "Vänligen skriv ett lösenord.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }

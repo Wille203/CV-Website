@@ -21,15 +21,15 @@
                             @item.MessageText
                         </span>
 
-                        @if (item.Read == false && item.SenderId.HasValue && item.SenderId.Value != ViewBag.CurrentUserId)
+                        @if (!item.Read && item.SenderId != ViewBag.currentUserId)
                         {
                             <form asp-action="MarkAsRead" method="post" class="MarkRead">
-                                <input type="hidden" name="MessageId" value="@item.MessageId" />
+                                <input type="hidden" name="messageId" value="@item.MessageId" />
                                 <input type="submit" value="Markera Läst" />
                             </form>
                         }
 
-                        @if (item.SenderId.HasValue && item.SenderId.Value == ViewBag.CurrentUserId)
+                        @if (item.SenderId == ViewBag.currentUserId)
                         {
                             <a href="@Url.Action("DeleteMessage", "Message", new { messageId = item.MessageId })" class="delete-button">&#128465;</a>
                         }
@@ -38,14 +38,15 @@
             }
         </tbody>
     </table>
-
-    <form asp-action="SendMessage" method="post" class="message-form">
-        <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
-        <input type="hidden" name="ReceiverId" value="@ViewBag.OtherUserId" />
-        @if (ViewBag.LatestMessageSenderId != ViewBag.CurrentUserId){
-            <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
-        }
-        <textarea name="MessageText" rows="2" class="message-textarea" placeholder="Skriv ditt meddelande..."></textarea>
-        <button type="submit" class="btn btn-primary">Skicka</button>
-    </form>
+    @if (ViewBag.OtherUserId != null){
+        <form asp-action="SendMessage" method="post" class="message-form">
+            <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
+            <input type="hidden" name="ReceiverId" value="@ViewBag.OtherUserId" />
+            @if (ViewBag.LatestMessageSenderId != ViewBag.CurrentUserId){
+                <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
+            }
+            <textarea name="MessageText" rows="2" class="message-textarea" placeholder="Skriv ditt meddelande..."></textarea>
+            <button type="submit" class="btn btn-primary">Skicka</button>
+        </form>
+    }
 </div>

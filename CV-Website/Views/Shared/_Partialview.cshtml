@@ -8,13 +8,9 @@
 <ul id="userlist">
     @foreach (var user in Model)
     {
-        if (user.Private == false || Context.Session.GetString("UserId") != null)
-        {
-            <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = user.UserId })">
-            <li>@user.Name</li>
-            </a>
-        }
-        
+        <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = user.Id })">
+        <li>@user.Name</li>
+        </a>
     }
 </ul>
 

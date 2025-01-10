@@ -1,18 +1,42 @@
-﻿@model CV_Website.Models.LoginViewModel
+﻿@using CV_Website.ViewModels
+@model LoginViewModel
 
-<h2>Logga in</h2>
+@{
+    ViewData["Title"] = "Login";
+}
 
-<form method="post">
-    <label for="Email">Email:</label>
-    <input type="email" id="Email" name="Email" asp-for="Email" required />
+<h2>@ViewData["Title"]</h2>
 
-    <label for="Password">Password:</label>
-    <input type="password" id="Password" name="Password" asp-for="Password" required />
+<form asp-action="Login" method="post" class="form-horizontal">
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-    <button type="submit">Logga in</button>
+    <div class="form-group">
+        <label asp-for="UserName" class="control-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RememberMe" class="control-label"></label>
+        <input asp-for="RememberMe" type="checkbox" />
+        <span asp-validation-for="RememberMe" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
 </form>
 
-@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-{
-    <div class="error">@error.ErrorMessage</div>
+<p>Don't have an account? <a asp-action="Register">Register here</a></p>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

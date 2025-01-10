@@ -1,103 +1,116 @@
-﻿using CV_Website.Models;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using CV_Website.Models;
+using System.Threading.Tasks;
+using CV_Website.ViewModels;
 
 namespace CV_Website.Controllers
 {
-    public class AccountController : BaseController
+    public class AccountController : Controller
     {
-        private readonly CVContext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(CVContext context) : base(context)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
+       
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                var user = new User
+                {
+                    UserName = model.UserName,
+                    Email = model.UserName, // ta ej bort även om det ser ut som dubble lagring för då kan vi inte logga in
+                    PhoneNumber = model.PhoneNumber,
+                    Address = model.Address,
+                    Name = model.Name,
+                    Private = model.Private
+                };
+
+                
+                var result = await _userManager.CreateAsync(user, model.Password);
+                
+                if (result.Succeeded)
+                {
+                    
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    
+                    return RedirectToAction("Index", "Home");
+                }
+
+                
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
+        }
+
+        
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        public IActionResult Logout()
-        {
-            // Rensa sessionen
-            HttpContext.Session.Clear();
-
-            // Redirecta användaren till startsidan eller en annan lämplig sida
-            return RedirectToAction("Index", "Home");
-        }
-
-        // GET: /Account/Register
-        public IActionResult Register()
-        {
-            return View(new RegisterViewModel());
-        }
-
+        
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingUser = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == model.Email);
-
-                if (existingUser != null)
-                {
-                    ModelState.AddModelError("Email", "Denna e-postadress är redan registrerad.");
-                    return View(model);
-                }
-
-                bool IsPrivate = model.Private;
-                var user = new User
-                {
-                    Name = model.Name,
-                    Email = model.Email,
-                    PhoneNumber = model.PhoneNumber,
-                    Address = model.Address,
-                    Password = model.Password,
-                    Private = IsPrivate
-                };
-
-                // Lägg till användaren och spara i databasen
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Login");
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Kontrollera om användaren finns i databasen
-                var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == model.Email);
+                
+                var user = await _userManager.FindByEmailAsync(model.UserName);
 
-                if (user == null)
+                if (user != null)
                 {
-                    ModelState.AddModelError("", "Användaren finns inte.");
-                    return View(model);
-                }
+                   
+                    var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
-                // Kontrollera om lösenordet är korrekt
-                if (user.Password != model.Password) // Här jämför vi lösenordet direkt utan hashning
+                    if (result.Succeeded)
+                    {
+                        
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    
+                    ModelState.AddModelError(string.Empty, "Fel lösen eller mail.");
+                }
+                else
                 {
-                    ModelState.AddModelError("", "Fel lösenord.");
-                    return View(model);
+                    
+                    ModelState.AddModelError(string.Empty, "Användaren finns ej.");
                 }
-
-                // Logga in användaren (här kan du använda session, cookie eller annan metod för autentisering)
-                HttpContext.Session.SetString("UserId", user.UserId.ToString());
-                HttpContext.Session.SetString("UserName", user.Name);
-
-                return RedirectToAction("Index", "Home");
             }
 
+          
             return View(model);
+        }
+
+        
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
