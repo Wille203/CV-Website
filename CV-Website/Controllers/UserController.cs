@@ -70,7 +70,7 @@ namespace CV_Website.Controllers
         }
 
 
-        //[Authorize] denna fungerar inte atm, kör på session tills vidare
+        [Authorize] 
         [HttpGet]
         public IActionResult SettingsUser(int userId)
         {

@@ -58,7 +58,7 @@
                 @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
                 {
                     <div id="PSettings" class="p-settings">
-                        <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.UserId })">
+                        <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.Id })">
 
                             <i class="fas fa-pencil-alt" title="Redigera färdigheter"></i>
 
@@ -131,8 +131,8 @@
 	}
 
 
-        @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
-    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
+    @* Vi säkerställer att ID:et är korrekt (profilsida och den inloggade)  *@
+    @if (ViewBag.CurrentUserId == Model.User.Id)
     {
         <div id="Settings" class="p-f3">
             <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.Id })">
