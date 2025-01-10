@@ -113,6 +113,22 @@
             <h4>Skapa ditt CV nu!</h4>
         }
         </div>
+    @if (ViewBag.CurrentUserId != @Model.User.Id){
+        <form asp-controller="Message" asp-action="SendMessage" method="post" class="message-formCV">
+            @if (ViewBag.CurrentUserId != null)
+            {
+                <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
+                <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
+            }
+            else
+            {
+                <textarea name="SenderName" rows="1" class="senderNameCV" placeholder="Skriv ditt namn..."></textarea>
+            }
+            <input type="hidden" name="ReceiverId" value="@Model.User.Id" />
+            <textarea name="MessageText" rows="2" class="message-textareaCV" placeholder="Skriv ditt meddelande..."></textarea>
+            <button type="submit" class="btn btn-primary">Skicka</button>
+        </form>
+	}
 
 
         @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@

@@ -24,18 +24,31 @@ namespace CV_Website.Controllers
 
         protected int? GetCurrentUserId()
         {
-            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null || string.IsNullOrEmpty(userId.Value))
+            {
+                return null;
+            }
+
+            return int.Parse(userId.Value);
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            //MÅSTE BYTA UT TILL RIKTIGT ID
             if(GetCurrentUserId() != null)
             {
                 SetUnreadMessageCount(GetCurrentUserId().Value);
                 base.OnActionExecuting(context);
+
+                ViewBag.CurrentUserName = _context.Users
+                .Where(u => u.Id == GetCurrentUserId().Value)
+                .Select(u => u.Name)
+                .FirstOrDefault();
+                
             }
             ViewBag.CurrentUserId = GetCurrentUserId();
+            
+            
 
         }
     }
