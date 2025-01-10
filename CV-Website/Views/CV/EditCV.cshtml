@@ -1,0 +1,69 @@
+﻿@model CV_Website.ViewModels.CVViewModel
+
+<form asp-action="EditCV" method="post">
+	<input type="hidden" asp-for="UserId" />
+
+	<div class="form-item">
+	    <h4>Uppdatera ditt CV</h4>
+
+        <div class="f-i1">
+            <h4>Färdigheter</h4>
+        @if (Model.AllSkills != null && Model.AllSkills.Any())
+        {
+            <ul>
+                @foreach (var skill in Model.AllSkills)
+                {
+                    <li>
+                        <input type="checkbox" name="SelectedSkills" value="@skill.SkillsId"
+                        @(Model.SelectedSkills != null && Model.SelectedSkills.Contains(skill.SkillsId) ? "checked" : "") />
+                        @skill.Name
+                    </li>
+                }
+            </ul>
+        }
+        <a asp-action="AddSkill" class="btn btn-sm btn-secondary">Lägg till ny färdighet</a>
+        </div>
+
+        <div class="f-i2">
+        <h4>Utbildning</h4>
+        @if (Model.AllEducations != null && Model.AllEducations.Any())
+        {
+            <ul>
+                @foreach (var education in Model.AllEducations)
+                {
+                    <li>
+                        <input type="checkbox" name="SelectedEducations" value="@education.EducationId"
+                        @(Model.SelectedEducations != null && Model.SelectedEducations.Contains(education.EducationId) ? "checked" : "") />
+                        @education.Name
+                    </li>
+                }
+            </ul>
+        }
+        <a asp-action="AddEducation" class="btn btn-sm btn-secondary">Lägg till ny utbildning</a>
+        </div>
+
+        <div class="f-i3">
+        <h4>Erfarenheter</h4>
+        @if (Model.AllExperiences != null && Model.AllExperiences.Any())
+        {
+            <ul>
+                @foreach (var experience in Model.AllExperiences)
+                {
+                    <li>
+                        <input type="checkbox" name="SelectedExperiences" value="@experience.ExperienceId"
+                        @(Model.SelectedExperiences != null && Model.SelectedExperiences.Contains(experience.ExperienceId) ? "checked" : "") />
+                        @experience.Name
+                    </li>
+                }
+            </ul>
+        }
+        <a asp-action="AddExperience" class="btn btn-sm btn-secondary">Lägg till ny erfarenhet</a>
+        </div>
+
+    <button type="submit" class="btn btn-primary">Spara ändringar</button>
+    <a asp-action="GoToUserPage" asp-route-userId="@Model.UserId" class="btn btn-secondary">Avbryt</a>
+
+
+	</div>
+
+</form>

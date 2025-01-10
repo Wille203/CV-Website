@@ -8,7 +8,7 @@ namespace CV_Website.ViewModels
         public List<Skills> AllSkills { get; set; } = new List<Skills>();
         public List<Education> AllEducations { get; set; } = new List<Education>();
         public List<Experience> AllExperiences { get; set; } = new List<Experience>();
-        public CV CV { get; set; }
+        public CV? UserCV { get; set; }
 
         // Användarens nuvarande val 
         public List<int> SelectedSkills { get; set; } = new List<int>();  

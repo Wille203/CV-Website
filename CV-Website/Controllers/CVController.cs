@@ -15,7 +15,7 @@ namespace CV_Website.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateCV(int userId)
+        public IActionResult EditCV(int userId)
         {
             
             var userCV = _context.CVs
@@ -45,7 +45,7 @@ namespace CV_Website.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public IActionResult UpdateCV(CVViewModel model)
+        public IActionResult EditCV(CVViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +57,7 @@ namespace CV_Website.Controllers
                 .FirstOrDefault(cv => cv.UserId == model.UserId);
 
                
+                //Har inget? Skapa ett
                 if (userCV == null)
                 {
                     userCV = new CV
