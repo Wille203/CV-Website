@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using CV_Website.Models;
+using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Evaluation;
@@ -15,10 +17,12 @@ namespace CV_Website.Controllers
     public class ProjectController : BaseController
     {
         private CVContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public ProjectController(CVContext context) : base(context)
+        public ProjectController(CVContext context, UserManager<User> userManager) : base(context)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -30,7 +34,8 @@ namespace CV_Website.Controllers
         public IActionResult CreateProject()
         {
             Project project = new Project();
-            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["CreatorId"] = userId;
             return View(project);
 
           
@@ -40,22 +45,11 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult CreateProject(Project project)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(project);
-            }
-            // ej testad kod
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            int loggedInUserId = int.Parse(userId);
-            //project.CreatorId = 2;
 
-            project.CreatorId = loggedInUserId; // denna rad 
-           
             _context.Add(project);
             _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
-            
-            
+             
 
         }
 
@@ -65,10 +59,11 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult EditProject(int Id)
         {
-
+            
             
             var project = _context.Project.Find(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
             int loggedInUserId = int.Parse(userId);
             if (project == null)
             {
@@ -78,15 +73,23 @@ namespace CV_Website.Controllers
             {
                 return Forbid();
             }
-
-            return View("EditProject", project); 
+            var viewModel = new EditProjectViewModel
+            {
+                ProjectId = project.ProjectId,
+                Title = project.Title,
+                Description = project.Description,
+                Information = project.Information
+            };
+            return View("EditProject", viewModel); 
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult EditProject(int projectId, Project updatedProject)
+        public IActionResult EditProject(int projectId, EditProjectViewModel updatedProject)
         {
-            if (!ModelState.IsValid)
+            
+
+            if (!ModelState.IsValid)//behövs fixas!!!!
             {
                 return View(updatedProject);
             }
@@ -148,7 +151,7 @@ namespace CV_Website.Controllers
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int userId = int.Parse(loggedInUserId);
             var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
 
             if (user != null && project.Users.Contains(user))
             {
@@ -165,10 +168,10 @@ namespace CV_Website.Controllers
             int userId = int.Parse(loggedInUserId);
             var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
             
-            if (!project.Users.Any(u => u.UserId == userId))
+            if (!project.Users.Any(u => u.Id == userId))
             {
                 
-                var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
                 if (user != null)
                 {
                     project.Users.Add(user);
@@ -190,7 +193,7 @@ namespace CV_Website.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Project", "ListProject");
+            return RedirectToAction("ListProject");
         }
     }
 }

@@ -14,14 +14,14 @@
 	<p id="N1">@Model.User.Name</p>
     <p>@Model.User.Address</p>
     <h4>Kontaktainformation:</h4>
-	<p>@Model.User.Email</p>
+	<p>@Model.User.UserName</p>
     <p>@Model.User.PhoneNumber</p>
 	</div>
 
 
 	<div id="UP" class="p-f2">
         <h4>Projekt</h4>
-        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
         {
             <div id="PSettings" class="p-settings">
                 <a href="@Url.Action("ListProject", "Project")">
@@ -55,7 +55,7 @@
         {
             <div class="p-f5">
             <h4>Färdigheter</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -73,7 +73,7 @@
 
             <div class="p-f6">
             <h4>Erfarenhet</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -91,7 +91,7 @@
 
             <div class="p-f7">
             <h4>Utbildning</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -113,13 +113,29 @@
             <h4>Skapa ditt CV nu!</h4>
         }
         </div>
+    @if (ViewBag.CurrentUserId != @Model.User.Id){
+        <form asp-controller="Message" asp-action="SendMessage" method="post" class="message-formCV">
+            @if (ViewBag.CurrentUserId != null)
+            {
+                <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
+                <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
+            }
+            else
+            {
+                <textarea name="SenderName" rows="1" class="senderNameCV" placeholder="Skriv ditt namn..."></textarea>
+            }
+            <input type="hidden" name="ReceiverId" value="@Model.User.Id" />
+            <textarea name="MessageText" rows="2" class="message-textareaCV" placeholder="Skriv ditt meddelande..."></textarea>
+            <button type="submit" class="btn btn-primary">Skicka</button>
+        </form>
+	}
 
 
         @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
-    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.UserId.ToString())
+    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
     {
         <div id="Settings" class="p-f3">
-            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.UserId })">
+            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.Id })">
                 <button>Redigera profil</button>
             </a>
         </div>
@@ -131,7 +147,7 @@
     <h1>@ViewData["Title"]</h1>
 
     <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
-        <input name="Id" type="hidden" value=@Model.User.UserId>
+        <input name="Id" type="hidden" value=@Model.User.Id>
         <div class="form-group">
             <label for="profileImage">Choose Image</label>
             <input type="file" name="profileImage" id="profileImage" class="form-control" accept="image/*" required />

@@ -1,8 +1,10 @@
 ﻿using CV_Website.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Signing;
 using NuGet.Protocol.Plugins;
+using System.Linq;
 
 namespace CV_Website.Controllers
 {
@@ -17,40 +19,56 @@ namespace CV_Website.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public IActionResult Overview()
         {
-            //MÅSTE BYTA UT TILL RIKTIGT ID
-            int currentUserId = 1;
-            ViewBag.CurrentUserId = currentUserId;
+            int currentUserId = GetCurrentUserId().Value;
 
-            var messages = _context.Messages
+            var anonymousMessages = _context.Messages
                 .Include(m => m.Sender)
                 .Include(m => m.Receiver)
-                .Where(m => m.SenderId == currentUserId || m.ReceiverId == currentUserId)
-                .GroupBy(m => new
+                .Where(m => m.SenderId == null && m.ReceiverId == currentUserId)
+                .Select(m => new
                 {
-                    SenderId = m.SenderId < m.ReceiverId ? m.SenderId : m.ReceiverId,
-                    ReceiverId = m.SenderId < m.ReceiverId ? m.ReceiverId : m.SenderId
+                    LatestMessage = m,
+                    UnreadMessages = m.Read ? 0 : 1,
+                    SenderName = m.SenderName
                 })
+                .ToList();
+
+            var registeredMessages = _context.Messages
+                .Include(m => m.Sender)
+                .Include(m => m.Receiver)
+                .Where(m => m.SenderId != null && (m.SenderId == currentUserId || m.ReceiverId == currentUserId))
+                .GroupBy(m => m.SenderId == currentUserId
+                    ? m.ReceiverId
+                    : m.SenderId)
                 .Select(g => new
                 {
                     LatestMessage = g.OrderByDescending(m => m.MessageId).FirstOrDefault(),
+                    SenderName = g.Key == currentUserId ? g.FirstOrDefault().Receiver.Name : g.FirstOrDefault().Sender.Name,
                     UnreadMessages = g.Count(m => !m.Read && m.ReceiverId == currentUserId)
                 })
                 .ToList();
 
-            return View(messages);
+            var allMessages = anonymousMessages
+                .Select(m => new { m.LatestMessage, m.UnreadMessages, SenderName = m.SenderName })
+                .Concat(registeredMessages.Select(m => new { m.LatestMessage, m.UnreadMessages, m.SenderName }))
+                .OrderByDescending(m => m.LatestMessage.MessageId)
+                .ToList();
+
+            return View(allMessages);
         }
 
-        
+
+
 
 
         [HttpGet]
-        public IActionResult Conversation(int senderId, int receiverId)
+        [Authorize]
+        public IActionResult Conversation(int? senderId, int receiverId, string senderName = null)
         {
-            //MÅSTE BYTA UT TILL RIKTIGT ID
-            int currentUserId = 1; 
-            ViewBag.CurrentUserId = currentUserId;
+            int currentUserId = GetCurrentUserId().Value;
 
             if (currentUserId != senderId && currentUserId != receiverId)
             {
@@ -58,19 +76,28 @@ namespace CV_Website.Controllers
             }
 
             var conversation = _context.Messages
-                .Where(m => (m.SenderId == senderId && m.ReceiverId == receiverId) || (m.SenderId == receiverId && m.ReceiverId == senderId))
+                .Where(m => (m.SenderId == senderId && m.ReceiverId == receiverId) ||
+                            (m.SenderId == null && m.SenderName == senderName && m.ReceiverId == receiverId) ||
+                            (m.SenderId == receiverId && m.ReceiverId == senderId))
                 .OrderBy(m => m.MessageId)
                 .ToList();
 
             var latestMessage = conversation.LastOrDefault();
             int? latestMessageSenderId = latestMessage?.SenderId;
-
-            var otherUserId = currentUserId == senderId ? receiverId : senderId;
+            int? otherUserId = currentUserId == senderId ? receiverId : senderId;
             var otherUser = _context.Users.Find(otherUserId);
-            var currentUser = _context.Users.Find(currentUserId);
-            ViewBag.OtherUserName = otherUser.Name;
-            ViewBag.OtherUserId = otherUserId;
-            ViewBag.CurrentUserName = currentUser.Name;
+
+            if (otherUser == null)
+            {
+                ViewBag.OtherUserName = senderName;
+                ViewBag.OtherUserId = null; 
+            }
+            else
+            {
+                ViewBag.OtherUserName = otherUser.Name;
+                ViewBag.OtherUserId = otherUserId;
+            }
+
             ViewBag.LatestMessageSenderId = latestMessageSenderId;
 
             return View(conversation);
@@ -87,16 +114,13 @@ namespace CV_Website.Controllers
                 {
                     return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
                 }
-                else
-                {
-                    TempData["ErrorMessage"] = "Sender or Receiver ID is missing.";
-                }
+                return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
             }
 
-            TempData["ErrorMessage"] = "The message could not be sent!";
-            return RedirectToAction("Overview");
+            return View(message);
         }
 
+        [HttpPost]
         public IActionResult MarkAsRead(int messageId)
         {
             var message = _context.Messages.Find(messageId);
@@ -104,10 +128,22 @@ namespace CV_Website.Controllers
             {
                 message.Read = true;
                 _context.SaveChanges();
+
+                if (message.SenderId == null)
+                {
+                    return RedirectToAction("Conversation", new { senderId = (int?)null, receiverId = message.ReceiverId, senderName = message.SenderName });
+                }
+                else
+                {
+                    return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
+                }
             }
-            return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
+
+            return NotFound();
         }
 
+
+        [HttpPost]
         public IActionResult DeleteMessage(int messageId)
         {
             var message = _context.Messages.Find(messageId);
