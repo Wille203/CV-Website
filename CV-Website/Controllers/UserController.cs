@@ -90,9 +90,9 @@ namespace CV_Website.Controllers
             }
             var viewModel = new UserSettingsViewModel
             {
-                UserId = user.UserId,
+                Id = user.Id,
                 Name = user.Name,
-                Email = user.Email,
+                UserName = user.Email,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber,
                 Private = user.Private
