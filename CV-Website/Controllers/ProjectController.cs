@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using CV_Website.Models;
+using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -58,10 +59,11 @@ namespace CV_Website.Controllers
         [Authorize]
         public IActionResult EditProject(int Id)
         {
-
+            
             
             var project = _context.Project.Find(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
             int loggedInUserId = int.Parse(userId);
             if (project == null)
             {
@@ -71,15 +73,23 @@ namespace CV_Website.Controllers
             {
                 return Forbid();
             }
-
-            return View("EditProject", project); 
+            var viewModel = new EditProjectViewModel
+            {
+                ProjectId = project.ProjectId,
+                Title = project.Title,
+                Description = project.Description,
+                Information = project.Information
+            };
+            return View("EditProject", viewModel); 
         }
 
         [HttpPost]
         [Authorize]
-        public IActionResult EditProject(int projectId, Project updatedProject)
+        public IActionResult EditProject(int projectId, EditProjectViewModel updatedProject)
         {
-            if (!ModelState.IsValid)
+            
+
+            if (!ModelState.IsValid)//behövs fixas!!!!
             {
                 return View(updatedProject);
             }
@@ -183,7 +193,7 @@ namespace CV_Website.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Project", "ListProject");
+            return RedirectToAction("ListProject");
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CV_Website.Models;
 using System.Threading.Tasks;
+using CV_Website.ViewModels;
 
 namespace CV_Website.Controllers
 {
