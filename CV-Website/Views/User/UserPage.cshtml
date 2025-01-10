@@ -21,7 +21,7 @@
 
 	<div id="UP" class="p-f2">
         <h4>Projekt</h4>
-        @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
+        @if (ViewBag.CurrentUserId == Model.User.Id)
         {
             <div id="PSettings" class="p-settings">
                 <a href="@Url.Action("ListProject", "Project")">
@@ -32,7 +32,7 @@
             </div>}
         @if (Model.Projects != null && Model.Projects.Any())
         {
-            <ul>
+            <ul class="projects-list">
                 @foreach (var project in Model.Projects)
                 {
                     <li class="pb">
@@ -55,7 +55,7 @@
         {
             <div class="p-f5">
             <h4>Färdigheter</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
+                @if (ViewBag.CurrentUserId == Model.User.Id)
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.Id })">
@@ -73,7 +73,7 @@
 
             <div class="p-f6">
             <h4>Erfarenhet</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
+                @if (ViewBag.CurrentUserId == Model.User.Id)
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -91,7 +91,7 @@
 
             <div class="p-f7">
             <h4>Utbildning</h4>
-                @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
+                @if (ViewBag.CurrentUserId == Model.User.Id)
                 {
                     <div id="PSettings" class="p-settings">
                         <a href="@Url.Action("ListProject", "Project")">
@@ -110,7 +110,13 @@
         }
         else
         {
-            <h4>Skapa ditt CV nu!</h4>
+            <div class="p-f8">
+            <p>Du har inget aktivt CV</p>
+            <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.Id })" class="btn btn-primary">
+                Skapa CV
+            </a>
+            </div>
+
         }
         </div>
     @if (ViewBag.CurrentUserId != @Model.User.Id){
@@ -131,8 +137,8 @@
 	}
 
 
-        @* Authorized har vi inte fått att fungera, kör på sessions baserat tills vidare *@
-    @if (Context.Session.GetString("UserId") != null && Context.Session.GetString("UserId") == Model.User.Id.ToString())
+    @* Vi säkerställer att ID:et är korrekt (profilsida och den inloggade)  *@
+    @if (ViewBag.CurrentUserId == Model.User.Id)
     {
         <div id="Settings" class="p-f3">
             <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.Id })">

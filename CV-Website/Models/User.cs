@@ -13,7 +13,7 @@ namespace CV_Website.Models
         [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Hörru, ditt namn består av bokstäver inget annat")]
         public string Name { get; set; }
 
-        
+       
 
         [StringLength(50, ErrorMessage = "Ange en giltig adress")]
         [RegularExpression(@"^[A-Za-z0-9\s]+$", ErrorMessage = "Bokstäver och siffror är tillåtet, inget annat")]

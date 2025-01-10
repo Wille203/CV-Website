@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CV_Website.Controllers
 {
-    public class CVController : Controller
+    public class CVController : BaseController
     {
         private CVContext _context;
 
-        public CVController(CVContext context) 
+        public CVController(CVContext context) : base(context)
         {
             _context = context;
         }
@@ -107,7 +107,7 @@ namespace CV_Website.Controllers
                
                 _context.SaveChanges();
 
-                return RedirectToAction("GoToUserPage", new { userId = model.UserId });
+                return RedirectToAction("GoToUserPage", "User", new { userId = model.UserId });
             }
 
             

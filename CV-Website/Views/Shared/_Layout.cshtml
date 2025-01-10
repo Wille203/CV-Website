@@ -53,9 +53,9 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div class="d-flex justify-content-center align-items-center">
-                                <a href="@Url.Action("GoToUserPage", "User", new { userId = Context.Session.GetString("UserId") })" class="user-link">
+                                <a href="@Url.Action("GoToUserPage", "User", new { userId = ViewBag.CurentUserId})" class="user-link">
                              
-                                <span class="navbar-text mx-2"> @Context.Session.GetString("UserName")
+                                <span class="navbar-text mx-2"> @Context.Session.GetString("Name")
                                     <i class="fas fa-user"></i>
                                 </span>
                                  </a>
