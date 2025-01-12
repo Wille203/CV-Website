@@ -21,7 +21,7 @@
                             @item.MessageText
                         </span>
 
-                        @if (!item.Read && item.SenderId != ViewBag.currentUserId)
+                        @if (!item.Read && item.SenderId != ViewBag.CurrentUserId)
                         {
                             <form asp-action="MarkAsRead" method="post" class="MarkRead">
                                 <input type="hidden" name="messageId" value="@item.MessageId" />
@@ -29,9 +29,12 @@
                             </form>
                         }
 
-                        @if (item.SenderId == ViewBag.currentUserId)
+                        @if (item.SenderId == ViewBag.CurrentUserId)
                         {
-                            <a href="@Url.Action("DeleteMessage", "Message", new { messageId = item.MessageId })" class="delete-button">&#128465;</a>
+                            <form asp-action="DeleteMessage" method="post">
+                                <input type="hidden" name="messageId" value="@item.MessageId" />
+                                <button type="submit" class="delete-button">&#128465;</button>
+							</form>
                         }
                     </td>
                 </tr>

@@ -121,6 +121,7 @@ namespace CV_Website.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult MarkAsRead(int messageId)
         {
             var message = _context.Messages.Find(messageId);
@@ -144,6 +145,7 @@ namespace CV_Website.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public IActionResult DeleteMessage(int messageId)
         {
             var message = _context.Messages.Find(messageId);
@@ -152,7 +154,7 @@ namespace CV_Website.Controllers
                 _context.Messages.Remove(message);
                 _context.SaveChanges();
             }
-            return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
+            return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
         }
     }
 }
