@@ -54,6 +54,23 @@ namespace CV_Website.Controllers
                 Educations = userCV?.Education?.ToList()
             };
 
+            if( userId != GetCurrentUserId())
+            {
+                if (!Request.Cookies.ContainsKey($"ViewedCV_{userId}"))
+                {
+                    if (userCV != null)
+                    {
+                        userCV.ViewCount++;
+                        _context.SaveChanges();
+
+                        Response.Cookies.Append($"ViewedCV_{userId}", "true", new Microsoft.AspNetCore.Http.CookieOptions
+                        {
+                            Expires = System.DateTime.Now.AddMinutes(10)
+                        });
+                    }
+                }
+            }
+
             return View("UserPage", viewModel);
         }
 
@@ -151,6 +168,7 @@ namespace CV_Website.Controllers
             return RedirectToAction("GoToUserPage", new { userId = id });
         }
 
+        [HttpPost]
         public IActionResult SendMessageFromUser(Models.Message message)
         {
             if (ModelState.IsValid)

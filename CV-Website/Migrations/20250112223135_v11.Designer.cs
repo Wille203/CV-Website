@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CV_Website.Migrations
 {
     [DbContext(typeof(CVContext))]
-    [Migration("20250112161924_v10")]
-    partial class v10
+    [Migration("20250112223135_v11")]
+    partial class v11
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,9 @@ namespace CV_Website.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CVId"));
 
                     b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ViewCount")
                         .HasColumnType("int");
 
                     b.HasKey("CVId");

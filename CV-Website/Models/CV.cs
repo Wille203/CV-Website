@@ -7,7 +7,7 @@ namespace CV_Website.Models
     {
         public int CVId { get; set; }
         public int UserId{ get; set; }
-
+        public int ViewCount { get; set; } = 0;
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
 

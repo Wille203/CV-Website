@@ -81,6 +81,9 @@ namespace CV_Website.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("int");
+
                     b.HasKey("CVId");
 
                     b.HasIndex("UserId");

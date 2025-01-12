@@ -61,9 +61,6 @@ namespace CV_Website.Controllers
         }
 
 
-
-
-
         [HttpGet]
         [Authorize]
         public IActionResult Conversation(int? senderId, int receiverId, string senderName = null)
@@ -103,6 +100,7 @@ namespace CV_Website.Controllers
             return View(conversation);
         }
 
+        [HttpPost]
         public IActionResult SendMessage(Models.Message message)
         {
             if (ModelState.IsValid)
