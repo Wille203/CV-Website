@@ -129,10 +129,10 @@
             }
             else
             {
-                <textarea name="SenderName" rows="1" class="senderNameCV" placeholder="Skriv ditt namn..."></textarea>
+                <textarea name="SenderName" rows="1" class="senderNameCV form-control" placeholder="Skriv ditt namn..."></textarea>
             }
             <input type="hidden" name="ReceiverId" value="@Model.User.Id" />
-            <textarea name="MessageText" rows="2" class="message-textareaCV" placeholder="Skriv ditt meddelande..."></textarea>
+            <textarea name="MessageText" rows="2" class="message-textareaCV form-control" placeholder="Skriv ditt meddelande..."></textarea>
             <button type="submit" class="btn btn-primary">Skicka</button>
         </form>
 	}

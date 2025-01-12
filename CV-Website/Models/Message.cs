@@ -8,7 +8,7 @@ namespace CV_Website.Models
     {
         public int MessageId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Du måste skriva ett Namn")]
         [StringLength(30, ErrorMessage ="Avsändar namnet får max vara 30 tecken")]
         public string SenderName { get; set; }
 
