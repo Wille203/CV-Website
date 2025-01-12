@@ -34,13 +34,16 @@
                             </form>
                         }
 
-                        @if (item.SenderId == ViewBag.CurrentUserId)
-                        {
-                            <form asp-action="DeleteMessage" method="post">
+                        <div class="delete-message-container">
+                            <form asp-action="DeleteMessage" method="post" class="delete-message-form">
                                 <input type="hidden" name="messageId" value="@item.MessageId" />
-                                <button type="submit" class="delete-button">&#128465;</button>
-							</form>
-                        }
+                                <button type="button" class="delete-button" onclick="showConfirmation(this)">&#128465;</button>
+                                <div class="confirmation-buttons" style="display:none;">
+                                    <button type="submit" class="confirm-button">Bekräfta</button>
+                                    <button type="button" class="cancel-button" onclick="hideConfirmation(this)">Avbryt</button>
+                                </div>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             }
