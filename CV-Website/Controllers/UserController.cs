@@ -151,5 +151,36 @@ namespace CV_Website.Controllers
             return RedirectToAction("GoToUserPage", new { userId = id });
         }
 
+        public IActionResult SendMessageFromUser(Models.Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Messages.Add(message);
+                _context.SaveChanges();
+
+                return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
+            }
+            var user = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId);
+            var projects = _context.Project
+                .Where(p => p.Users.Any(u => u.Id == message.ReceiverId))
+                .ToList();
+            var userCV = _context.CVs
+                .Include(cv => cv.Skills)
+                .Include(cv => cv.Experience)
+                .Include(cv => cv.Education)
+                .FirstOrDefault(cv => cv.UserId == message.ReceiverId);
+
+            var viewModel = new UserPageViewModel
+            {
+                User = user,
+                Projects = projects,
+                UserCV = userCV,
+                Skills = userCV?.Skills?.ToList(),
+                Experiences = userCV?.Experience?.ToList(),
+                Educations = userCV?.Education?.ToList()
+            };
+            return View("UserPage", viewModel);
+        }
+
     }
 }

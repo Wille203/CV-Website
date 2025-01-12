@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CV_Website.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class newinfo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -226,7 +226,7 @@ namespace CV_Website.Migrations
                 {
                     MessageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SenderName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Read = table.Column<bool>(type: "bit", nullable: false),
                     SenderId = table.Column<int>(type: "int", nullable: true),

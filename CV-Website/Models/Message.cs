@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CV_Website.Models
@@ -7,7 +8,11 @@ namespace CV_Website.Models
     {
         public int MessageId { get; set; }
 
-        public string? SenderName { get; set; }
+        [Required]
+        [StringLength(30, ErrorMessage ="Avsändar namnet får max vara 30 tecken")]
+        public string SenderName { get; set; }
+
+        [Required(ErrorMessage ="Meddelandet måste innehålla något")]
         public string MessageText { get; set; }
         public bool Read {  get; set; }
 

@@ -110,14 +110,17 @@ namespace CV_Website.Controllers
                 _context.Messages.Add(message);
                 _context.SaveChanges();
 
-                if (message.SenderId.HasValue)
-                {
                     return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
-                }
-                return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
             }
-
-            return View(message);
+            var conversationMessages = _context.Messages
+               .Where(m => (m.SenderId == message.SenderId && m.ReceiverId == message.ReceiverId) ||
+                            (m.SenderId == message.ReceiverId && m.ReceiverId == message.SenderId))
+               .OrderBy(m => m.MessageId)
+               .ToList();
+               ViewBag.CurrentUserId = GetCurrentUserId();
+               ViewBag.OtherUserId = message.ReceiverId;
+            return View("Conversation", conversationMessages);
+            
         }
 
         [HttpPost]

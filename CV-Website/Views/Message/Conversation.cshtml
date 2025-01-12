@@ -47,6 +47,7 @@
         </tbody>
     </table>
     @if (ViewBag.OtherUserId != null){
+		<div asp-validation-summary="All" class="text-danger"></div>
         <form asp-action="SendMessage" method="post" class="message-form">
             <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
             <input type="hidden" name="ReceiverId" value="@ViewBag.OtherUserId" />

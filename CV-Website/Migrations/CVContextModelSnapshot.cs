@@ -144,7 +144,9 @@ namespace CV_Website.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SenderName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("MessageId");
 
