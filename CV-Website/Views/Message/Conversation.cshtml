@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Conversation";
+    string lastSenderName = null;
 }
 
 <h1>Meddelande med @ViewBag.OtherUserName</h1>
@@ -12,7 +13,11 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        @item.SenderName
+                        @if (item.SenderName != lastSenderName)
+                        {
+                            @item.SenderName
+                            lastSenderName = item.SenderName;
+                        }
                     </td>
                 </tr>
                 <tr>
@@ -45,9 +50,7 @@
         <form asp-action="SendMessage" method="post" class="message-form">
             <input type="hidden" name="SenderId" value="@ViewBag.CurrentUserId" />
             <input type="hidden" name="ReceiverId" value="@ViewBag.OtherUserId" />
-            @if (ViewBag.LatestMessageSenderId != ViewBag.CurrentUserId){
-                <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
-            }
+            <input type="hidden" name="SenderName" value="@ViewBag.CurrentUserName" />
             <textarea name="MessageText" rows="2" class="message-textarea" placeholder="Skriv ditt meddelande..."></textarea>
             <button type="submit" class="btn btn-primary">Skicka</button>
         </form>

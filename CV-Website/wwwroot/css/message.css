@@ -59,8 +59,8 @@
 }
 
 .delete-button {
-    text-decoration: none;
-    margin-left: 10px;
+    border: none;
+    background-color: transparent;
 }
 
 .clickForConversation {
@@ -89,4 +89,3 @@
     height: 16px;
     font-size: 11px;
 }
-
