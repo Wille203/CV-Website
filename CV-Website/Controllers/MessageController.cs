@@ -155,7 +155,14 @@ namespace CV_Website.Controllers
                 _context.Messages.Remove(message);
                 _context.SaveChanges();
             }
-            return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
+            if (message.SenderId == null)
+            {
+                return RedirectToAction("Conversation", new { senderId = (int?)null, receiverId = message.ReceiverId, senderName = message.SenderName });
+            }
+            else
+            {
+                return RedirectToAction("Conversation", new { senderId = message.SenderId, receiverId = message.ReceiverId });
+            }
         }
     }
 }

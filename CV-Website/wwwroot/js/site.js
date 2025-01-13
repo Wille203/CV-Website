@@ -6,11 +6,13 @@
 
 //Visar Bekräfta och avbryt knapparna när man vill ta bort meddelande döljer dem sen när man klickar avbryt
 function showConfirmation(button) {
-    document.querySelector('.delete-button').style.display = 'none';
-    document.querySelector('.confirmation-buttons').style.display = 'block';
+    button.style.display = 'none';
+    button.nextElementSibling.style.display = 'block';
 }
 
 function hideConfirmation(button) {
-    document.querySelector('.confirmation-buttons').style.display = 'none';
-    document.querySelector('.delete-button').style.display = 'block';
+    var confirmationButtons = button.parentElement;
+    var deleteButton = confirmationButtons.previousElementSibling;
+    confirmationButtons.style.display = 'none';
+    deleteButton.style.display = 'block';
 }

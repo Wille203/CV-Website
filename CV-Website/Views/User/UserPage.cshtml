@@ -119,6 +119,10 @@
 
         }
         </div>
+    @if(ViewBag.CurrentUserId == @Model.User.Id){
+    <p>Antal visningar: @Model.UserCV.ViewCount</p>
+    }
+
     @if (ViewBag.CurrentUserId != @Model.User.Id){
         <form asp-action="SendMessageFromUser" method="post" class="message-formCV">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -165,7 +169,6 @@
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     }
-    <p>Antal visningar: @Model.UserCV.ViewCount</p>
 
    
 </div>
