@@ -1,6 +1,10 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <td><a class="btn btn-info btn-sm" asp-controller="Project" asp-action="CreateProject">Skapa ett projekt</a></td>
+    <div class="mb-3">
+        <a class="btn btn-info btn-sm" asp-controller="Project" asp-action="CreateProject">
+            Skapa ett projekt
+        </a>
+    </div>
 }
 
 
