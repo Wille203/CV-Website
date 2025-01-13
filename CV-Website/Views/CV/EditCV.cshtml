@@ -1,9 +1,4 @@
 ﻿@model CV_Website.ViewModels.CVViewModel
-@{
-    var S = Model.SelectedSkills;
-    var E = Model.SelectedExperiences;
-    var Ed = Model.AllEducations;
-}
 
 <form asp-action="EditCV" method="post">
 	<input type="hidden" asp-for="UserId" />
@@ -19,7 +14,7 @@
                 @foreach (var skill in Model.AllSkills)
                 {
                     <li>
-                            <input type="checkbox" name="SelectedSkills" value="@skill.SkillsId" onchange= "SearchCV(this.value, this.checked)"
+                         <input type="checkbox" name="SelectedSkills" value="@skill.SkillsId" onchange= "SearchSkill(this.value, this.checked)"
                         @(Model.SelectedSkills != null && Model.SelectedSkills.Contains(skill.SkillsId) ? "checked" : "") />
                         @skill.Name
                     </li>
@@ -36,7 +31,7 @@
                 @foreach (var education in Model.AllEducations)
                 {
                     <li>
-                            <input type="checkbox" name="SelectedEducations" value="@education.EducationId" onchange=" SearchCV(this.value, this.checked)"
+                            <input type="checkbox" name="SelectedEducations" value="@education.EducationId" onchange=" SearchE(this.value, this.checked)"
                         @(Model.SelectedEducations != null && Model.SelectedEducations.Contains(education.EducationId) ? "checked" : "") />
                         @education.Name
                     </li>
@@ -53,7 +48,7 @@
                 @foreach (var experience in Model.AllExperiences)
                 {
                     <li>
-                            <input type="checkbox" name="SelectedExperiences" value="@experience.ExperienceId" onchange="SearchCV(this.value, this.checked)"
+                            <input type="checkbox" name="SelectedExperiences" value="@experience.ExperienceId" onchange="SearchEx(this.value, this.checked)"
                             @(Model.SelectedExperiences != null && Model.SelectedExperiences.Contains(experience.ExperienceId) ? "checked" : "") />
                         @experience.Name
                     </li>
@@ -67,57 +62,105 @@
     </div>
 </form>
 
-<div class="f-i3">
-    <h4>Erfarenheter</h4>
-    @if (Model.AllExperiences != null && Model.AllExperiences.Any())
-    {
-        <ul>
-            @foreach (var Experience in E)
-            {
-                <li>
-                   @Experience
-                </li>
-            }
-        </ul>
-    }
+<div class="f-is1">
+    <h4>Valda Färdigheter</h4>
+    <ul id ="NS">
+        @foreach(var si in Model.SelectedSkills)
+        {
+            var skill = Model.AllSkills.FirstOrDefault(s => s.SkillsId == si);
+            <li id="SS2-@si">
+               @skill.Name
+           </li>
+        }
+    </ul>
+    
 </div>
 
-<div class="f-i3" id="SS">
-    <h4>Färdigheter</h4>
-    @if (Model.SelectedSkills != null && Model.SelectedSkills.Any())
-    {
-        <ul>
-            @foreach (var skillName in Model.AllSkills.Where(s => Model.SelectedSkills.Contains(s.SkillsId)).Select(s => s.Name))
-            {
-                <li id="SS2">
-                    @skillName
-                </li>
-            }
-        </ul>
-    }
+<div class="f-is2">
+    <h4>Valda Utbildning</h4>
+    <ul id="NED">
+        @foreach (var sed in Model.SelectedEducations)
+        {
+            var education = Model.AllEducations.FirstOrDefault(s => s.EducationId == sed);
+            <li id="SED2-@education">
+                @education.Name
+            </li>
+        }
+    </ul>
+
 </div>
+
+<div class="f-is2">
+    <h4>Valda Erfarenheter</h4>
+    <ul id="NE">
+        @foreach (var NE in Model.SelectedExperiences)
+        {
+            var experience = Model.AllExperiences.FirstOrDefault(s => s.ExperienceId == NE);
+            <li id="SE2-@NE">
+                @experience.Name
+            </li>
+        }
+    </ul>
+
+</div>
+
 
 <script>
-    function SearchCV(skillId, isChecked) {
-        var selectedSkillsList = document.getElementById("SS");
-        var skillName = document.querySelector(`input[value='${skillId}']`).nextSibling.textContent.trim();
+    function SearchSkill(Id, isChecked) {
+        const selectedSkillsList = document.getElementById("NS");
+        const skillName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
 
-        // Hitta listan med valda färdigheter
-        var skillListItems = selectedSkillsList.querySelectorAll("li");
-
+        
         if (isChecked) {
-            // Lägg till den valda färdigheten
-            var newListItem = document.createElement("li");
+            const newListItem = document.createElement("li");
             newListItem.textContent = skillName;
-            newListItem.id = `SS2-${skillId}`;
+            newListItem.id = `SS2-${Id}`;
             selectedSkillsList.appendChild(newListItem);
         } else {
-            // Ta bort den avmarkerade färdigheten
-            var itemToRemove = document.getElementById(`SS2-${skillId}`);
+            
+            const itemToRemove = document.getElementById(`SS2-${Id}`);
             if (itemToRemove) {
                 selectedSkillsList.removeChild(itemToRemove);
             }
         }
     }
+
+    function SearchE(Id, isChecked) {
+        const selectedEducationList = document.getElementById("NE");
+        const eName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
+
+
+        if (isChecked) {
+            const newListItem = document.createElement("li");
+            newListItem.textContent = eName;
+            newListItem.id = `SE2-${Id}`;
+            selectedEducationList.appendChild(newListItem);
+        } else {
+
+            const itemToRemove = document.getElementById(`SE2-${Id}`);
+            if (itemToRemove) {
+                selectedEducationList.removeChild(itemToRemove);
+            }
+        }
+    }
+    function SearchEx(Id, isChecked) {
+        const selectedExList = document.getElementById("NED");
+        const experienceName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
+
+
+        if (isChecked) {
+            const newListItem = document.createElement("li");
+            newListItem.textContent = experienceName;
+            newListItem.id = `SED2-${Id}`;
+            selectedExlist.appendChild(newListItem);
+        } else {
+
+            const itemToRemove = document.getElementById(`SED2-${Id}`);
+            if (itemToRemove) {
+                selectedExlist.removeChild(itemToRemove);
+            }
+        }
+    }
+
 </script>
 
