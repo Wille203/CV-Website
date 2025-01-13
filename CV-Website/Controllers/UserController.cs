@@ -3,11 +3,14 @@ using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using NuGet.Packaging.Signing;
 using System.Linq;
 using System.Net;
+using System.Text;
+using System.Xml.Serialization;
 
 
 
@@ -23,16 +26,16 @@ namespace CV_Website.Controllers
             _context = context;
         }
 
-       
+
 
 
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId); 
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             if (user == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             var projects = _context.Project
@@ -56,7 +59,7 @@ namespace CV_Website.Controllers
                 Educations = userCV?.Education?.ToList()
             };
 
-            if( userId != GetCurrentUserId())
+            if (userId != GetCurrentUserId())
             {
                 if (!Request.Cookies.ContainsKey($"ViewedCV_{userId}"))
                 {
@@ -86,7 +89,7 @@ namespace CV_Website.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-           
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
@@ -97,18 +100,18 @@ namespace CV_Website.Controllers
                 {
                     foreach (var error in passwordValidationResult.Errors)//validerar att nya lösen följer alla fördefinerade regler för identity lösenord
                     {
-                        
+
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
 
-                    return View(model);  
+                    return View(model);
                 }
 
                 var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
                 if (result.Succeeded)
                 {
-                    
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -122,6 +125,70 @@ namespace CV_Website.Controllers
 
             return View(model);
         }
+
+        public IActionResult DownloadProfile(int Id)
+        {
+
+            var user = _context.Users.Include(p => p.Project).FirstOrDefault(u => u.Id == Id);
+            if (user.Private == true)
+            {
+                return Forbid();
+            }
+            var userCV = _context.CVs
+                .Include(cv => cv.Skills)
+                .Include(cv => cv.Experience)
+                .Include(cv => cv.Education)
+                .FirstOrDefault(cv => cv.UserId == Id);
+            var xmlModel = new XmlFileViewModel
+            {
+                Name = user.Name,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                Address = user.Address,
+                Skills = userCV.Skills
+                ?.Select(s => new SkillXml
+                {
+                    Name = s.Name
+                })
+                .ToList(),
+                        Educations = userCV.Education
+                ?.Select(s => new EducationXml
+                {
+
+                    Name = s.Name
+                })
+                .ToList(),
+                        Experiences = userCV.Experience
+                ?.Select(s => new ExperienceXml
+                {
+
+                    Name = s.Name
+                })
+                .ToList(),
+                        Projects = user.Project
+                ?.Select(s => new ProjectXml
+                {
+                    Title = s.Title,
+                    Description = s.Description,
+                    Information = s.Information
+
+
+                })
+                .ToList(),
+
+            };
+            var xmlSerializer = new XmlSerializer(typeof(XmlFileViewModel));
+
+
+            using (var memoryStream = new MemoryStream())
+            {
+                xmlSerializer.Serialize(memoryStream, xmlModel);
+
+
+                return File(memoryStream.ToArray(), "application/xml", "UserCV.xml");
+            }
+        }
+
         public IActionResult Search(string inputstring)
         {
             if (string.IsNullOrWhiteSpace(inputstring))
@@ -144,7 +211,7 @@ namespace CV_Website.Controllers
         }
 
 
-        [Authorize] 
+        [Authorize]
         [HttpGet]
         public IActionResult SettingsUser(int userId)
         {
@@ -175,11 +242,11 @@ namespace CV_Website.Controllers
         {
             if (!ModelState.IsValid)
             {
-                
+
                 return View(updatedUser);
             }
 
-            
+
             var user = _context.Users.FirstOrDefault(u => u.Id == updatedUser.Id);
             if (user != null)
             {
@@ -194,9 +261,9 @@ namespace CV_Website.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("GoToUserPage", new { userId = GetCurrentUserId()});
+            return RedirectToAction("GoToUserPage", new { userId = GetCurrentUserId() });
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadImage(int id, IFormFile profileImage)
@@ -213,7 +280,7 @@ namespace CV_Website.Controllers
                 using (var memoryStream = new MemoryStream())
                 {
                     await profileImage.CopyToAsync(memoryStream);
-                    user.img = memoryStream.ToArray(); 
+                    user.img = memoryStream.ToArray();
                 }
 
                 _context.Update(user);
