@@ -23,6 +23,7 @@ namespace CV_Website.Models
         public byte[]? img { get; set; }
         public Boolean Private { get; set; }
 
+        public virtual ICollection<CV> CVs { get; set; } = new List<CV>();
         public virtual ICollection<Project> Project { get; set; } = new List<Project>();
         public virtual ICollection<Message> SentMessages { get; set; } = new List<Message>();
         public virtual ICollection<Message> ReceivedMessages { get; set; } = new List<Message>();

@@ -488,7 +488,7 @@ namespace CV_Website.Migrations
             modelBuilder.Entity("CV_Website.Models.CV", b =>
                 {
                     b.HasOne("CV_Website.Models.User", "User")
-                        .WithMany()
+                        .WithMany("CVs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -593,6 +593,8 @@ namespace CV_Website.Migrations
 
             modelBuilder.Entity("CV_Website.Models.User", b =>
                 {
+                    b.Navigation("CVs");
+
                     b.Navigation("ReceivedMessages");
 
                     b.Navigation("SentMessages");

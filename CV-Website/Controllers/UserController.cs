@@ -81,8 +81,15 @@ namespace CV_Website.Controllers
                 return PartialView("_Partialview", new List<User>());
             }
 
+            var searchTerms = inputstring.Split(' ');
+
             var users = _context.Users
-                .Where(user => user.Name.Contains(inputstring))
+                .Include(user => user.CVs)
+                .ThenInclude(cv => cv.Skills)
+                .Where(user =>
+                    searchTerms.All(term =>
+                        user.Name.ToLower().Contains(term.ToLower()) ||
+                        user.CVs.Any(cv => cv.Skills.Any(skill => skill.Name.ToLower().Contains(term.ToLower())))))
                 .ToList();
 
             return PartialView("_Partialview", users);
