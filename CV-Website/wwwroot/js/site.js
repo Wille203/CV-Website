@@ -4,15 +4,13 @@
 // Write your JavaScript code.
 
 
-//Visar Bekräfta och avbryt knapparna när man vill ta bort meddelande
+//Visar Bekräfta och avbryt knapparna när man vill ta bort meddelande döljer dem sen när man klickar avbryt
 function showConfirmation(button) {
-    button.style.display = 'none'; 
-    button.nextElementSibling.style.display = 'block'; 
+    document.querySelector('.delete-button').style.display = 'none';
+    document.querySelector('.confirmation-buttons').style.display = 'block';
 }
 
 function hideConfirmation(button) {
-    var confirmationButtons = button.parentElement; // Föräldern är 'confirmation-buttons'
-    var deleteButton = confirmationButtons.previousElementSibling; // Föregående syskon är 'delete-button'
-    confirmationButtons.style.display = 'none'; // Dölj bekräftelseknapparna
-    deleteButton.style.display = 'block'; // Visa 'Ta bort'-knappen
+    document.querySelector('.confirmation-buttons').style.display = 'none';
+    document.querySelector('.delete-button').style.display = 'block';
 }
