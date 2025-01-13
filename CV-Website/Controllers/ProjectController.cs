@@ -40,7 +40,8 @@ namespace CV_Website.Controllers
 
           
         }
-        //lägg till inlogad användare istllet för hårdkodningen
+        
+        
         [HttpPost]
         [Authorize]
         public IActionResult CreateProject(Project project)
@@ -54,7 +55,7 @@ namespace CV_Website.Controllers
         }
 
 
-        //auth kolla användare som skapat är den inloggade???
+        
         [HttpGet]
         [Authorize]
         public IActionResult EditProject(int Id)
@@ -121,20 +122,20 @@ namespace CV_Website.Controllers
             
             return View(ProjectList.ToList());
         }
-        // om personen inte är inloggad ska privata profiler tas bort!!
+        
         public IActionResult ProjectPage(int Id)
         {
             var project = _context.Project
         .Include(p => p.Users) 
         .Include(p => p.Creator) 
-        .FirstOrDefault(u => u.ProjectId == Id);
+        .FirstOrDefault(u => u.ProjectId == Id);//tar med all information kopplad till projekt
 
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewData["LoggedInUserId"] = loggedInUserId;
 
-            if (!User.Identity.IsAuthenticated)// ej testad
+            if (!User.Identity.IsAuthenticated) // kollar om personen är inloggad
             {
-                project.Users = project.Users.Where(u => !u.Private).ToList();               
+                project.Users = project.Users.Where(u => !u.Private).ToList();  //Tar bort privata profiler             
             }
 
             if (project == null)
@@ -168,7 +169,7 @@ namespace CV_Website.Controllers
             int userId = int.Parse(loggedInUserId);
             var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
             
-            if (!project.Users.Any(u => u.Id == userId))
+            if (!project.Users.Any(u => u.Id == userId)) //´kollar om användaren inte är med i projektet
             {
                 
                 var user = _context.Users.FirstOrDefault(u => u.Id == userId);
@@ -185,7 +186,7 @@ namespace CV_Website.Controllers
         {
             var project = _context.Project
             .Include(p => p.Users)
-            .FirstOrDefault(p => p.ProjectId == id);
+            .FirstOrDefault(p => p.ProjectId == id);//hämtar all data kopplad till projekt så i sambandstabellen även raderas de rader som ska bort
 
             if (project != null)
             {
