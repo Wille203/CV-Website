@@ -20,14 +20,26 @@ namespace CV_Website.Controllers
     {
         private CVContext _context;
         private readonly UserManager<User> _userManager;
-        public UserController(UserManager<User> userManager, CVContext context) : base(context)
+        private readonly SignInManager<User> _signInManager;
+        public UserController(UserManager<User> userManager, CVContext context, SignInManager<User> signInManager) : base(context)
         {
             _userManager = userManager;
             _context = context;
+            _signInManager = signInManager;
         }
 
 
+        public async Task<IActionResult> DeactivateAccount()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            user.Deactivated = true;
+            
+            user.LockoutEnd = DateTimeOffset.MaxValue; 
+            await _userManager.UpdateAsync(user);
+            await _signInManager.SignOutAsync();
 
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
