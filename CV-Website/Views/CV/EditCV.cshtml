@@ -1,4 +1,9 @@
 ﻿@model CV_Website.ViewModels.CVViewModel
+@{
+    var S = Model.SelectedSkills;
+    var E = Model.SelectedExperiences;
+    var Ed = Model.AllEducations;
+}
 
 <form asp-action="EditCV" method="post">
 	<input type="hidden" asp-for="UserId" />
@@ -14,7 +19,7 @@
                 @foreach (var skill in Model.AllSkills)
                 {
                     <li>
-                        <input type="checkbox" name="SelectedSkills" value="@skill.SkillsId"
+                            <input type="checkbox" name="SelectedSkills" value="@skill.SkillsId" onchange= "SearchCV(this.value, this.checked)"
                         @(Model.SelectedSkills != null && Model.SelectedSkills.Contains(skill.SkillsId) ? "checked" : "") />
                         @skill.Name
                     </li>
@@ -31,7 +36,7 @@
                 @foreach (var education in Model.AllEducations)
                 {
                     <li>
-                        <input type="checkbox" name="SelectedEducations" value="@education.EducationId"
+                            <input type="checkbox" name="SelectedEducations" value="@education.EducationId" onchange=" SearchCV(this.value, this.checked)"
                         @(Model.SelectedEducations != null && Model.SelectedEducations.Contains(education.EducationId) ? "checked" : "") />
                         @education.Name
                     </li>
@@ -48,8 +53,8 @@
                 @foreach (var experience in Model.AllExperiences)
                 {
                     <li>
-                        <input type="checkbox" name="SelectedExperiences" value="@experience.ExperienceId"
-                        @(Model.SelectedExperiences != null && Model.SelectedExperiences.Contains(experience.ExperienceId) ? "checked" : "") />
+                            <input type="checkbox" name="SelectedExperiences" value="@experience.ExperienceId" onchange="SearchCV(this.value, this.checked)"
+                            @(Model.SelectedExperiences != null && Model.SelectedExperiences.Contains(experience) ? "checked" : "") />
                         @experience.Name
                     </li>
                 }
@@ -61,3 +66,37 @@
         <a href=@Url.Action("GoToUserPage", "User", new { userId = ViewBag.CurrentUserId}) class="btn btn-secondary">Avbryt</a>
     </div>
 </form>
+
+<div class="f-i3">
+    <h4>Erfarenheter</h4>
+    @if (Model.AllExperiences != null && Model.AllExperiences.Any())
+    {
+        <ul>
+            @foreach (var Experience in E)
+            {
+                <li>
+                   @Experience.Name
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<div class="f-i3">
+    <h4>Erfarenheter</h4>
+    @if (Model.AllSkills != null && Model.AllSkills.Any())
+    {
+        <ul>
+            @foreach (var Experience in S)
+            {
+                <li>
+                    @Experience.Name
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<script> 
+
+</script>
