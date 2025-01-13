@@ -87,7 +87,19 @@
                 @if (Model.CreatorId == loggedInUserId)
                 {
                     <td><a class="btn btn-primary" asp-controller="Project" asp-action="EditProject" asp-route-id="@Model.ProjectId">Redigera projekt</a></td>
-                    <td><a class="btn btn-danger" asp-controller="Project" asp-action="DeleteProject" asp-route-id="@Model.ProjectId">Radera projekt</a></td>
+
+                    <div class="delete-message-container mt-3">
+                        <form asp-action="DeleteProject" method="post" class="delete-message-form">
+                            <input type="hidden" name="Id" value="@Model.ProjectId" />
+                            <button type="button" class="btn btn-danger" onclick="showConfirmation(this)">Radera projekt</button>
+                            <div class="confirmation-buttons" style="display:none;">
+                                <button type="submit" class="confirm-button">Bekräfta</button>
+                                <button type="button" class="cancel-button" onclick="hideConfirmation(this)">Avbryt</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    
                 }
             }
         </div>
