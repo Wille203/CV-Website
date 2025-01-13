@@ -28,17 +28,18 @@ namespace CV_Website.Controllers
         public IActionResult GoToUserPage(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-
-            if(!User.Identity.IsAuthenticated && user.Private == true)
+            if (user == null)
+            {
+                return NotFound();
+            }
+            //tillåter ej att användaren försöker gå in på en priv profil om hen ej är inloggad
+            if (!User.Identity.IsAuthenticated && user.Private == true)
 {
 
 
                 return Forbid();
             }
-            if (user == null)
-            {
-                return NotFound(); 
-            }
+            
 
             var projects = _context.Project
           .Where(p => p.Users.Any(u => u.Id == userId))
