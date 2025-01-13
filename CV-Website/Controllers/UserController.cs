@@ -86,10 +86,38 @@ namespace CV_Website.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+           
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
-                await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                var passwordValidationResult = await _userManager.PasswordValidators
+            .FirstOrDefault()
+            .ValidateAsync(_userManager, user, model.NewPassword);
+                if (passwordValidationResult != IdentityResult.Success)
+                {
+                    foreach (var error in passwordValidationResult.Errors)//validerar att nya lösen följer alla fördefinerade regler för identity lösenord
+                    {
+                        
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    return View(model);  
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)// lägger till error för vad som gick fel förmodligen felaktigt nuvarande lösenord
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
 
             return View(model);
