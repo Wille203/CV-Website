@@ -28,7 +28,7 @@ namespace CV_Website.Controllers
             _signInManager = signInManager;
         }
 
-
+        [HttpPost]
         public async Task<IActionResult> DeactivateAccount()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -348,13 +348,16 @@ namespace CV_Website.Controllers
             {
                 return NotFound();
             }
+            //Kollar ifall det finns andra cv med liknande skills
             var matchingCVs = _context.CVs
                 .Include(c => c.Skills)
                 .Where(c => c.CVId != cvid && c.Skills.Any(skill => cv.Skills.Select(s => s.SkillsId).Contains(skill.SkillsId)));
-            if(GetCurrentUserId() == null)
+            //tar bort privata profiler sen tar den bort deaktiverade profiler
+            if (GetCurrentUserId() == null)
             {
                 matchingCVs = matchingCVs.Where(c => !c.User.Private);
             }
+            matchingCVs = matchingCVs.Where(c => !c.User.Deactivated);
             var matchingCVslist = matchingCVs.ToList();
 
             return View(matchingCVslist);
