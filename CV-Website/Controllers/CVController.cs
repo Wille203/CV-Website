@@ -88,6 +88,7 @@ namespace CV_Website.Controllers
                 
                 if (model.SelectedEducations != null)
                 {
+                    userCV.Education.Clear();
                     var sEducations = _context.Education
                     .Where(e => model.SelectedEducations.Contains(e.EducationId)).ToList();
                     foreach (var Education in sEducations)
@@ -99,6 +100,7 @@ namespace CV_Website.Controllers
 
                 if (model.SelectedExperiences != null)
                 {
+                    userCV.Experience.Clear();
                     var sEducations = _context.Experience
                      .Where(e => model.SelectedExperiences.Contains(e.ExperienceId)).ToList();
                     foreach (var Ex in sEducations)
