@@ -40,7 +40,7 @@ namespace CV_Website.Controllers
                 AllExperiences = allExperiences,
                 SelectedSkills = userCV?.Skills.Select(s => s.SkillsId).ToList() ?? new List<int>(),
                 SelectedEducations = userCV?.Education.Select(e => e.EducationId).ToList() ?? new List<int>(),
-                SelectedExperiences = userCV?.Experience.ToList() ?? new List<Experience>(),
+                SelectedExperiences = userCV?.Experience.Select(ex => ex.ExperienceId).ToList() ?? new List<int>(),
             };
 
             return View(viewModel);
@@ -75,6 +75,7 @@ namespace CV_Website.Controllers
                 
                 if (model.SelectedSkills != null)
                 {
+                    userCV.Skills.Clear();
                     var sSkills = _context.Skills
                     .Where(s => model.SelectedSkills.Contains(s.SkillsId)).ToList();
 
@@ -89,23 +90,22 @@ namespace CV_Website.Controllers
                 {
                     var sEducations = _context.Education
                     .Where(e => model.SelectedEducations.Contains(e.EducationId)).ToList();
-                    foreach (var Edication in sEducations)
+                    foreach (var Education in sEducations)
                     {
-                        userCV.Education.Add(Edication);
+                        userCV.Education.Add(Education);
                     }
                 }
 
 
                 if (model.SelectedExperiences != null)
                 {
-                    foreach (var experience in model.SelectedExperiences)
+                    var sEducations = _context.Experience
+                     .Where(e => model.SelectedExperiences.Contains(e.ExperienceId)).ToList();
+                    foreach (var Ex in sEducations)
                     {
-                        // Om erfarenheten inte redan finns i CV:t, lägg till den
-                        if (!userCV.Experience.Any(ex => ex.ExperienceId == experience.ExperienceId))
-                        {
-                            userCV.Experience.Add(experience);
-                        }
+                        userCV.Experience.Add(Ex);
                     }
+                
                 }
 
                     _context.SaveChanges();

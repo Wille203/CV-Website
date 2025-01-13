@@ -54,7 +54,7 @@
                 {
                     <li>
                             <input type="checkbox" name="SelectedExperiences" value="@experience.ExperienceId" onchange="SearchCV(this.value, this.checked)"
-                            @(Model.SelectedExperiences != null && Model.SelectedExperiences.Contains(experience) ? "checked" : "") />
+                            @(Model.SelectedExperiences != null && Model.SelectedExperiences.Contains(experience.ExperienceId) ? "checked" : "") />
                         @experience.Name
                     </li>
                 }
@@ -75,7 +75,7 @@
             @foreach (var Experience in E)
             {
                 <li>
-                   @Experience.Name
+                   @Experience
                 </li>
             }
         </ul>
@@ -83,14 +83,14 @@
 </div>
 
 <div class="f-i3">
-    <h4>Erfarenheter</h4>
-    @if (Model.AllSkills != null && Model.AllSkills.Any())
+    <h4>Färdigheter</h4>
+    @if (Model.SelectedSkills != null && Model.SelectedSkills.Any())
     {
         <ul>
-            @foreach (var Experience in S)
+            @foreach (var skillName in Model.AllSkills.Where(s => Model.SelectedSkills.Contains(s.SkillsId)).Select(s => s.Name))
             {
                 <li>
-                    @Experience.Name
+                    @skillName
                 </li>
             }
         </ul>
