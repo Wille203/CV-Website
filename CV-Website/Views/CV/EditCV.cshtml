@@ -126,36 +126,36 @@
     }
 
     function SearchE(Id, isChecked) {
-        const selectedEducationList = document.getElementById("NE");
+        const selectedEducationList = document.getElementById("NED");
         const eName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
 
 
         if (isChecked) {
             const newListItem = document.createElement("li");
             newListItem.textContent = eName;
-            newListItem.id = `SE2-${Id}`;
+            newListItem.id = `SED2-${Id}`;
             selectedEducationList.appendChild(newListItem);
         } else {
 
-            const itemToRemove = document.getElementById(`SE2-${Id}`);
+            const itemToRemove = document.getElementById(`SED2-${Id}`);
             if (itemToRemove) {
                 selectedEducationList.removeChild(itemToRemove);
             }
         }
     }
     function SearchEx(Id, isChecked) {
-        const selectedExList = document.getElementById("NED");
+        const selectedExList = document.getElementById("NE");
         const experienceName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
 
 
         if (isChecked) {
             const newListItem = document.createElement("li");
             newListItem.textContent = experienceName;
-            newListItem.id = `SED2-${Id}`;
+            newListItem.id = `SE2-${Id}`;
             selectedExlist.appendChild(newListItem);
         } else {
 
-            const itemToRemove = document.getElementById(`SED2-${Id}`);
+            const itemToRemove = document.getElementById(`SE2-${Id}`);
             if (itemToRemove) {
                 selectedExlist.removeChild(itemToRemove);
             }
