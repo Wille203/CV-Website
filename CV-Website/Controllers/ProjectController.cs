@@ -38,10 +38,10 @@ namespace CV_Website.Controllers
             ViewData["CreatorId"] = userId;
             return View(project);
 
-          
+
         }
-        
-        
+
+
         [HttpPost]
         [Authorize]
         public IActionResult CreateProject(Project project)
@@ -49,22 +49,22 @@ namespace CV_Website.Controllers
 
             _context.Add(project);
             _context.SaveChanges();
-                return RedirectToAction("Index", "Home");
-             
+            return RedirectToAction("Index", "Home");
+
 
         }
 
 
-        
+
         [HttpGet]
         [Authorize]
         public IActionResult EditProject(int Id)
         {
-            
-            
+
+
             var project = _context.Project.Find(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
+
             int loggedInUserId = int.Parse(userId);
             if (project == null)
             {
@@ -81,14 +81,14 @@ namespace CV_Website.Controllers
                 Description = project.Description,
                 Information = project.Information
             };
-            return View("EditProject", viewModel); 
+            return View("EditProject", viewModel);
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult EditProject(int projectId, EditProjectViewModel updatedProject)
         {
-            
+
 
             if (!ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace CV_Website.Controllers
             project.Title = updatedProject.Title;
             project.Description = updatedProject.Description;
             project.Information = updatedProject.Information;
-            
+
 
             _context.SaveChanges();
 
@@ -119,15 +119,15 @@ namespace CV_Website.Controllers
         public IActionResult ListProject()
         {
             IQueryable<Project> ProjectList = from project in _context.Project select project;
-            
+
             return View(ProjectList.ToList());
         }
-        
+
         public IActionResult ProjectPage(int Id)
         {
             var project = _context.Project
-        .Include(p => p.Users) 
-        .Include(p => p.Creator) 
+        .Include(p => p.Users)
+        .Include(p => p.Creator)
         .FirstOrDefault(u => u.ProjectId == Id);//tar med all information kopplad till projekt
 
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -156,7 +156,7 @@ namespace CV_Website.Controllers
 
             if (user != null && project.Users.Contains(user))
             {
-                
+
                 project.Users.Remove(user);
                 _context.SaveChanges();
             }
@@ -168,15 +168,15 @@ namespace CV_Website.Controllers
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int userId = int.Parse(loggedInUserId);
             var project = _context.Project.Include(p => p.Users).FirstOrDefault(p => p.ProjectId == id);
-            
+
             if (!project.Users.Any(u => u.Id == userId)) //´kollar om användaren inte är med i projektet
             {
-                
+
                 var user = _context.Users.FirstOrDefault(u => u.Id == userId);
                 if (user != null)
                 {
                     project.Users.Add(user);
-                    _context.SaveChanges(); 
+                    _context.SaveChanges();
                 }
             }
             return RedirectToAction("ProjectPage", new { id = id });
