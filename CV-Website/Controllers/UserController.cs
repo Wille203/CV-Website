@@ -32,7 +32,7 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.FirstOrDefault(u => (u.Id == userId) && u.Deactivated == false);
             if (user == null)
             {
                 return NotFound();
@@ -204,6 +204,7 @@ namespace CV_Website.Controllers
                 .Include(user => user.CVs)
                 .ThenInclude(cv => cv.Skills)
                 .Where(user =>
+                    !user.Deactivated &&
                     searchTerms.All(term =>
                         user.Name.ToLower().Contains(term.ToLower()) ||
                         user.CVs.Any(cv => cv.Skills.Any(skill => skill.Name.ToLower().Contains(term.ToLower())))))
