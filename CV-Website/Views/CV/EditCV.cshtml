@@ -82,14 +82,14 @@
     }
 </div>
 
-<div class="f-i3">
+<div class="f-i3" id="SS">
     <h4>Färdigheter</h4>
     @if (Model.SelectedSkills != null && Model.SelectedSkills.Any())
     {
         <ul>
             @foreach (var skillName in Model.AllSkills.Where(s => Model.SelectedSkills.Contains(s.SkillsId)).Select(s => s.Name))
             {
-                <li>
+                <li id="SS2">
                     @skillName
                 </li>
             }
@@ -97,6 +97,27 @@
     }
 </div>
 
-<script> 
+<script>
+    function SearchCV(skillId, isChecked) {
+        var selectedSkillsList = document.getElementById("SS");
+        var skillName = document.querySelector(`input[value='${skillId}']`).nextSibling.textContent.trim();
 
+        // Hitta listan med valda färdigheter
+        var skillListItems = selectedSkillsList.querySelectorAll("li");
+
+        if (isChecked) {
+            // Lägg till den valda färdigheten
+            var newListItem = document.createElement("li");
+            newListItem.textContent = skillName;
+            newListItem.id = `SS2-${skillId}`;
+            selectedSkillsList.appendChild(newListItem);
+        } else {
+            // Ta bort den avmarkerade färdigheten
+            var itemToRemove = document.getElementById(`SS2-${skillId}`);
+            if (itemToRemove) {
+                selectedSkillsList.removeChild(itemToRemove);
+            }
+        }
+    }
 </script>
+
