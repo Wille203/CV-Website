@@ -25,9 +25,18 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Skapare</h5>
-                    <a href="@Url.Action("GoToUserPage", "User", new { userId = Model.Creator.Id })">
-                        <strong>@Model.Creator.Name</strong>
-                    </a>
+                    @if (!User.Identity.IsAuthenticated && Model.Creator.Private == true)// ej testad
+                    {
+                        
+                        
+                        <p class="card-text">Skaparen är privat</p>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("GoToUserPage", "User", new { userId = Model.Creator.Id })">
+                            <strong>@Model.Creator.Name</strong>
+                        </a>
+                    }
 
                 </div>
             </div>

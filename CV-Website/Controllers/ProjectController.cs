@@ -89,7 +89,7 @@ namespace CV_Website.Controllers
         {
             
 
-            if (!ModelState.IsValid)//behövs fixas!!!!
+            if (!ModelState.IsValid)
             {
                 return View(updatedProject);
             }
@@ -134,7 +134,7 @@ namespace CV_Website.Controllers
 
             if (!User.Identity.IsAuthenticated)// ej testad
             {
-                project.Users = project.Users.Where(u => !u.Private).ToList();
+                project.Users = project.Users.Where(u => !u.Private).ToList();               
             }
 
             if (project == null)
