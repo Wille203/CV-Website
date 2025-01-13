@@ -322,5 +322,27 @@ namespace CV_Website.Controllers
             return View("UserPage", viewModel);
         }
 
+        [HttpGet]
+        public IActionResult FindMatchingUsers(int cvid)
+        {
+            var cv = _context.CVs
+                .Include(cv => cv.Skills)
+                .FirstOrDefault(cv => cv.CVId == cvid);
+            if(cv == null)
+            {
+                return NotFound();
+            }
+            var matchingCVs = _context.CVs
+                .Include(c => c.Skills)
+                .Where(c => c.CVId != cvid && c.Skills.Any(skill => cv.Skills.Select(s => s.SkillsId).Contains(skill.SkillsId)));
+            if(GetCurrentUserId() == null)
+            {
+                matchingCVs = matchingCVs.Where(c => !c.User.Private);
+            }
+            var matchingCVslist = matchingCVs.ToList();
+
+            return View(matchingCVslist);
+        }
+
     }
 }
