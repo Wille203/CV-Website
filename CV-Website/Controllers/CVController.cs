@@ -1,5 +1,6 @@
 ﻿using CV_Website.Models;
 using CV_Website.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace CV_Website.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult EditCV(int userId)
         {
@@ -32,7 +34,6 @@ namespace CV_Website.Controllers
             
             var viewModel = new CVViewModel
             {
-                // Antingen fylla listan med skills osv, eller skapa en tom lista
                 UserId = userId,
                 AllSkills = allSkills,
                 AllEducations = allEducations,
@@ -44,6 +45,7 @@ namespace CV_Website.Controllers
 
             return View(viewModel);
         }
+        [Authorize]
         [HttpPost]
         public IActionResult EditCV(CVViewModel model)
         {
