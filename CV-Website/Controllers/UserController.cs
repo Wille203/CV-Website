@@ -1,6 +1,7 @@
 ﻿using CV_Website.Models;
 using CV_Website.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -15,9 +16,10 @@ namespace CV_Website.Controllers
     public class UserController : BaseController
     {
         private CVContext _context;
-
-        public UserController( CVContext context) : base(context)
+        private readonly UserManager<User> _userManager;
+        public UserController(UserManager<User> userManager, CVContext context) : base(context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -82,6 +84,24 @@ namespace CV_Website.Controllers
             return View("UserPage", viewModel);
         }
 
+        [Authorize]
+        public IActionResult ChangePassword()
+        {
+            var model = new ChangePasswordViewModel();
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            }
+
+            return View(model);
+        }
         public IActionResult Search(string inputstring)
         {
             if (string.IsNullOrWhiteSpace(inputstring))
