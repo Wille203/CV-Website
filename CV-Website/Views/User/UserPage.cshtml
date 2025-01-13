@@ -86,7 +86,7 @@
                 @if (ViewBag.CurrentUserId == Model.User.Id)
                 {
                     <div id="PSettings" class="p-settings">
-                        <a href="@Url.Action("ListProject", "Project")">
+                        <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.Id })">
 
                             <i class="fas fa-pencil-alt" title="Redigera erfarenhet"></i>
 
@@ -104,7 +104,7 @@
                 @if (ViewBag.CurrentUserId == Model.User.Id)
                 {
                     <div id="PSettings" class="p-settings">
-                        <a href="@Url.Action("ListProject", "Project")">
+                        <a href="@Url.Action("EditCV", "CV", new { userId = Model.User.Id })">
 
                             <i class="fas fa-pencil-alt" title="Redigera utbildning"></i>
 
