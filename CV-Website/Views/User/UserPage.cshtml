@@ -130,7 +130,7 @@
         }
         </div>
     @if(ViewBag.CurrentUserId == Model.User.Id){
-		if (Model.UserCV != null)
+		@if (Model.UserCV != null)
 		{
             <p>Antal visningar: @Model.UserCV.ViewCount</p>
 		}
@@ -154,6 +154,13 @@
             <button type="submit" class="btn btn-primary">Skicka</button>
         </form>
 	}
+    @if (@Model.UserCV != null){
+        <form asp-controller="User" asp-action="FindMatchingUsers" method="get">
+            <button type="submit" class="btn btn-primary">Hitta liknande CV</button>
+            <input type="hidden" name="cvid" value="@Model.UserCV.CVId" />
+        </form>
+	}
+
     @{
         ViewData["Title"] = "Upload Profile Image";
     }
