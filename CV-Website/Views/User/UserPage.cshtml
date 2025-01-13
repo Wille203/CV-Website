@@ -130,7 +130,11 @@
         }
         </div>
     @if(ViewBag.CurrentUserId == @Model.User.Id){
-    <p>Antal visningar: @Model.UserCV.ViewCount</p>
+		if (Model.UserCV != null)
+		{
+            <p>Antal visningar: @Model.UserCV.ViewCount</p>
+		}
+    
     }
 
     @if (ViewBag.CurrentUserId != @Model.User.Id){
