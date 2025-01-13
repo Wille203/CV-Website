@@ -3,6 +3,15 @@
 <div id="UID" class="PersonalPage">
 
 	<div id="Info" class="p-f1">
+        @* Flyttade upp kugghjulet i p-f1, säkerställer att användaren är inne på sin egna profil *@
+        @if (ViewBag.CurrentUserId == Model.User.Id)
+        {
+            <div id="Settings" class="p-f3">
+                <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.Id })">
+                    <i class="fas fa-cog settings-icon"></i>
+                </a>
+            </div>
+        }
         @if (Model.User.img != null)
         {
             <img src="data:image/png;base64,@Convert.ToBase64String(Model.User.img)" alt="Profile Image" />
@@ -17,6 +26,7 @@
 	<p>@Model.User.UserName</p>
     <p>@Model.User.PhoneNumber</p>
 	</div>
+    
 
 
 	<div id="UP" class="p-f2">
@@ -140,17 +150,6 @@
             <button type="submit" class="btn btn-primary">Skicka</button>
         </form>
 	}
-
-
-    @* Vi säkerställer att ID:et är korrekt (profilsida och den inloggade)  *@
-    @if (ViewBag.CurrentUserId == Model.User.Id)
-    {
-        <div id="Settings" class="p-f3">
-            <a href="@Url.Action("SettingsUser", "User", new { userId = Model.User.Id })">
-                <button>Redigera profil</button>
-            </a>
-        </div>
-    }
     @{
         ViewData["Title"] = "Upload Profile Image";
     }
@@ -158,9 +157,9 @@
     
     @if (ViewBag.CurrentUserId == Model.User.Id)
     {
-        <h1>@ViewData["Title"]</h1>
+        @* <h1>@ViewData["Title"]</h1> *@
 
-        <form asp-action="UploadImage" enctype="multipart/form-data" method="post">
+        <form asp-action="UploadImage" enctype="multipart/form-data" method="post" class="Upload-form">
             <input name="Id" type="hidden" value=@Model.User.Id>
             <div class="form-group">
                 <label for="profileImage">Choose Image</label>
