@@ -39,7 +39,7 @@ namespace CV_Website.Controllers
             var registeredMessages = _context.Messages
                 .Include(m => m.Sender)
                 .Include(m => m.Receiver)
-                .Where(m => m.SenderId != null && (m.SenderId == currentUserId || m.ReceiverId == currentUserId))
+                .Where(m => m.SenderId != null && (m.SenderId == currentUserId || m.ReceiverId == currentUserId) && (!m.Sender.Deactivated && !m.Receiver.Deactivated))
                 .GroupBy(m => m.SenderId == currentUserId
                     ? m.ReceiverId
                     : m.SenderId)
@@ -83,6 +83,11 @@ namespace CV_Website.Controllers
             int? latestMessageSenderId = latestMessage?.SenderId;
             int? otherUserId = currentUserId == senderId ? receiverId : senderId;
             var otherUser = _context.Users.Find(otherUserId);
+
+            if ((currentUserId != senderId && currentUserId != receiverId) || otherUser.Deactivated == true)
+            {
+                return Unauthorized();
+            }
 
             if (otherUser == null)
             {
