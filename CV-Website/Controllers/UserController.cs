@@ -129,43 +129,45 @@ namespace CV_Website.Controllers
         public IActionResult DownloadProfile(int Id)
         {
 
-            var user = _context.Users.Include(p => p.Project).FirstOrDefault(u => u.Id == Id);
-            if (user.Private == true)
+            var user = _context.Users.Include(p => p.Project).FirstOrDefault(u => u.Id == Id); // hämtar användaren som ska laddas ner och projekt
+            if (user.Private == true) //Säkerställer att användaren inte är privat
             {
                 return Forbid();
             }
-            var userCV = _context.CVs
+            var userCV = _context.CVs // hämtar cv info om användaren
                 .Include(cv => cv.Skills)
                 .Include(cv => cv.Experience)
                 .Include(cv => cv.Education)
                 .FirstOrDefault(cv => cv.UserId == Id);
-            var xmlModel = new XmlFileViewModel
+            var xmlModel = new XmlFileViewModel // gör en viewmodel med datan som ska laddas ner
             {
                 Name = user.Name,
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 Address = user.Address,
+
+                //Alla rader här tar datan och sätter den i viewmodels som kan bli serialized
                 Skills = userCV.Skills
                 ?.Select(s => new SkillXml
                 {
                     Name = s.Name
                 })
                 .ToList(),
-                        Educations = userCV.Education
+                Educations = userCV.Education
                 ?.Select(s => new EducationXml
                 {
 
                     Name = s.Name
                 })
                 .ToList(),
-                        Experiences = userCV.Experience
+                Experiences = userCV.Experience
                 ?.Select(s => new ExperienceXml
                 {
 
                     Name = s.Name
                 })
                 .ToList(),
-                        Projects = user.Project
+                Projects = user.Project
                 ?.Select(s => new ProjectXml
                 {
                     Title = s.Title,
@@ -179,7 +181,7 @@ namespace CV_Website.Controllers
             };
             var xmlSerializer = new XmlSerializer(typeof(XmlFileViewModel));
 
-
+            //Sparar datan i minne och skickar vidare till nedladdning
             using (var memoryStream = new MemoryStream())
             {
                 xmlSerializer.Serialize(memoryStream, xmlModel);
@@ -274,9 +276,10 @@ namespace CV_Website.Controllers
             {
                 return NotFound();
             }
-
+            //Kollar så en bild har skickats in
             if (profileImage != null && profileImage.Length > 0)
             {
+                //gör om bilden till bytes och sparar den i databasen
                 using (var memoryStream = new MemoryStream())
                 {
                     await profileImage.CopyToAsync(memoryStream);
