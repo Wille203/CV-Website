@@ -27,7 +27,14 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId); 
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+
+            if(!User.Identity.IsAuthenticated && user.Private == true)
+{
+
+
+                return Forbid();
+            }
             if (user == null)
             {
                 return NotFound(); 
