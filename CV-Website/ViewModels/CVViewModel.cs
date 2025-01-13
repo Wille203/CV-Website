@@ -13,6 +13,6 @@ namespace CV_Website.ViewModels
         // Användarens nuvarande val 
         public List<int> SelectedSkills { get; set; } = new List<int>();  
         public List<int> SelectedEducations { get; set; } = new List<int>();  
-        public List<int> SelectedExperiences { get; set; } = new List<int>();  
+        public List<Experience> SelectedExperiences { get; set; } = new List<Experience>();  
     }
 }

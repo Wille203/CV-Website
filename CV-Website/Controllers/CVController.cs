@@ -1,5 +1,6 @@
 ﻿using CV_Website.Models;
 using CV_Website.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ namespace CV_Website.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult EditCV(int userId)
         {
@@ -32,18 +34,18 @@ namespace CV_Website.Controllers
             
             var viewModel = new CVViewModel
             {
-                // Antingen fylla listan med skills osv, eller skapa en tom lista
                 UserId = userId,
                 AllSkills = allSkills,
                 AllEducations = allEducations,
                 AllExperiences = allExperiences,
                 SelectedSkills = userCV?.Skills.Select(s => s.SkillsId).ToList() ?? new List<int>(),
                 SelectedEducations = userCV?.Education.Select(e => e.EducationId).ToList() ?? new List<int>(),
-                SelectedExperiences = userCV?.Experience.Select(ex => ex.ExperienceId).ToList() ?? new List<int>(),
+                SelectedExperiences = userCV?.Experience.ToList() ?? new List<Experience>(),
             };
 
             return View(viewModel);
         }
+        [Authorize]
         [HttpPost]
         public IActionResult EditCV(CVViewModel model)
         {
@@ -93,19 +95,21 @@ namespace CV_Website.Controllers
                     }
                 }
 
-          
+
                 if (model.SelectedExperiences != null)
                 {
-                    var sExperiences = _context.Experience
-                    .Where(ex => model.SelectedExperiences.Contains(ex.ExperienceId)).ToList();
-                    foreach (var Experience in sExperiences)
+                    foreach (var experience in model.SelectedExperiences)
                     {
-                        userCV.Experience.Add(Experience);
+                        // Om erfarenheten inte redan finns i CV:t, lägg till den
+                        if (!userCV.Experience.Any(ex => ex.ExperienceId == experience.ExperienceId))
+                        {
+                            userCV.Experience.Add(experience);
+                        }
                     }
                 }
 
-               
-                _context.SaveChanges();
+                    _context.SaveChanges();
+
 
                 return RedirectToAction("GoToUserPage", "User", new { userId = model.UserId });
             }
