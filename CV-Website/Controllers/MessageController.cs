@@ -138,6 +138,7 @@ namespace CV_Website.Controllers
                 message.Read = true;
                 _context.SaveChanges();
 
+                //retunerar olika beroende på ifall det är en anonym användare eller registrerad användare som är sender
                 if (message.SenderId == null)
                 {
                     return RedirectToAction("Conversation", new { senderId = (int?)null, receiverId = message.ReceiverId, senderName = message.SenderName });

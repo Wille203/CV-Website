@@ -37,6 +37,7 @@ namespace CV_Website.Controllers
             return int.Parse(userId.Value);
         }
 
+        //Körs varje gång en action körs
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if(GetCurrentUserId() != null)
