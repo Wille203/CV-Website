@@ -284,21 +284,33 @@ namespace CV_Website.Controllers
             {
                 return RedirectToAction("ShowError", new { errorMessage = "Användaren finns ej." });
             }
-            //Kollar så en bild har skickats in
-            if (profileImage != null && profileImage.Length > 0)
-            {
-                //gör om bilden till bytes och sparar den i databasen
-                using (var memoryStream = new MemoryStream())
+            
+                //Kollar så en bild har skickats in
+                if (profileImage != null && profileImage.Length > 0)
                 {
-                    await profileImage.CopyToAsync(memoryStream);
-                    user.img = memoryStream.ToArray();
+                    try
+                    {
+                        //gör om bilden till bytes och sparar den i databasen
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await profileImage.CopyToAsync(memoryStream);
+                            user.img = memoryStream.ToArray();
+                        }
+                        _context.Update(user);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return RedirectToAction("ShowError", new { errorMessage = "Ogiltig fil" });
+                    }
+               
                 }
 
-                _context.Update(user);
-                await _context.SaveChangesAsync();
-            }
+                return RedirectToAction("GoToUserPage", new { userId = id });
+            
+            
 
-            return RedirectToAction("GoToUserPage", new { userId = id });
+           
         }
 
         [HttpPost]
