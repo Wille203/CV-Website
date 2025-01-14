@@ -1,10 +1,11 @@
 ﻿@model CV_Website.ViewModels.CVViewModel
 
-<form asp-action="EditCV" method="post">
+<div class="Tcon">
+    <form asp-action="EditCV" method="post">
 	<input type="hidden" asp-for="UserId" />
 
-	<div class="form-item">
-	    <h4>Uppdatera ditt CV</h4>
+	<div class="form-item f-i0">
+	    
 
         <div class="f-i1">
             <h4>Färdigheter</h4>
@@ -60,50 +61,78 @@
         <button type="submit" class="btn btn-primary">Spara ändringar</button>
         <a href=@Url.Action("GoToUserPage", "User", new { userId = ViewBag.CurrentUserId}) class="btn btn-secondary">Avbryt</a>
     </div>
-</form>
+    </form>
+ 
 
-<div class="f-is1">
-    <h4>Valda Färdigheter</h4>
-    <ul id ="NS">
-        @foreach(var si in Model.SelectedSkills)
-        {
-            var skill = Model.AllSkills.FirstOrDefault(s => s.SkillsId == si);
-            <li id="SS2-@si">
-               @skill.Name
-           </li>
-        }
-    </ul>
+       
+       <div class="f-is0">
+        <div class="f-is1">
+            <h4>Valda Färdigheter</h4>
+            <ul id ="NS">
+                @foreach(var si in Model.SelectedSkills)
+                {
+                    var skill = Model.AllSkills.FirstOrDefault(s => s.SkillsId == si);
+                    <li id="SS2-@si">
+                       @skill.Name
+                   </li>
+                }
+            </ul>
     
+        </div>
+
+        <div class="f-is2">
+            <h4>Valda Utbildning</h4>
+            <ul id="NED">
+                @foreach (var sed in Model.SelectedEducations)
+                {
+                    var education = Model.AllEducations.FirstOrDefault(s => s.EducationId == sed);
+                    <li id="SED2-@education">
+                        @education.Name
+                    </li>
+                }
+            </ul>
+
+        </div>
+
+        <div class="f-is2">
+            <h4>Valda Erfarenheter</h4>
+            <ul id="NE">
+                @foreach (var NE in Model.SelectedExperiences)
+                {
+                    var experience = Model.AllExperiences.FirstOrDefault(s => s.ExperienceId == NE);
+                    <li id="SE2-@NE">
+                        @experience.Name
+                    </li>
+                }
+            </ul>
+
+        </div>
+      </div>
+
+      <div class="fo-0">
+      <form asp-action="CreateT" method="post">
+        <label>
+            Lägg till ny färdighet
+            <input asp-for="NewSkill" class="form-control" />
+            <span asp-validation-for="NewSkill" class="text-danger"></span>
+        </label>
+
+        <label>
+            Lägg till ny utbildning
+            <input asp-for="NewEducation" class="form-control" />
+            <span asp-validation-for="NewEducation" class="text-danger"></span>
+        </label>
+
+        <label>
+            Lägg till ny erfarenhet
+            <input asp-for="NewExperience" class="form-control" />
+            <span asp-validation-for="NewExperience" class="text-danger"></span>
+        </label>
+
+        <button type="submit" class="btn btn-primary">Lägg till</button>
+    </form>
+    </div>
 </div>
-
-<div class="f-is2">
-    <h4>Valda Utbildning</h4>
-    <ul id="NED">
-        @foreach (var sed in Model.SelectedEducations)
-        {
-            var education = Model.AllEducations.FirstOrDefault(s => s.EducationId == sed);
-            <li id="SED2-@education">
-                @education.Name
-            </li>
-        }
-    </ul>
-
-</div>
-
-<div class="f-is2">
-    <h4>Valda Erfarenheter</h4>
-    <ul id="NE">
-        @foreach (var NE in Model.SelectedExperiences)
-        {
-            var experience = Model.AllExperiences.FirstOrDefault(s => s.ExperienceId == NE);
-            <li id="SE2-@NE">
-                @experience.Name
-            </li>
-        }
-    </ul>
-
-</div>
-
 
 <script>
     function SearchSkill(Id, isChecked) {
@@ -127,7 +156,7 @@
 
     function SearchE(Id, isChecked) {
         const selectedEducationList = document.getElementById("NED");
-        const eName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
+        const eName = document.querySelector(`.f-i2 input[value='${Id}']`).parentElement.textContent.trim();
 
 
         if (isChecked) {
@@ -145,19 +174,19 @@
     }
     function SearchEx(Id, isChecked) {
         const selectedExList = document.getElementById("NE");
-        const experienceName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
+        const experienceName = document.querySelector(`.f-i3 input[value='${Id}']`).parentElement.textContent.trim();
 
 
         if (isChecked) {
             const newListItem = document.createElement("li");
             newListItem.textContent = experienceName;
             newListItem.id = `SE2-${Id}`;
-            selectedExlist.appendChild(newListItem);
+            selectedExList.appendChild(newListItem);
         } else {
 
             const itemToRemove = document.getElementById(`SE2-${Id}`);
             if (itemToRemove) {
-                selectedExlist.removeChild(itemToRemove);
+                selectedExList.removeChild(itemToRemove);
             }
         }
     }

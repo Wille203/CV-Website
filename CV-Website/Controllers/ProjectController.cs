@@ -138,6 +138,8 @@ namespace CV_Website.Controllers
                 project.Users = project.Users.Where(u => !u.Private).ToList();  //Tar bort privata profiler             
             }
 
+            project.Users = project.Users.Where(u => !u.Deactivated).ToList();
+            
             if (project == null)
             {
                 return NotFound();
@@ -182,6 +184,7 @@ namespace CV_Website.Controllers
             return RedirectToAction("ProjectPage", new { id = id });
         }
         [Authorize]
+        [HttpPost]
         public IActionResult DeleteProject(int id)
         {
             var project = _context.Project
