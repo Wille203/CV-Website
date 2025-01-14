@@ -285,13 +285,22 @@ namespace CV_Website.Controllers
                 return RedirectToAction("ShowError", new { errorMessage = "Användaren finns ej." });
             }
             
-                //Kollar så en bild har skickats in
-                if (profileImage != null && profileImage.Length > 0)
+            //Kollar så en bild har skickats in
+            if (profileImage != null && profileImage.Length > 0)
                 {
                     try
                     {
-                        //gör om bilden till bytes och sparar den i databasen
-                        using (var memoryStream = new MemoryStream())
+
+
+                    //kollar så att det är en bild
+                    var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
+                    var fileExtension = Path.GetExtension(profileImage.FileName).ToLower();
+                    if (!allowedExtensions.Contains(fileExtension))
+                    {
+                        return RedirectToAction("ShowError", new { errorMessage = "Ogiltig fil" });
+                    }
+                    //gör om bilden till bytes och sparar den i databasen
+                    using (var memoryStream = new MemoryStream())
                         {
                             await profileImage.CopyToAsync(memoryStream);
                             user.img = memoryStream.ToArray();
