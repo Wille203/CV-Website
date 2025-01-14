@@ -8,6 +8,7 @@ namespace CV_Website.ViewModels
         {
             public int Id { get; set; }
 
+            [StringLength(50, MinimumLength = 2, ErrorMessage = "Namnet måste vara minst 2 tecken långt & får inte överskrida 50 bokstäver")]   
             [RegularExpression("^[A-Za-z]+$", ErrorMessage = "Hörru, ditt namn består av bokstäver inget annat")]
             public string Name { get; set; }
 
