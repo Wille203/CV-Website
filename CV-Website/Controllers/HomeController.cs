@@ -23,6 +23,7 @@ namespace CV_Website.Controllers
             var CVList = _context.CVs.ToList();
             var ProjList = _context.Project.ToList();
 
+            //Lägger alla cv och projekt i en viewmodel
             ProjecthomeViewModel ProjecthomeViewModel = new ProjecthomeViewModel()
             {
                 Allprojects = ProjList,
@@ -30,7 +31,7 @@ namespace CV_Website.Controllers
             };
 
            
-
+            //om det inte finns några cvn så visar den ett felmedellande på index html
             if (CVList == null || !CVList.Any())
             {
                 ViewBag.Message = "No CVs found.";

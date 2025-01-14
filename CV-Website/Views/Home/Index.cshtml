@@ -103,9 +103,11 @@
             document.getElementById("userlist").innerHTML = "";
             return;
         }
-
+        //gör en variable som lagrar en url för fetchen
         const url = `/User/Search?inputstring=${encodeURIComponent(sinput)}`;
+        //skickar en fetch request till urlen och await används för att se till att all data hämtas
         const resp = await fetch(url);
+        //hämtar text datan från responsen
         const result = await resp.text();
 
         document.getElementById("userlist").innerHTML = result;

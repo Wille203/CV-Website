@@ -200,6 +200,7 @@ namespace CV_Website.Controllers
 
             var searchTerms = inputstring.Split(' ');
 
+            //hämtar users,skills m.m
             var users = _context.Users
                 .Include(user => user.CVs)
                 .ThenInclude(cv => cv.Skills)
@@ -209,6 +210,7 @@ namespace CV_Website.Controllers
                         user.CVs.Any(cv => cv.Skills.Any(skill => skill.Name.ToLower().Contains(term.ToLower())))))
                 .ToList();
 
+            
             return PartialView("_Partialview", users);
         }
 

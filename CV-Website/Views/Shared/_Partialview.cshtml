@@ -12,7 +12,7 @@
         var projsorted = Model.OrderByDescending(s => s.UserName).Take(10);
     }
     <div id="userborder">
-    @foreach (var user in Model)
+    @foreach (var user in projsorted)
     {
         if (@ViewBag.CurrentUserId != null || user.Private == false)
         {
