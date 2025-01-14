@@ -21,13 +21,16 @@ namespace CV_Website.ViewModels
 
         public string Address { get; set; }
 
-        [Required]
-        [DisplayName("Lösenord")]
+        
+        [Required(ErrorMessage = "Lösenord är obligatoriskt.")]
+        
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "Lösenordet måste vara minst 6 tecken långt.")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)(?=.*\W).+$",
+        ErrorMessage = "Lösenordet måste innehålla minst en versal, en siffra och ett specialtecken.")]
         public string Password { get; set; }
 
-        [Required]
-        [Compare("Password")]
-        [DisplayName("Bekräfta Lösenord")]
+        [Required(ErrorMessage = "Bekräftelse av lösenord är obligatorisk.")]
+        [Compare("Password", ErrorMessage = "Lösenordet och bekräftelselösenordet matchar inte.")]
         public string ConfirmPassword { get; set; }
 
         [Required]

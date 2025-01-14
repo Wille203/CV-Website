@@ -111,12 +111,7 @@ namespace CV_Website.Controllers
             .ValidateAsync(_userManager, user, model.NewPassword);
                 if (passwordValidationResult != IdentityResult.Success)
                 {
-                    foreach (var error in passwordValidationResult.Errors)//validerar att nya lösen följer alla fördefinerade regler för identity lösenord
-                    {
-
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-
+                    
                     return View(model);
                 }
 
