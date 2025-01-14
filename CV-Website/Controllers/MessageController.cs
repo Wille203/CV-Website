@@ -158,11 +158,24 @@ namespace CV_Website.Controllers
         public IActionResult DeleteMessage(int messageId)
         {
             var message = _context.Messages.Find(messageId);
+
+            //Kontrollerar så att rätt användare tar bort meddelandet
+            if (message.SenderId != GetCurrentUserId() && message.ReceiverId != GetCurrentUserId())
+            {
+                return RedirectToAction("ShowError", new { errorMessage = "Du har inte tillåtelse att ta bort det här meddelandet" });
+            }
+            
             if (message != null)
             {
                 _context.Messages.Remove(message);
                 _context.SaveChanges();
             }
+            else
+            {
+                return RedirectToAction("ShowError", new { errorMessage = "Du kan inte ta bort ett meddelande som inte finns" });
+            }
+
+            //Kontrollerar om det är en anonym användare eller registrerad användare som är sender
             if (message.SenderId == null)
             {
                 return RedirectToAction("Conversation", new { senderId = (int?)null, receiverId = message.ReceiverId, senderName = message.SenderName });
