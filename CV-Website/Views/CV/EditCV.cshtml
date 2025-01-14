@@ -135,11 +135,12 @@
 </div>
 
 <script>
+    // Alla funktioner fungerar likadant fast uppdelat i på varje ID i vår html och ID från varje objekt, hämtar sedan objekt.Name (kolla vår li)
     function SearchSkill(Id, isChecked) {
         const selectedSkillsList = document.getElementById("NS");
         const skillName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
 
-        
+        //Kollar checkboxen
         if (isChecked) {
             const newListItem = document.createElement("li");
             newListItem.textContent = skillName;
