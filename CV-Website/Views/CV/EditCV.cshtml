@@ -4,8 +4,8 @@
     <form asp-action="EditCV" method="post">
 	<input type="hidden" asp-for="UserId" />
 
-	<div class="form-item" class="f-i0">
-	    <h4>Uppdatera ditt CV</h4>
+	<div class="form-item f-i0">
+	    
 
         <div class="f-i1">
             <h4>Färdigheter</h4>
@@ -109,6 +109,7 @@
         </div>
       </div>
 
+      <div class="fo-0">
       <form asp-action="CreateT" method="post">
         <label>
             Lägg till ny färdighet
@@ -130,6 +131,7 @@
 
         <button type="submit" class="btn btn-primary">Lägg till</button>
     </form>
+    </div>
 </div>
 
 <script>

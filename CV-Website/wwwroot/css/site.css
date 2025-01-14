@@ -215,7 +215,7 @@ cvlink hr {
 
 .p-f3 {
     position: absolute;
-    top: 10px; /* Justera avstånd från toppen */
+    top: 10px; 
     right: 10px;
 }
 
@@ -275,33 +275,28 @@ cvlink hr {
     display: grid;
 }
 
+.Tcon h4{
+   color: dodgerblue;
+}
+
+.Tcon ul {
+        list-style-type: none;
+}
 
 .f-is0{
     grid-column: 2
 }
 
-f-i0{
+.f-i0 {
     grid-column: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 400px;
+    margin: 10px;
 }
 
-./*f-i1{
-    grid-row: 1;
-    grid-column: 1;
-}
 
-.f-is1{
-    grid-row: 1;
-    grid-column: 2;
-    
-}
-
-.f-is2{
-    grid-row: 2;
-    grid-column: 2;
-}
-
-.f-is3{
-    grid-row: 2;
+.fo-0 {
     grid-column: 3;
-}*/
-
+    flex-direction: column;
+}
