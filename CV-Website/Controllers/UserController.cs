@@ -224,6 +224,7 @@ namespace CV_Website.Controllers
                         user.CVs.Any(cv => cv.Skills.Any(skill => skill.Name.ToLower().Contains(term.ToLower())))))
                 .ToList();
 
+            
             return PartialView("_Partialview", users);
         }
 
