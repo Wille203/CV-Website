@@ -11,12 +11,10 @@ public static class SeedData
             var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
             var context = serviceProvider.GetRequiredService<CVContext>();
 
+            //Börjar med att seeda användare, om det går bra börjar den seeda resten
             try
             {
-                // Seed användare
                 await SeedUsersAsync(userManager, logger);
-
-                // Seed kopplingar mellan användare och projekt, meddelanden etc.
                 await SeedRelationshipsAsync(context, logger);
             }
             catch (Exception ex)
@@ -46,6 +44,7 @@ public static class SeedData
             {
                 try
                 {
+                    //Kollar så att användaren inte finns
                     if (await userManager.FindByEmailAsync(user.Email) == null)
                     {
                         var result = await userManager.CreateAsync(user, "DefaultPassword123!");
@@ -70,7 +69,6 @@ public static class SeedData
         {
             try
             {
-                // Kontrollera att databasen är seedad en gång
                 if (!context.Skills.Any() && !context.Experience.Any() && !context.CVs.Any())
                 {
                     var skills = new[]
@@ -108,10 +106,6 @@ public static class SeedData
                         new Education { Name = "Cyber Security" }
                     };
 
-                    context.Skills.AddRange(skills);
-                    context.Experience.AddRange(experiences);
-                    context.Education.AddRange(educations);
-
                     var cvs = new[]
                     {
                         new CV { UserId = 1, Skills = new List<Skills> { skills[0], skills[1] }, Experience = new List<Experience> { experiences[0] }, Education = new List<Education> { educations[0] } },
@@ -126,7 +120,6 @@ public static class SeedData
                         new CV { UserId = 10, Skills = new List<Skills> { skills[6], skills[7] }, Experience = new List<Experience> { experiences[2] }, Education = new List<Education> { educations[4] } }
                     };
 
-                    context.CVs.AddRange(cvs);
 
                     var projects = new[]
                     {
@@ -136,7 +129,6 @@ public static class SeedData
                         new Project { Title = "Fitness App", Description = "An app for tracking fitness.", CreatorId = 4, Users = new List<User> { context.Users.Find(7), context.Users.Find(8) } }
                     };
 
-                    context.Project.AddRange(projects);
 
                     var messages = new[]
                     {
@@ -152,6 +144,11 @@ public static class SeedData
                         new Message { SenderId = 10, ReceiverId = 9, SenderName = "Julia", MessageText = "Thanks Ian!", Read = true }
                     };
 
+                    context.Skills.AddRange(skills);
+                    context.Experience.AddRange(experiences);
+                    context.Education.AddRange(educations);
+                    context.CVs.AddRange(cvs);
+                    context.Project.AddRange(projects);
                     context.Messages.AddRange(messages);
 
                     await context.SaveChangesAsync();

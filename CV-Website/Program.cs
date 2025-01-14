@@ -27,7 +27,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>()
             .AddDefaultTokenProviders();
 
 var app = builder.Build();
-
+//Skapar en ny tjänst som bara lever när vi seedar datan
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
