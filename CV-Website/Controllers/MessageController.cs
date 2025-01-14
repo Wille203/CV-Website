@@ -70,7 +70,7 @@ namespace CV_Website.Controllers
 
             if (currentUserId != senderId && currentUserId != receiverId)
             {
-                return Unauthorized();
+                return RedirectToAction("ShowError", new { errorMessage = "Ej din chatt." });
             }
             //Hämtar alla meddelanden mellan två personer
             var conversation = _context.Messages
@@ -87,7 +87,7 @@ namespace CV_Website.Controllers
 
             if ((currentUserId != senderId && currentUserId != receiverId) || otherUser != null && otherUser.Deactivated == true)
             {
-                return Unauthorized();
+                return RedirectToAction("ShowError", new { errorMessage = "Användaren finns inte längre." });
             }
 
             if (otherUser == null)
@@ -148,7 +148,7 @@ namespace CV_Website.Controllers
                 }
             }
 
-            return NotFound();
+            return RedirectToAction("ShowError", new { errorMessage = "Meddelande hittade ej." });
         }
 
 

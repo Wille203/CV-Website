@@ -45,9 +45,9 @@ namespace CV_Website.Controllers
         public IActionResult GoToUserPage(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => (u.Id == userId) && u.Deactivated == false);
-            if (user == null)
+            if (user == null || (user.Private && GetCurrentUserId()==null))
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Användaren finns ej eller är privat." });
             }
 
             var projects = _context.Project
@@ -138,9 +138,9 @@ namespace CV_Website.Controllers
         {
 
             var user = _context.Users.Include(p => p.Project).FirstOrDefault(u => u.Id == Id); // hämtar användaren som ska laddas ner och projekt
-            if ((user.Private == true && GetCurrentUserId() != Id) || (user.Deactivated == true)) //Säkerställer att användaren inte är privat eller deactiverad
+            if ((user.Private == true && GetCurrentUserId() != Id) || (user.Deactivated == true)|| user == null) //Säkerställer att användaren inte är privat eller deactiverad
             {
-                return Forbid();
+                return RedirectToAction("ShowError", new { errorMessage = "Användaren är privat eller finns ej." });
             }
             var userCV = _context.CVs // hämtar cv info om användaren
                 .Include(cv => cv.Skills)
@@ -231,7 +231,7 @@ namespace CV_Website.Controllers
             var user = _context.Users.FirstOrDefault(u => (u.Id == userId) && u.Deactivated == false);
             if (user == null)
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Användaren finns ej." });
             }
             var viewModel = new UserSettingsViewModel
             {
@@ -282,7 +282,7 @@ namespace CV_Website.Controllers
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Användaren finns ej." });
             }
             //Kollar så en bild har skickats in
             if (profileImage != null && profileImage.Length > 0)
@@ -342,7 +342,7 @@ namespace CV_Website.Controllers
                 .FirstOrDefault(cv => cv.CVId == cvid);
             if(cv == null)
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Hittar ej CV." });
             }
             //Kollar ifall det finns andra cv med liknande skills
             var matchingCVs = _context.CVs

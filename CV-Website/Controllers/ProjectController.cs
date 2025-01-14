@@ -68,11 +68,11 @@ namespace CV_Website.Controllers
             int loggedInUserId = int.Parse(userId);
             if (project == null)
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Projektet hittades inte." });
             }
             if (project.CreatorId != loggedInUserId)
             {
-                return Forbid();
+                return RedirectToAction("ShowError", new { errorMessage = "Du är ej skaparen av detta projekt." });
             }
             var viewModel = new EditProjectViewModel
             {
@@ -102,7 +102,7 @@ namespace CV_Website.Controllers
             var project = _context.Project.FirstOrDefault(u => u.ProjectId == projectId);
             if (project == null)
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Projektet hittades inte." });
             }
 
             project.Title = updatedProject.Title;
@@ -142,7 +142,7 @@ namespace CV_Website.Controllers
             
             if (project == null)
             {
-                return NotFound();
+                return RedirectToAction("ShowError", new { errorMessage = "Projektet hittades inte." });
             }
 
 

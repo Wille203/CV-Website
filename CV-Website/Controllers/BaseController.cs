@@ -21,7 +21,11 @@ namespace CV_Website.Controllers
 
             ViewData["TotalUnreadMessages"] = unreadMessagesCount;
         }
-
+        public IActionResult ShowError(string errorMessage)
+        {
+            ViewData["ErrorMessage"] = errorMessage;
+            return View();
+        }
         protected int? GetCurrentUserId()
         {
             var userId = User?.FindFirst(ClaimTypes.NameIdentifier);
