@@ -132,7 +132,7 @@
     @if(ViewBag.CurrentUserId == Model.User.Id){
 		@if (Model.UserCV != null)
 		{
-            <p>Antal visningar: @Model.UserCV.ViewCount</p>
+            <p>Profilbesök: @Model.UserCV.ViewCount</p>
 		}
     
     }
@@ -179,7 +179,9 @@
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     }
-
-    <a class="btn btn-primary" asp-controller="User" asp-action="DownloadProfile" asp-route-id=@Model.User.Id>Ladda ner profil</a>
+    @if (@ViewBag.CurrentUserId != Model.User.Id && Model.User.Private == true){}
+    else{
+        <a class="btn btn-primary" asp-controller="User" asp-action="DownloadProfile" asp-route-id=@Model.User.Id>Ladda ner profil</a>
+    }
 </div>
 

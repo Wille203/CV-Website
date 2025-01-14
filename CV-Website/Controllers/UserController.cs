@@ -143,7 +143,7 @@ namespace CV_Website.Controllers
         {
 
             var user = _context.Users.Include(p => p.Project).FirstOrDefault(u => u.Id == Id); // hämtar användaren som ska laddas ner och projekt
-            if (user.Private == true) //Säkerställer att användaren inte är privat
+            if ((user.Private == true && GetCurrentUserId() != Id) || (user.Deactivated == true)) //Säkerställer att användaren inte är privat eller deactiverad
             {
                 return Forbid();
             }
