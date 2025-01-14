@@ -60,4 +60,15 @@
 </div>
     <button type="submit">Spara</button>
     <a class="btn btn-primary" asp-controller="User" asp-action="ChangePassword" >Ändra lösenord</a>
+   
 </form>
+
+<div class="delete-message-container mt-3">
+    <form asp-controller="User" asp-action="DeactivateAccount" method="post" class="delete-message-form">
+        <button type="button" class="btn btn-danger" onclick="showConfirmation(this)">Ta bort ditt konto</button>
+        <div class="confirmation-buttons" style="display:none;">
+            <button type="submit" class="confirm-button">Bekräfta</button>
+            <button type="button" class="cancel-button" onclick="hideConfirmation(this)">Avbryt</button>
+        </div>
+    </form>
+</div>

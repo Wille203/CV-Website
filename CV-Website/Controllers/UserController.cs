@@ -20,19 +20,31 @@ namespace CV_Website.Controllers
     {
         private CVContext _context;
         private readonly UserManager<User> _userManager;
-        public UserController(UserManager<User> userManager, CVContext context) : base(context)
+        private readonly SignInManager<User> _signInManager;
+        public UserController(UserManager<User> userManager, CVContext context, SignInManager<User> signInManager) : base(context)
         {
             _userManager = userManager;
             _context = context;
+            _signInManager = signInManager;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeactivateAccount()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            user.Deactivated = true;
+            
+            user.LockoutEnd = DateTimeOffset.MaxValue; 
+            await _userManager.UpdateAsync(user);
+            await _signInManager.SignOutAsync();
 
-
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpGet]
         public IActionResult GoToUserPage(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.FirstOrDefault(u => (u.Id == userId) && u.Deactivated == false);
             if (user == null)
             {
                 return NotFound();
@@ -61,6 +73,7 @@ namespace CV_Website.Controllers
 
             if (userId != GetCurrentUserId())
             {
+                //Kollar ifall användaren har sett personens CV innan med hjälp av cookies som tas bort efter 10min
                 if (!Request.Cookies.ContainsKey($"ViewedCV_{userId}"))
                 {
                     if (userCV != null)
@@ -200,10 +213,12 @@ namespace CV_Website.Controllers
 
             var searchTerms = inputstring.Split(' ');
 
+            //Kontrollerar vilken användare termerna matchar med genom att kolla både i skills och namn
             var users = _context.Users
                 .Include(user => user.CVs)
                 .ThenInclude(cv => cv.Skills)
                 .Where(user =>
+                    !user.Deactivated &&
                     searchTerms.All(term =>
                         user.Name.ToLower().Contains(term.ToLower()) ||
                         user.CVs.Any(cv => cv.Skills.Any(skill => skill.Name.ToLower().Contains(term.ToLower())))))
@@ -303,6 +318,7 @@ namespace CV_Website.Controllers
 
                 return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
             }
+            //Hämtar all info som behövs för att kunna kalla på userpage viewn igen och att eventuella felmeddelanden visas
             var user = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId);
             var projects = _context.Project
                 .Where(p => p.Users.Any(u => u.Id == message.ReceiverId))
@@ -335,13 +351,16 @@ namespace CV_Website.Controllers
             {
                 return NotFound();
             }
+            //Kollar ifall det finns andra cv med liknande skills
             var matchingCVs = _context.CVs
                 .Include(c => c.Skills)
                 .Where(c => c.CVId != cvid && c.Skills.Any(skill => cv.Skills.Select(s => s.SkillsId).Contains(skill.SkillsId)));
-            if(GetCurrentUserId() == null)
+            //tar bort privata profiler sen tar den bort deaktiverade profiler
+            if (GetCurrentUserId() == null)
             {
                 matchingCVs = matchingCVs.Where(c => !c.User.Private);
             }
+            matchingCVs = matchingCVs.Where(c => !c.User.Deactivated);
             var matchingCVslist = matchingCVs.ToList();
 
             return View(matchingCVslist);

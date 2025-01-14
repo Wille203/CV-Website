@@ -26,7 +26,7 @@ namespace CV_Website.Controllers
 
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -73,7 +73,7 @@ namespace CV_Website.Controllers
 
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)

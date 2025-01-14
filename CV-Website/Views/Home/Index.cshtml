@@ -26,7 +26,7 @@
         <ul id="Cvlink" style="overflow-y:scroll; overflow-x:hidden; height:400px;">
             @foreach (var cv in Model.Allcv)
             {
-                if (@ViewBag.CurrentUserId != null || cv.User.Private == false)
+                if ((@ViewBag.CurrentUserId != null || cv.User.Private == false) && cv.User.Deactivated == false)
                 {
                     <li>
                         <a id="CvlinkItem" href="@Url.Action("GoToUserPage", "User", new { userId = cv.User.Id })">

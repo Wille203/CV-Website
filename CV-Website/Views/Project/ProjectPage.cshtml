@@ -28,11 +28,11 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Skapare</h5>
-                    @if (!User.Identity.IsAuthenticated && Model.Creator.Private == true)
+                    @if ((!User.Identity.IsAuthenticated && Model.Creator.Private == true) || Model.Creator.Deactivated == true)
                     {
                         
                         
-                        <p class="card-text">Skaparen är privat</p>
+                        <p class="card-text">Skaparen är privat eller deaktiverad</p>
                     }
                     else
                     {
