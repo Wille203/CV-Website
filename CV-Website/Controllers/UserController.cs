@@ -233,10 +233,7 @@ namespace CV_Website.Controllers
         [HttpGet]
         public IActionResult SettingsUser(int userId)
         {
-
-            //Primärt för NullReferenceException, vi behöver nog inte denna. 
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
-
+            var user = _context.Users.FirstOrDefault(u => (u.Id == userId) && u.Deactivated == false);
             if (user == null)
             {
                 return NotFound();
