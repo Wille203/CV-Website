@@ -24,6 +24,7 @@ namespace CV_Website.Controllers
         {
             int currentUserId = GetCurrentUserId().Value;
 
+            //Används för att hämta alla meddelanden som kommer från anonyma användare
             var anonymousMessages = _context.Messages
                 .Include(m => m.Sender)
                 .Include(m => m.Receiver)
@@ -36,13 +37,12 @@ namespace CV_Website.Controllers
                 })
                 .ToList();
 
+            //Hämtar meddelanden från registrerade användare och grupperar dem så att det bara blir ett object per konversation
             var registeredMessages = _context.Messages
                 .Include(m => m.Sender)
                 .Include(m => m.Receiver)
                 .Where(m => m.SenderId != null && (m.SenderId == currentUserId || m.ReceiverId == currentUserId) && (!m.Sender.Deactivated && !m.Receiver.Deactivated))
-                .GroupBy(m => m.SenderId == currentUserId
-                    ? m.ReceiverId
-                    : m.SenderId)
+                .GroupBy(m => m.SenderId == currentUserId ? m.ReceiverId : m.SenderId)
                 .Select(g => new
                 {
                     LatestMessage = g.OrderByDescending(m => m.MessageId).FirstOrDefault(),
@@ -51,6 +51,7 @@ namespace CV_Website.Controllers
                 })
                 .ToList();
 
+            //Slår ihop dem två listorna och sedan sorteras dem
             var allMessages = anonymousMessages
                 .Select(m => new { m.LatestMessage, m.UnreadMessages, SenderName = m.SenderName })
                 .Concat(registeredMessages.Select(m => new { m.LatestMessage, m.UnreadMessages, m.SenderName }))
@@ -71,7 +72,7 @@ namespace CV_Website.Controllers
             {
                 return Unauthorized();
             }
-
+            //Hämtar alla meddelanden mellan två personer
             var conversation = _context.Messages
                 .Where(m => (m.SenderId == senderId && m.ReceiverId == receiverId) ||
                             (m.SenderId == null && m.SenderName == senderName && m.ReceiverId == receiverId) ||
@@ -115,6 +116,7 @@ namespace CV_Website.Controllers
 
                     return RedirectToAction("Conversation", new { senderId = message.SenderId.Value, receiverId = message.ReceiverId });
             }
+            //Hämtar alla meddelanden igen inklusive den nya för att uppdatera vyn
             var conversationMessages = _context.Messages
                .Where(m => (m.SenderId == message.SenderId && m.ReceiverId == message.ReceiverId) ||
                             (m.SenderId == message.ReceiverId && m.ReceiverId == message.SenderId))

@@ -73,6 +73,7 @@ namespace CV_Website.Controllers
 
             if (userId != GetCurrentUserId())
             {
+                //Kollar ifall användaren har sett personens CV innan med hjälp av cookies som tas bort efter 10min
                 if (!Request.Cookies.ContainsKey($"ViewedCV_{userId}"))
                 {
                     if (userCV != null)
@@ -212,6 +213,7 @@ namespace CV_Website.Controllers
 
             var searchTerms = inputstring.Split(' ');
 
+            //Kontrollerar vilken användare termerna matchar med genom att kolla både i skills och namn
             var users = _context.Users
                 .Include(user => user.CVs)
                 .ThenInclude(cv => cv.Skills)
@@ -316,6 +318,7 @@ namespace CV_Website.Controllers
 
                 return RedirectToAction("GoToUserPage", "User", new { userId = message.ReceiverId });
             }
+            //Hämtar all info som behövs för att kunna kalla på userpage viewn igen och att eventuella felmeddelanden visas
             var user = _context.Users.FirstOrDefault(u => u.Id == message.ReceiverId);
             var projects = _context.Project
                 .Where(p => p.Users.Any(u => u.Id == message.ReceiverId))
