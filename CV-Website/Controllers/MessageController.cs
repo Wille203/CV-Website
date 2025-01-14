@@ -85,7 +85,7 @@ namespace CV_Website.Controllers
             int? otherUserId = currentUserId == senderId ? receiverId : senderId;
             var otherUser = _context.Users.Find(otherUserId);
 
-            if ((currentUserId != senderId && currentUserId != receiverId) || otherUser.Deactivated == true)
+            if ((currentUserId != senderId && currentUserId != receiverId) || otherUser != null && otherUser.Deactivated == true)
             {
                 return Unauthorized();
             }
