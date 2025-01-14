@@ -157,22 +157,6 @@ namespace CV_Website.Controllers
                 _context.Experience.Add(ex);
             }
 
-
-
-            //if (ed != null)
-            //{
-            //    var Education = new Education();
-            //    Education.Name = ed;
-            //    _context.Education.Add(Education);
-            //}
-
-            //if (ex != null)
-            //{
-            //    var Experience = new Experience();
-            //    Experience.Name = ex;
-            //    _context.Experience.Add(Experience);
-            //}
-
             _context.SaveChanges();
 
             return RedirectToAction("EditCV", "CV", new { userId = ViewBag.CurrentUserId });
