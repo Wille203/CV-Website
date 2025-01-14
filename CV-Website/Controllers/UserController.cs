@@ -229,9 +229,9 @@ namespace CV_Website.Controllers
         public IActionResult SettingsUser(int userId)
         {
             var user = _context.Users.FirstOrDefault(u => (u.Id == userId) && u.Deactivated == false);
-            if (user == null)
+            if (user == null || GetCurrentUserId() != userId)
             {
-                return RedirectToAction("ShowError", new { errorMessage = "Användaren finns ej." });
+                return RedirectToAction("ShowError", new { errorMessage = "EJ din profil." });
             }
             var viewModel = new UserSettingsViewModel
             {
