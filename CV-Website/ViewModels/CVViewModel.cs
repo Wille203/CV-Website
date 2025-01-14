@@ -1,4 +1,5 @@
 ﻿using CV_Website.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CV_Website.ViewModels
 {
@@ -13,6 +14,16 @@ namespace CV_Website.ViewModels
         // Användarens nuvarande val 
         public List<int> SelectedSkills { get; set; } = new List<int>();  
         public List<int> SelectedEducations { get; set; } = new List<int>();  
-        public List<int> SelectedExperiences { get; set; } = new List<int>();  
+        public List<int> SelectedExperiences { get; set; } = new List<int>();
+
+
+        [RegularExpression(@"^[A-Za-z\s]+$", ErrorMessage = "Använd bara bokstäver")]
+        public string? NewSkill { get; set; }
+
+        [RegularExpression(@"^[A-Za-z\s]+$", ErrorMessage = "Använd bara bokstäver")]
+        public string? NewEducation { get; set; }
+
+        [RegularExpression(@"^[A-Za-z\s]+$", ErrorMessage = "Använd bara bokstäver")]
+        public string? NewExperience { get; set; }
     }
 }

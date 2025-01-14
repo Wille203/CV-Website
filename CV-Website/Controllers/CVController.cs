@@ -120,5 +120,63 @@ namespace CV_Website.Controllers
             return View(model);
         }
 
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult CreateT(CVViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("EditCV",model);
+            }
+
+            if (model.NewSkill != null)
+                {
+                var skill = new Skills
+                {
+                    Name = model.NewSkill
+                };
+                _context.Skills.Add(skill);
+            }
+
+            if (model.NewEducation != null)
+            {
+                var ed = new Education
+                {
+                    Name = model.NewEducation
+                };
+                _context.Education.Add(ed);
+            }
+
+            if (model.NewExperience != null)
+            {
+                var ex = new Experience
+                {
+                    Name = model.NewExperience
+                };
+                _context.Experience.Add(ex);
+            }
+
+
+
+            //if (ed != null)
+            //{
+            //    var Education = new Education();
+            //    Education.Name = ed;
+            //    _context.Education.Add(Education);
+            //}
+
+            //if (ex != null)
+            //{
+            //    var Experience = new Experience();
+            //    Experience.Name = ex;
+            //    _context.Experience.Add(Experience);
+            //}
+
+            _context.SaveChanges();
+
+            return RedirectToAction("EditCV", "CV", new { userId = ViewBag.CurrentUserId });
+
+        }
     }
 }
