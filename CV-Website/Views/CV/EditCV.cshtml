@@ -4,8 +4,8 @@
     <form asp-action="EditCV" method="post">
 	<input type="hidden" asp-for="UserId" />
 
-	<div class="form-item" class="f-i0">
-	    <h4>Uppdatera ditt CV</h4>
+	<div class="form-item f-i0">
+	    
 
         <div class="f-i1">
             <h4>Färdigheter</h4>
@@ -109,6 +109,7 @@
         </div>
       </div>
 
+      <div class="fo-0">
       <form asp-action="CreateT" method="post">
         <label>
             Lägg till ny färdighet
@@ -128,16 +129,18 @@
             <span asp-validation-for="NewExperience" class="text-danger"></span>
         </label>
 
-        <button type="submit" class="btn btn-primary">Lägg till</button>
+        <button id="submitnew" type="submit" class="btn btn-primary">Lägg till</button>
     </form>
+    </div>
 </div>
 
 <script>
+    // Alla funktioner fungerar likadant fast uppdelat i på varje ID i vår html och ID från varje objekt, hämtar sedan objekt.Name (kolla vår li)
     function SearchSkill(Id, isChecked) {
         const selectedSkillsList = document.getElementById("NS");
         const skillName = document.querySelector(`input[value='${Id}']`).parentElement.textContent.trim();
 
-        
+        //Kollar checkboxen
         if (isChecked) {
             const newListItem = document.createElement("li");
             newListItem.textContent = skillName;
