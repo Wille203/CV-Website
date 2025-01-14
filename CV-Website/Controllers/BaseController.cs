@@ -16,7 +16,7 @@ namespace CV_Website.Controllers
         protected void SetUnreadMessageCount(int userId)
         {
             var unreadMessagesCount = _context.Messages
-                .Count(m => m.ReceiverId == userId && !m.Read);
+                .Count(m => m.ReceiverId == userId && !m.Read && !m.Sender.Deactivated);
  
 
             ViewData["TotalUnreadMessages"] = unreadMessagesCount;
